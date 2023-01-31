@@ -1,95 +1,91 @@
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native';
+import { View, Text } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {Colors, DebugInstructions, Header, LearnMoreLinks, ReloadInstructions} from 'react-native/Libraries/NewAppScreen';
+const Tab = createBottomTabNavigator();
 
-type SectionProps = PropsWithChildren<{title: string;}>;
+const Tab1Screen = () => (
+  <View>
+    <Text>Tab 1</Text>
+  </View>
+);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+const Tab2Screen = () => (
+  <View>
+    <Text>Tab 2</Text>
+  </View>
+);
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const Tab3Screen = () => (
+  <View>
+    <Text>Tab 3</Text>
+  </View>
+);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const Tab4Screen = () => (
+  <View>
+    <Text>Tab 4</Text>
+  </View>
+);
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+const Tab5Screen = () => (
+  <View>
+    <Text>Tab 5</Text>
+  </View>
+);
+
+const App = () => (
+  <NavigationContainer>
+    <Tab.Navigator>
+      <Tab.Screen
+        name="Tab1"
+        component={Tab1Screen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name="ios-home" size={size} color={color} />
+          ),
+        }}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 25,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+      <Tab.Screen
+        name="Tab2"
+        component={Tab2Screen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name="ios-search" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Tab3"
+        component={Tab3Screen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name="ios-heart" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Tab4"
+        component={Tab4Screen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name="ios-settings" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Tab5"
+        component={Tab5Screen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name="ios-person" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  </NavigationContainer>
+);
 
 export default App;
