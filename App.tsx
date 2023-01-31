@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 const Tab = createBottomTabNavigator();
 
 const Tab1Screen = () => (
@@ -44,7 +43,7 @@ const App = () => (
         component={Tab1Screen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="ios-home" size={size} color={color} />
+            <Ionicons name="" size={size} color={color} />
           ),
         }}
       />
