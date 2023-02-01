@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const Tab = createBottomTabNavigator();
 
 const Tab1Screen = () => (
@@ -42,8 +43,8 @@ const App = () => (
         name="Tab1"
         component={Tab1Screen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="" size={size} color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={size} />
           ),
         }}
       />
@@ -51,8 +52,8 @@ const App = () => (
         name="Tab2"
         component={Tab2Screen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="ios-search" size={size} color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="search" color={color} size={size} />
           ),
         }}
       />
@@ -60,8 +61,8 @@ const App = () => (
         name="Tab3"
         component={Tab3Screen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="ios-heart" size={size} color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="heart" color={color} size={size} />
           ),
         }}
       />
@@ -69,8 +70,8 @@ const App = () => (
         name="Tab4"
         component={Tab4Screen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="ios-settings" size={size} color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="cog" color={color} size={size} />
           ),
         }}
       />
@@ -78,8 +79,8 @@ const App = () => (
         name="Tab5"
         component={Tab5Screen}
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name="ios-person" size={size} color={color} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" color={color} size={size} />
           ),
         }}
       />
