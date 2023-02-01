@@ -45,8 +45,7 @@ const LISDHub = () => (
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="home" color={color} size={size} />
-          ),
-        }}
+          )}}
       />
       <Tab.Screen
         name="Portal"
@@ -54,8 +53,7 @@ const LISDHub = () => (
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="map-marker" color={color} size={size} />
-          ),
-        }}
+          )}}
       />
       <Tab.Screen
         name="IDs"
@@ -63,8 +61,7 @@ const LISDHub = () => (
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="credit-card" color={color} size={size} />
-          ),
-        }}
+          )}}
       />
       <Tab.Screen
         name="Club Hub"
@@ -72,8 +69,7 @@ const LISDHub = () => (
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="group" color={color} size={size} />
-          ),
-        }}
+          )}}
       />
       <Tab.Screen
         name="Community"
@@ -81,8 +77,7 @@ const LISDHub = () => (
         options={{
           tabBarIcon: ({ color, size }) => (
             <Icon name="bullhorn" color={color} size={size} />
-          ),
-        }}
+          )}}
       />
     </Tab.Navigator>
   </NavigationContainer>
