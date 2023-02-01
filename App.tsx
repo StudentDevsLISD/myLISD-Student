@@ -8,39 +8,39 @@ const Tab = createBottomTabNavigator();
 
 const Tab1Screen = () => (
   <View>
-    <Text>Tab 1</Text>
+    <Text>Home</Text>
   </View>
 );
 
 const Tab2Screen = () => (
   <View>
-    <Text>Tab 2</Text>
+    <Text>Portal</Text>
   </View>
 );
 
 const Tab3Screen = () => (
   <View>
-    <Text>Tab 3</Text>
+    <Text>IDs</Text>
   </View>
 );
 
 const Tab4Screen = () => (
   <View>
-    <Text>Tab 4</Text>
+    <Text>Club Hub</Text>
   </View>
 );
 
 const Tab5Screen = () => (
   <View>
-    <Text>Tab 5</Text>
+    <Text>Community</Text>
   </View>
 );
 
-const App = () => (
+const LISDHub = () => (
   <NavigationContainer>
     <Tab.Navigator>
       <Tab.Screen
-        name="Tab1"
+        name="Home"
         component={Tab1Screen}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -49,38 +49,38 @@ const App = () => (
         }}
       />
       <Tab.Screen
-        name="Tab2"
+        name="Portal"
         component={Tab2Screen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="search" color={color} size={size} />
+            <Icon name="map-marker" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="Tab3"
+        name="IDs"
         component={Tab3Screen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="heart" color={color} size={size} />
+            <Icon name="credit-card" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="Tab4"
+        name="Club Hub"
         component={Tab4Screen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="cog" color={color} size={size} />
+            <Icon name="group" color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name="Tab5"
+        name="Community"
         component={Tab5Screen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name="user" color={color} size={size} />
+            <Icon name="bullhorn" color={color} size={size} />
           ),
         }}
       />
@@ -88,4 +88,4 @@ const App = () => (
   </NavigationContainer>
 );
 
-export default App;
+export default LISDHub;
