@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -29,7 +29,11 @@ const Tab2Screen = () => (
 
 const Tab3Screen = () => (
   <View>
-    <Text>IDs</Text>
+    <Image
+      style={styles.IDCard} 
+      source={require('./assets/VRHS_ID_Rounded.png')}
+      />
+
   </View>
 );
 
@@ -126,6 +130,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 10,
   },
+  IDCard: {
+    height: 650,
+    width: 550,
+    resizeMode: 'contain',
+    transform: [{rotate: '90deg'}],
+    alignSelf: 'center',
+  }
 });
 
 export default LISDHub;
