@@ -1,49 +1,46 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import axios from 'axios';
-const loginurl = "http://192.168.86.21:18080/login";
-type RootStackParamList = {
-    Home: undefined;
-    Details: { id: number };
-  };
-  
-  type Props = {
-    navigation: NavigationProp<RootStackParamList, 'Home'>;
-  };
 
-const Login =  ({ navigation }: Props) => {
+const loginurl = "http://192.168.86.26:18080/login";
+
+type RootStackParamList = {
+  Home: undefined;
+  Details: { id: number };
+};
+
+type Props = {
+  navigation: NavigationProp<RootStackParamList, 'Home'>;
+};
+// type Props = StackScreenProps<RootStackParamList, 'Home'>;
+const Login = ({ navigation }: Props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     try {
-      await AsyncStorage.setItem('username', username);
-      //console.log(username);
-      await AsyncStorage.setItem('password', password);
-      //console.log(password);
       const data = { "username": username, "password": password };
-      var status = "";
-      //console.log(data)  
-      await axios.post(loginurl, data, {
+      const response = await axios.post(loginurl, data, {
         headers: {
           'Content-Type': 'application/json'
         }
-      })
-      .then(response => {
-        status = response.data.status;
-        //console.log(data)
-      })
-      console.log("a");      
-      //await AsyncStorage.getItem('username');
-      //await AsyncStorage.getItem('password');
-      if(status == "success"){
+      });
+      if (response.data.status === "success") {
+        await AsyncStorage.setItem('username', username);
+        await AsyncStorage.setItem('password', password);
         navigation.navigate('Home');
-      } 
+      } else {
+        setErrorMessage('Incorrect username or password');
+      }
     } catch (error) {
       console.log(error);
+      setErrorMessage('An error occurred while logging in');
     }
   };
 
@@ -62,8 +59,9 @@ const Login =  ({ navigation }: Props) => {
         secureTextEntry
         style={styles.input}
       />
-      <Button mode="contained" onPress={handleSignUp} style={styles.button}>
-        Sign Up
+      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+      <Button mode="contained" onPress={handleLogin} style={styles.button}>
+        Login
       </Button>
     </View>
   );
@@ -78,9 +76,14 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 16,
+    minWidth: 200,
   },
   button: {
     marginTop: 16,
+  },
+  error: {
+    color: 'red',
+    marginBottom: 16,
   },
 });
 

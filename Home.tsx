@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TurboModuleRegistry } from 'react-native
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Portal from './Portal';
 const Tab = createBottomTabNavigator();
 
 const Tab1Screen = () => (
@@ -21,9 +22,7 @@ const Tab1Screen = () => (
 );
 
 const Tab2Screen = () => (
-  <View>
-    <Text>Portal</Text>
-  </View>
+  <Portal />
 );
 
 const Tab3Screen = () => (
