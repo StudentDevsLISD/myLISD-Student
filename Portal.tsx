@@ -1,79 +1,80 @@
 import React, { useState } from 'react';
 import { ScrollView, View, StyleSheet, Text } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import CalendarStrip from 'react-native-calendar-strip';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import moment from 'moment';
+import { color } from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    height: 100,
+    backgroundColor:'white'
   },
   arrow: {
     width: 30,
     height: 30,
   },
   newStyle: {
-    //alignItems: 'center',
-    //justifyContent: 'center',
     flex: 2,
-    backgroundColor: "red",
+    backgroundColor: 'red',
     marginTop: 130,
     maxHeight: 400,
-    
   },
-
 });
 
 const Portal = () => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
+  const [startDate, setStartDate] = useState(moment());
+  const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean; selected?: boolean } }>({});
 
   const handlePrevWeek = () => {
-    setStartDate(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000));
+    setStartDate(startDate.clone().subtract(7, 'days'));
   };
 
   const handleNextWeek = () => {
-    setStartDate(new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000));
+    setStartDate(startDate.clone().add(7, 'days'));
   };
 
   const handleDayPress = (day: any) => {
     const selectedDate = day.dateString;
-    const newMarkedDates: { [date: string]: {} } = {};
+    const newMarkedDates: { [date: string]: { marked?: boolean; selected?: boolean } } = {};
     newMarkedDates[selectedDate] = { selected: true };
     setMarkedDates(newMarkedDates);
-    setStartDate(new Date(selectedDate));
+    setStartDate(moment(selectedDate));
   };
 
-  const endDate = new Date(startDate);
+  const endDate = moment(startDate).add(6, 'days');
   for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(startDate);
-    currentDate.setDate(currentDate.getDate() + i);
-    markedDates[currentDate.toISOString().slice(0, 10)] = { marked: false };
+    const currentDate = moment(startDate).add(i, 'days');
+    markedDates[currentDate.format('MM-DD-YYYY')] = { marked: false };
   }
-  markedDates[startDate.toISOString().slice(0, 10)] = { selected: true };
-  endDate.setDate(endDate.getDate() + 6);
+  markedDates[startDate.format('MM-DD-YYYY')] = { selected: true };
+
 
   return (
     <>
       <View style={styles.container}>
-        <FontAwesome style={styles.arrow} name="chevron-left" size={30} onPress={handlePrevWeek} />
-        <Calendar
-          minDate={startDate.toISOString().slice(0, 10)}
-          maxDate={endDate.toISOString().slice(0, 10)}
-          markedDates={markedDates}
-          initialDate={startDate.toISOString().slice(0, 10)}
-          onDayPress={handleDayPress}
+        <CalendarStrip
+          calendarAnimation={{ type: 'sequence', duration: 30 }}
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#e3e3e3',
+          }}
+          style={{ height: 85, paddingTop: 15,}}
+          calendarHeaderStyle={{ color: 'black' }}
+          calendarColor={'white'}
+          dateNumberStyle={{ color: 'black' }}
+          dateNameStyle={{ color: 'black' }}
+          highlightDateNumberStyle={{ color: '#7743CE' }}
+          highlightDateNameStyle={{ color: '#7743CE' }}
+          startingDate={startDate.toDate()}
+          selectedDate={startDate.toDate()}
+          onDateSelected={handleDayPress}
+          scrollable={true}
+          useIsoWeekday={true}
         />
-        <FontAwesome style={styles.arrow} name="chevron-right" size={30} onPress={handleNextWeek} />
       </View>
-      
-      <ScrollView style = {styles.newStyle}>
-         
-      </ScrollView>
-      
+
+      <ScrollView style={styles.newStyle}></ScrollView>
     </>
   );
 };
