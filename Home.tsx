@@ -8,16 +8,10 @@ const Tab = createBottomTabNavigator();
 
 const Tab1Screen = () => (
   <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={[styles.headerText, styles.headerLeft]}>Left Text</Text>
-        <Text style={[styles.headerText, styles.headerRight]}>Right Text</Text>
-      </View>
-      <View style={styles.body}>
-        <Text style={styles.bodyText}>Text 1</Text>
-        <Text style={styles.bodyText}>Text 2</Text>
-        <Text style={styles.bodyText}>Text 3</Text>
-        {/* Add more text components as needed */}
-      </View>
+        <Image
+          style={styles.logo}
+          source={require('./assets/lisd.png')}
+        />      
     </View>
 );
 
@@ -29,7 +23,7 @@ const Tab3Screen = () => (
   <View>
     <Image
       style={styles.IDCard} 
-      source={require('./assets/VRHS_ID_Rounded.png')}
+      source={require('./assets/Mellisa.png')}
       />
 
   </View>
@@ -97,8 +91,14 @@ const Home = () => (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+  },
+  logo: {
+    height: 100,
+    width: 250,
+    marginTop: 5,
+    alignSelf: "center",
   },
   header: {
     width: "100%",
