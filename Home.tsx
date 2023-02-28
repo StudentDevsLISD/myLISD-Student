@@ -23,7 +23,7 @@ const Tab3Screen = () => (
   <View>
     <Image
       style={styles.IDCard} 
-      source={require('./assets/Melissa.png')}
+      source={require('./assets/Mellisa.png')}
       />
 
   </View>
