@@ -19,8 +19,8 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     //justifyContent: 'center',
     flex: 2,
-    backgroundColor: "#f0f1f2",
-    marginVertical: 20,
+    backgroundColor: "#f7f7f7",
+    marginVertical: 10,
     
   },
   // button: { 
@@ -40,21 +40,28 @@ const styles = StyleSheet.create({
     // borderColor: "black",
     // borderWidth: 2,
     borderRadius: 10,
-    paddingVertical: 10,
+    paddingVertical: 13,
     paddingHorizontal: 12,
-    marginHorizontal: 7,
-    marginVertical: 5,
-    shadowColor: "dark-grey",
+    marginHorizontal: 12,
+    marginVertical: 7,
+    //shadowColor: "dark-grey",
     //shadowOffset: ,
-    shadowRadius: 0.2,
+    //shadowRadius: 0.1,
   },
   appButtonText: {
     fontSize: 18,
     color: "black",
-    fontWeight: "bold",
+    //fontWeight: "bold",
     alignSelf: "center",
     //textTransform: "lowercase"
-  }
+  },
+  textbox: {
+    borderColor: "black",
+    borderWidth: 2,
+    alignSelf: 'center',
+    paddingHorizontal: 165,
+    paddingVertical: 5
+  },
 
 });
 
@@ -125,7 +132,7 @@ const Portal = () => {
           console.log(error);
         }
       };
-      
+
       return (
         <>
         <View style={styles.container}>
@@ -149,6 +156,7 @@ const Portal = () => {
           useIsoWeekday={true}
         />
           </View>
+          <Text style={styles.textbox}>Testing</Text>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
                 //<Button  key={index} title={title}  onPress={() => handleSchedule(title)} />
