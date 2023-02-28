@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
-import { Calendar } from 'react-native-calendars';
+import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,11 +8,7 @@ const geturl = "http://192.168.86.26:18080/getUnscheduled";
 const schedurl = "http://192.168.86.26:18080/schedule";
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    height: 100,
+    backgroundColor: "blue"
   },
   arrow: {
     width: 30,
@@ -36,20 +32,13 @@ const Portal = () => {
     const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
     const [buttonTitles, setButtonTitles] = useState<string[]>([]);  // state variable to store button titles
     
-    const handlePrevWeek = () => {
-      setStartDate(new Date(startDate.getTime() - 7 * 24 * 60 * 60 * 1000));
-    };
-  
-    const handleNextWeek = () => {
-      setStartDate(new Date(startDate.getTime() + 7 * 24 * 60 * 60 * 1000));
-    };
   
     const handleDayPress = (day: any) => {
-      const selectedDate = day.dateString;
+      const selectedDate = new Date(day).toDateString();
       const newMarkedDates: { [date: string]: {} } = {};
       newMarkedDates[selectedDate] = { selected: true };
       setMarkedDates(newMarkedDates);
-      setStartDate(new Date(selectedDate));
+      setStartDate(new Date(day));
     };
   
     useEffect(() => {
@@ -81,69 +70,59 @@ const Portal = () => {
       setButtonTitles([]); // reset buttonTitles state variable when startDate changes
     }, [startDate]);
   
-    const endDate = new Date(startDate);
     for (let i = 0; i < 7; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(currentDate.getDate() + i);
-      markedDates[currentDate.toISOString().slice(0, 10)] = { marked: false };
-    }
-    markedDates[startDate.toISOString().slice(0, 10)] = { selected: true };
-    endDate.setDate(endDate.getDate() + 6);
-
-    const schedule = async (title2: String) => {
+      const dateString = currentDate.toDateString();
+      const isMarked = dateString in markedDates;
+      markedDates[dateString] = { marked: isMarked };
+      }
+      const handleSchedule = async (title: string) => {
         try {
-            const username = await AsyncStorage.getItem('username');
-            console.log(username);
-            const password = await AsyncStorage.getItem('password');
-            console.log(password);
-            const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']", sched_class: title2 };
-            //console.log("'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']");
-            const response = await axios.post(schedurl, data, {
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-            console.log(response.data.status)
-            //const buttonTitles = response.data.meetings;
-            //setButtonTitles(buttonTitles);  // update state variable with button titles
-          } catch (error) {
-            console.log(error);
-          }
-    }
-    const renderButtons = () => {
-      return buttonTitles.map((title: string, index: number) => (
-        
-        <Button
-          key={index}
-          title={title}
-          onPress={async () => await schedule(title)}
-        />
-      ));
-    };
-    
-    return (
-      <>
+          const username = await AsyncStorage.getItem('username');
+          const password = await AsyncStorage.getItem('password');
+          const data = { username: username, password: password, date: startDate.toDateString(), meeting: title };
+          const response = await axios.post(schedurl, data, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      
+      return (
+        <>
         <View style={styles.container}>
-          <FontAwesome style={styles.arrow} name="chevron-left" size={30} onPress={handlePrevWeek} />
-          <Calendar
-            minDate={startDate.toISOString().slice(0, 10)}
-            maxDate={endDate.toISOString().slice(0, 10)}
-            markedDates={markedDates}
-            initialDate={startDate.toISOString().slice(0, 10)}
-            onDayPress={handleDayPress}
-          />
-          <FontAwesome style={styles.arrow} name="chevron-right" size={30} onPress={handleNextWeek} />
-        </View>
-        
-       
-  
-      
-      <ScrollView style = {styles.newStyle}>
-        {renderButtons()}
-      </ScrollView>
-      
-    </>
-  );
-};
+        <CalendarStrip
+          calendarAnimation={{ type: 'sequence', duration: 30 }}
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#e3e3e3',
+          }}
+          style={{ height: 85, paddingTop: 15,}}
+          calendarHeaderStyle={{ color: 'black' }}
+          calendarColor={'white'}
+          dateNumberStyle={{ color: 'black' }}
+          dateNameStyle={{ color: 'black' }}
+          highlightDateNumberStyle={{ color: '#7743CE' }}
+          highlightDateNameStyle={{ color: '#7743CE' }}
+          selectedDate={startDate}
+          onDateSelected={handleDayPress}
+          scrollable={true}
+          useIsoWeekday={true}
+        />
+          </View>
+            <ScrollView style={styles.newStyle}>
+              {buttonTitles.map((title, index) => (
+                <Button key={index} title={title} onPress={() => handleSchedule(title)} />
+              ))}
+            </ScrollView>
+            </>
+      );
+    };
 
-export default Portal;
+    export default Portal;
