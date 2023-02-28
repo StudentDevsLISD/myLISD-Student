@@ -1,57 +1,101 @@
-import React, { useState } from 'react';
-import { ScrollView, View, StyleSheet, Text } from 'react-native';
-import CalendarStrip from 'react-native-calendar-strip';
+import React, { useEffect, useState } from 'react';
+import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
+import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment';
-import { color } from 'react-native-reanimated';
-
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const geturl = "http://192.168.86.26:18080/getUnscheduled";
+const schedurl = "http://192.168.86.26:18080/schedule";
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'white'
+    backgroundColor: "blue"
   },
   arrow: {
     width: 30,
     height: 30,
   },
   newStyle: {
+    //alignItems: 'center',
+    //justifyContent: 'center',
     flex: 2,
-    backgroundColor: 'red',
+    backgroundColor: "red",
     marginTop: 130,
     maxHeight: 400,
+    
   },
+
 });
 
 const Portal = () => {
-  const [startDate, setStartDate] = useState(moment());
-  const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean; selected?: boolean } }>({});
-
-  const handlePrevWeek = () => {
-    setStartDate(startDate.clone().subtract(7, 'days'));
-  };
-
-  const handleNextWeek = () => {
-    setStartDate(startDate.clone().add(7, 'days'));
-  };
-
-  const handleDayPress = (day: any) => {
-    const selectedDate = day.dateString;
-    const newMarkedDates: { [date: string]: { marked?: boolean; selected?: boolean } } = {};
-    newMarkedDates[selectedDate] = { selected: true };
-    setMarkedDates(newMarkedDates);
-    setStartDate(moment(selectedDate));
-  };
-
-  const endDate = moment(startDate).add(6, 'days');
-  for (let i = 0; i < 7; i++) {
-    const currentDate = moment(startDate).add(i, 'days');
-    markedDates[currentDate.format('MM-DD-YYYY')] = { marked: false };
-  }
-  markedDates[startDate.format('MM-DD-YYYY')] = { selected: true };
-
-
-  return (
-    <>
-      <View style={styles.container}>
+    const [startDate, setStartDate] = useState(new Date());
+    const datePortal = startDate.toDateString();
+    const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
+    const [buttonTitles, setButtonTitles] = useState<string[]>([]);  // state variable to store button titles
+    
+  
+    const handleDayPress = (day: any) => {
+      const selectedDate = new Date(day).toDateString();
+      const newMarkedDates: { [date: string]: {} } = {};
+      newMarkedDates[selectedDate] = { selected: true };
+      setMarkedDates(newMarkedDates);
+      setStartDate(new Date(day));
+    };
+  
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const username = await AsyncStorage.getItem('username');
+          console.log(username);
+          const password = await AsyncStorage.getItem('password');
+          console.log(password);
+          const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" };
+          console.log("'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']");
+          const response = await axios.post(geturl, data, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log(response.data)
+          const buttonTitles = response.data.meetings;
+          setButtonTitles(buttonTitles);  // update state variable with button titles
+        } catch (error) {
+          console.log(error);
+        }
+      };
+  
+      fetchData();
+    }, [startDate]);
+  
+    useEffect(() => {
+      setButtonTitles([]); // reset buttonTitles state variable when startDate changes
+    }, [startDate]);
+  
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(currentDate.getDate() + i);
+      const dateString = currentDate.toDateString();
+      const isMarked = dateString in markedDates;
+      markedDates[dateString] = { marked: isMarked };
+      }
+      const handleSchedule = async (title: string) => {
+        try {
+          const username = await AsyncStorage.getItem('username');
+          const password = await AsyncStorage.getItem('password');
+          const data = { username: username, password: password, date: startDate.toDateString(), meeting: title };
+          const response = await axios.post(schedurl, data, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      
+      return (
+        <>
+        <View style={styles.container}>
         <CalendarStrip
           calendarAnimation={{ type: 'sequence', duration: 30 }}
           daySelectionAnimation={{
@@ -66,17 +110,19 @@ const Portal = () => {
           dateNameStyle={{ color: 'black' }}
           highlightDateNumberStyle={{ color: '#7743CE' }}
           highlightDateNameStyle={{ color: '#7743CE' }}
-          startingDate={startDate.toDate()}
-          selectedDate={startDate.toDate()}
+          selectedDate={startDate}
           onDateSelected={handleDayPress}
           scrollable={true}
           useIsoWeekday={true}
         />
-      </View>
+          </View>
+            <ScrollView style={styles.newStyle}>
+              {buttonTitles.map((title, index) => (
+                <Button key={index} title={title} onPress={() => handleSchedule(title)} />
+              ))}
+            </ScrollView>
+            </>
+      );
+    };
 
-      <ScrollView style={styles.newStyle}></ScrollView>
-    </>
-  );
-};
-
-export default Portal;
+    export default Portal;
