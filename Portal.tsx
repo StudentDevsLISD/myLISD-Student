@@ -7,6 +7,7 @@ import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const geturl = "http://192.168.86.26:18080/getUnscheduled";
 const schedurl = "http://192.168.86.26:18080/schedule";
+const getsched = "http://192.168.86.26:18080/getScheduled"
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "blue"
@@ -48,10 +49,32 @@ const styles = StyleSheet.create({
     //shadowOffset: ,
     //shadowRadius: 0.1,
   },
+  appButtonContainer2: {
+    elevation: 8,
+    backgroundColor: "white",
+    // borderColor: "black",
+    // borderWidth: 2,
+    borderRadius: 10,
+    paddingVertical: 13,
+    paddingHorizontal: 12,
+    marginHorizontal: 12,
+    marginBottom: 7,
+    marginTop: 16
+    //shadowColor: "dark-grey",
+    //shadowOffset: ,
+    //shadowRadius: 0.1,
+  },
   appButtonText: {
     fontSize: 18,
-    color: "black",
+    color: "#2e2d2d",
     //fontWeight: "bold",
+    alignSelf: "center",
+    //textTransform: "lowercase"
+  },
+  appButtonText2: {
+    fontSize: 18,
+    color: "black",
+    fontWeight: "bold",
     alignSelf: "center",
     //textTransform: "lowercase"
   },
@@ -60,7 +83,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     alignSelf: 'center',
     paddingHorizontal: 165,
-    paddingVertical: 5
+    paddingVertical: 5,
+    backgroundColor: "white"
   },
 
 });
@@ -70,7 +94,7 @@ const Portal = () => {
     const datePortal = startDate.toDateString();
     const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
     const [buttonTitles, setButtonTitles] = useState<string[]>([]);  // state variable to store button titles
-    
+    const [scheduled, setScheduled] = useState<string>();
   
     const handleDayPress = (day: any) => {
       const selectedDate = new Date(day).toDateString();
@@ -78,8 +102,28 @@ const Portal = () => {
       newMarkedDates[selectedDate] = { selected: true };
       setMarkedDates(newMarkedDates);
       setStartDate(new Date(day));
+      //setScheduled("");
     };
-  
+    const getScheduledMeeting = async () => {
+      try {
+        const username = await AsyncStorage.getItem('username');
+        const password = await AsyncStorage.getItem('password');
+        const data = { 
+          username: username, 
+          password: password, 
+          date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
+        };
+        const response = await axios.post(getsched, data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        setScheduled(response.data.scheduled);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -103,6 +147,7 @@ const Portal = () => {
       };
   
       fetchData();
+      getScheduledMeeting();
     }, [startDate]);
   
     useEffect(() => {
@@ -127,10 +172,12 @@ const Portal = () => {
               'Content-Type': 'application/json'
             }
           });
+          setScheduled(title);
           console.log(response.data);
         } catch (error) {
           console.log(error);
         }
+        //setButtonTitles([]);
       };
 
       return (
@@ -156,7 +203,9 @@ const Portal = () => {
           useIsoWeekday={true}
         />
           </View>
-          <Text style={styles.textbox}>Testing</Text>
+          <TouchableOpacity style = {styles.appButtonContainer2}>
+          <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
+          </TouchableOpacity>  
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
                 //<Button  key={index} title={title}  onPress={() => handleSchedule(title)} />
