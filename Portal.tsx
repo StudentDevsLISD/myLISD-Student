@@ -3,6 +3,7 @@ import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
+import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const geturl = "http://192.168.86.26:18080/getUnscheduled";
 const schedurl = "http://192.168.86.26:18080/schedule";
@@ -18,11 +19,43 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     //justifyContent: 'center',
     flex: 2,
-    backgroundColor: "red",
+    backgroundColor: "#e3e3e3",
     marginTop: 130,
     maxHeight: 400,
     
   },
+  // button: { 
+  //   backgroundColor: 'white',
+  //   borderColor: 'black', 
+  //   borderWidth: 2,
+  //   borderRadius: 1, 
+  //   padding: 10 
+  // },
+  // buttonText: {
+  //   color: 'black',
+  //   textAlign: 'center',
+  // },
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "white",
+    // borderColor: "black",
+    // borderWidth: 2,
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    marginHorizontal: 7,
+    marginVertical: 5,
+    shadowColor: "dark-grey",
+    //shadowOffset: ,
+    shadowRadius: 0.2,
+  },
+  appButtonText: {
+    fontSize: 18,
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
+    //textTransform: "lowercase"
+  }
 
 });
 
@@ -81,7 +114,8 @@ const Portal = () => {
         try {
           const username = await AsyncStorage.getItem('username');
           const password = await AsyncStorage.getItem('password');
-          const data = { username: username, password: password, date: startDate.toDateString(), meeting: title };
+          console.log(title);
+          const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']", sched_class: title };
           const response = await axios.post(schedurl, data, {
             headers: {
               'Content-Type': 'application/json'
@@ -98,12 +132,12 @@ const Portal = () => {
         <View style={styles.container}>
         <CalendarStrip
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          daySelectionAnimation={{
-            type: 'background',
-            duration: 200,
-            highlightColor: '#e3e3e3',
-          }}
-          style={{ height: 85, paddingTop: 15,}}
+          // daySelectionAnimation={{
+          //   type: 'background',
+          //   duration: 200,
+          //   highlightColor: '#e3e3e3',
+          // }}
+          style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
           dateNumberStyle={{ color: 'black' }}
@@ -112,13 +146,17 @@ const Portal = () => {
           highlightDateNameStyle={{ color: '#7743CE' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
-          scrollable={true}
+          // scrollable={true}
           useIsoWeekday={true}
         />
           </View>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
-                <Button key={index} title={title} onPress={() => handleSchedule(title)} />
+                //<Button  key={index} title={title}  onPress={() => handleSchedule(title)} />
+                <TouchableOpacity key={index} onPress={() => handleSchedule(title)} style={styles.appButtonContainer}>
+                  <Text style={styles.appButtonText}>{title}</Text>
+                </TouchableOpacity> 
+                
               ))}
             </ScrollView>
             </>
