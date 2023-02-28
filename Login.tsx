@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import axios from 'axios';
 
-const loginurl = "http://192.168.86.26:18080/login";
+const loginurl = "http://192.168.1.163:18080/login";
 
 type RootStackParamList = {
   Home: undefined;
@@ -46,6 +46,10 @@ const Login = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
+      <Image
+          style={styles.logo}
+          source={require('./assets/lisd.png')}
+        />   
       <TextInput
         label="Username"
         value={username}
@@ -84,6 +88,12 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 16,
+  },
+  logo: {
+    height: 100,
+    width: 250,
+    marginTop: 5,
+    alignSelf: "center",
   },
 });
 

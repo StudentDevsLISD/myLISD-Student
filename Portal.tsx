@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const geturl = "http://192.168.86.26:18080/getUnscheduled";
-const schedurl = "http://192.168.86.26:18080/schedule";
-const getsched = "http://192.168.86.26:18080/getScheduled"
+const geturl = "http://192.168.1.163:18080/getUnscheduled";
+const schedurl = "http://192.168.1.163:18080/schedule";
+const getsched = "http://192.168.1.163:18080/getScheduled"
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "blue"
+    backgroundColor: "#ebe8e8"
   },
   arrow: {
     width: 30,
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     //justifyContent: 'center',
     flex: 2,
-    backgroundColor: "#f7f7f7",
+    backgroundColor: "#ebe8e8",
     marginVertical: 10,
     
   },
@@ -45,9 +44,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     marginHorizontal: 12,
     marginVertical: 7,
-    //shadowColor: "dark-grey",
+    //shadowColor: "black",
     //shadowOffset: ,
-    //shadowRadius: 0.1,
+    //shadowRadius: 1,
   },
   appButtonContainer2: {
     elevation: 8,
@@ -185,11 +184,11 @@ const Portal = () => {
         <View style={styles.container}>
         <CalendarStrip
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          // daySelectionAnimation={{
-          //   type: 'background',
-          //   duration: 200,
-          //   highlightColor: '#e3e3e3',
-          // }}
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#e3e3e3',
+          }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
@@ -199,13 +198,15 @@ const Portal = () => {
           highlightDateNameStyle={{ color: '#7743CE' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
-          //scrollable={true}
+          scrollable={true}
           useIsoWeekday={true}
         />
           </View>
+          <View style={styles.container}>
           <TouchableOpacity style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
-          </TouchableOpacity>  
+          </TouchableOpacity> 
+           </View>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
                 //<Button  key={index} title={title}  onPress={() => handleSchedule(title)} />
