@@ -261,11 +261,11 @@ const Portal = () => {
         <View style={styles.container}>
         <CalendarStrip
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          daySelectionAnimation={{
-            type: 'background',
-            duration: 200,
-            highlightColor: '#e3e3e3',
-          }}
+          // daySelectionAnimation={{
+          //   type: 'background',
+          //   duration: 200,
+          //   highlightColor: '#e3e3e3',
+          // }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
@@ -275,7 +275,7 @@ const Portal = () => {
           highlightDateNameStyle={{ color: '#7743CE' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
-          scrollable={true}
+          //scrollable={true}
           useIsoWeekday={true}
         />
           </View>
