@@ -98,15 +98,16 @@ const Portal = () => {
     const [buttonLikes, setButtonLikes] = useState<string[]>([]);
     const [scheduled, setScheduled] = useState<string>();
     const theDate = startDate ? new Date() : null;
+    let likeIndex = 0;
+    let buttonNames: any[] = [];
     const handleDayPress = (day: any) => {
       const selectedDate = new Date(day).toDateString();
       const newMarkedDates: { [date: string]: {} } = {};
       newMarkedDates[selectedDate] = { selected: true };
       setMarkedDates(newMarkedDates);
       setStartDate(new Date(day));
-      //setScheduled("");
     };
-    const getFavorites = async () => {
+    const setFavorites = async () => {
       try {
         const username = await AsyncStorage.getItem('username');
         const password = await AsyncStorage.getItem('password');
@@ -121,12 +122,41 @@ const Portal = () => {
           }
         });
         setButtonLikes(response.data.favorites);
-        //setButtonTitles([]);
       } catch (error) {
         console.log(error);
       }
     }
-    const getScheduledMeeting = async () => {
+    const setUnscheduled = async () => {
+      try {
+        await setFavorites();
+
+        const username = await AsyncStorage.getItem('username');
+        const password = await AsyncStorage.getItem('password');
+        const data = { 
+          username: username, 
+          password: password, 
+          date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
+        };
+        const response = await axios.post(geturl, data, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        for (let i = 0; i < response.data.meetings.length; i++) {
+            if(buttonLikes.includes(response.data.meetings[i])){
+              buttonNames.splice(likeIndex, 0, response.data.meetings[i]);
+              likeIndex++;
+            } else {
+              buttonNames.push(response.data.meetings[i]);
+            }
+          }
+        setButtonTitles(buttonNames);
+        //setButtonTitles(response.data.meetings());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const setScheduledMeeting = async () => {
       try {
         const username = await AsyncStorage.getItem('username');
         const password = await AsyncStorage.getItem('password');
@@ -141,94 +171,20 @@ const Portal = () => {
           }
         });
         setScheduled(response.data.scheduled);
-        //setButtonTitles([]);
       } catch (error) {
         console.log(error);
       }
     };
+    useEffect(() => {
+      setScheduledMeeting();
+      setUnscheduled();
+    }, [startDate]);
 
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const username = await AsyncStorage.getItem('username');
-          console.log(username);
-          const password = await AsyncStorage.getItem('password');
-          console.log(password);
-          const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" };
-          console.log("'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']");
-          const response = await axios.post(geturl, data, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          console.log(response.data)
-          const buttonTitles = response.data.meetings;
-          setButtonTitles(buttonTitles);  // update state variable with button titles
-        } catch (error) {
-          console.log(error);
-        }
-      };
-  
-      fetchData();
-      getScheduledMeeting();
-      getFavorites();
-    }, [startDate]);
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const username = await AsyncStorage.getItem('username');
-          console.log(username);
-          const password = await AsyncStorage.getItem('password');
-          console.log(password);
-          const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" };
-          console.log("'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']");
-          const response = await axios.post(geturl, data, {
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          console.log(response.data)
-          const buttonTitles = response.data.meetings;
-          setButtonTitles(buttonTitles);  // update state variable with button titles
-        } catch (error) {
-          console.log(error);
-        }
-      };
-  
-      fetchData();
-      //getScheduledMeeting();
+      setScheduledMeeting();
+      setUnscheduled();
     }, [scheduled]);
-    useEffect(() => {
-      const fetchData = async () => {
-      try {
-        const username = await AsyncStorage.getItem('username');
-        console.log(username);
-        const password = await AsyncStorage.getItem('password');
-        console.log(password);
-        const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" };
-        console.log("'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']");
-        const response = await axios.post(getFavUrl, data, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log(response.data)
-        const buttonLikes = response.data.favorites;
-        setButtonLikes(buttonLikes);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-      fetchData();
-    }, [startDate])
-    useEffect(() => {
-      setButtonTitles([]);
-      setButtonLikes([]); // reset buttonTitles state variable when startDate changes
-    }, [startDate]);
-    // useEffect(() => {
-    //   setButtonTitles([]); // reset buttonTitles state variable when startDate changes
-    // }, [scheduled]);
-  
+
     for (let i = 0; i < 7; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(currentDate.getDate() + i);
@@ -253,7 +209,6 @@ const Portal = () => {
         } catch (error) {
           console.log(error);
         }
-        //setButtonTitles([]);
       };
 
       return (
@@ -261,11 +216,6 @@ const Portal = () => {
         <View style={styles.container}>
         <CalendarStrip
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          // daySelectionAnimation={{
-          //   type: 'background',
-          //   duration: 200,
-          //   highlightColor: '#e3e3e3',
-          // }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
@@ -275,7 +225,6 @@ const Portal = () => {
           highlightDateNameStyle={{ color: '#7743CE' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
-          //scrollable={true}
           useIsoWeekday={true}
         />
           </View>
@@ -286,12 +235,7 @@ const Portal = () => {
            </View>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
-                //<Button  key={index} title={title}  onPress={() => handleSchedule(title)} />
-                // <TouchableOpacity key={index} onPress={() => handleSchedule(title)} style={styles.appButtonContainer}>
-                //   <Text style={styles.appButtonText}>{title}</Text>
-                // </TouchableOpacity>
                 <PortalButton initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
-                
               ))}
             </ScrollView>
             </>

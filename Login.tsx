@@ -28,8 +28,15 @@ const Login = ({ navigation }: Props) => {
       const data = { "username": username, "password": password };
       const response = await axios.post(loginurl, data, {
         headers: {
-          'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'clientAuthUN': 'usrVRHSApiDataAccess',
+            'clientAuthPwd': '59kt61&Tm!F5',
+        },
+        params: {
+          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
         }
+
       });
       if (response.data.status === "success") {
         await AsyncStorage.setItem('username', username);

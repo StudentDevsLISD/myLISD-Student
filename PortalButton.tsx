@@ -14,13 +14,16 @@ interface Props {
     styleCont?: StyleProp<ViewStyle>;
     styleText?: StyleProp<ViewStyle>;
     theDate: Date;
-    key: number;
     initiallyLiked: boolean;
     
 }
 
-const PortalButton = ({ initiallyLiked, key, theDate, title, onPress, styleCont, styleText}: Props) => {
+const PortalButton = ({ initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
     const [isLiked, setIsLiked] = useState(initiallyLiked);
+
+    useEffect(() => {
+        setIsLiked(initiallyLiked);
+    }, [initiallyLiked]);
 
     const handleLike = async (isLiked: boolean) => {
         try {
@@ -49,7 +52,7 @@ const PortalButton = ({ initiallyLiked, key, theDate, title, onPress, styleCont,
           }
     };
     return(
-        <TouchableOpacity key = {key} onPress={onPress} style={styleCont}>
+        <TouchableOpacity onPress={onPress} style={styleCont}>
             <Text style={styleText}>{title}</Text>
             <TouchableOpacity
                 onPress={() => handleLike(isLiked)}
