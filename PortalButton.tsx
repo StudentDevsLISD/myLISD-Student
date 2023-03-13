@@ -60,9 +60,9 @@ const PortalButton = ({ initiallyLiked, theDate, title, onPress, styleCont, styl
                 activeOpacity={0.7}
       >
                 <FontAwesome
-                    name={isLiked ? 'heart' : 'heart-o'}
-                    color={isLiked ? 'red' : '#333'}
-                    size={20}
+                    name={isLiked ? 'star' : 'star-o'}
+                    color={isLiked ? 'green' : '#333'}
+                    size={30}
                 />
             </TouchableOpacity>  
         </TouchableOpacity>
@@ -72,13 +72,15 @@ const PortalButton = ({ initiallyLiked, theDate, title, onPress, styleCont, styl
 const styles = StyleSheet.create({
     likeButton: {
         backgroundColor: '#FFFFFF',
-        elevation: 8,
-        borderRadius: 50,
+        elevation: 0,
+        borderRadius: 100,
         width: 30,
         height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginLeft: 10,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+        marginHorizontal: 10,
+        //marginVertical: 10,
+        alignSelf: 'flex-end'
       },
   });
 export default PortalButton;
