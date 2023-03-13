@@ -238,7 +238,7 @@ const Portal = () => {
            </View>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
-                <PortalButton initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>
