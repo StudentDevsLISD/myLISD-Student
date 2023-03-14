@@ -5,95 +5,11 @@ import axios from 'axios';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-import SearchBar from 'react-native-dynamic-search-bar';
+import SearchBar from 'react-native-search-bar';
 const geturl = "http://192.168.86.23:18080/getUnscheduled";
 const schedurl = "http://192.168.86.23:18080/schedule";
 const getsched = "http://192.168.86.23:18080/getScheduled"
 const getFavUrl = "http://192.168.86.23:18080/getFavorites";
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#ebe8e8"
-  },
-  arrow: {
-    width: 30,
-    height: 30,
-  },
-  newStyle: {
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    flex: 2,
-    backgroundColor: "#ebe8e8",
-    marginVertical: 10,
-    
-  },
-  // button: { 
-  //   backgroundColor: 'white',
-  //   borderColor: 'black', 
-  //   borderWidth: 2,
-  //   borderRadius: 1, 
-  //   padding: 10 
-  // },
-  // buttonText: {
-  //   color: 'black',
-  //   textAlign: 'center',
-  // },
-  appButtonContainer: {
-    elevation: 8,
-    backgroundColor: "white",
-    // borderColor: "black",
-    // borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 13,
-    paddingLeft: 12,
-    marginHorizontal: 13,
-    marginVertical: 7,
-    //textAlign: 'flex-start',
-    flexDirection: "row",
-    justifyContent: "space-between",
-    //shadowColor: "black",
-    //shadowOffset: ,
-    //shadowRadius: 1,
-  },
-  appButtonContainer2: {
-    elevation: 8,
-    backgroundColor: "white",
-    // borderColor: "black",
-    // borderWidth: 2,
-    borderRadius: 10,
-    paddingVertical: 13,
-    paddingHorizontal: 12,
-    marginHorizontal: 12,
-    marginBottom: 7,
-    marginTop: 16
-    //shadowColor: "dark-grey",
-    //shadowOffset: ,
-    //shadowRadius: 0.1,
-  },
-  appButtonText: {
-    fontSize: 18,
-    color: "#2e2d2d",
-    //fontWeight: "bold",
-    alignSelf: "flex-start",
-    //textTransform: "lowercase"
-  },
-  appButtonText2: {
-    fontSize: 18,
-    color: "black",
-    fontWeight: "bold",
-    alignSelf: "center",
-    //textTransform: "lowercase"
-  },
-  textbox: {
-    borderColor: "black",
-    borderWidth: 2,
-    alignSelf: 'center',
-    paddingHorizontal: 165,
-    paddingVertical: 5,
-    backgroundColor: "white"
-  },
-
-});
-
 const Portal = () => {
     const [startDate, setStartDate] = useState(new Date());
     const datePortal = startDate.toDateString();
@@ -102,6 +18,10 @@ const Portal = () => {
     const [buttonLikes, setButtonLikes] = useState<string[]>([]);
     const [scheduled, setScheduled] = useState<string>();
     const theDate = startDate ? new Date() : null;
+    const [searchQuery, setSearchQuery] = useState('');
+    const filteredButtonTitles = buttonTitles.filter((title) =>
+    title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     //let likeIndex = 0;
     let buttonNames: any[] = [];
     const handleDayPress = (day: any) => {
@@ -184,7 +104,7 @@ const Portal = () => {
       setScheduledMeeting();
       setUnscheduled();
     }, [startDate]);
-
+    
     useEffect(() => {
       setScheduledMeeting();
       setUnscheduled();
@@ -237,19 +157,109 @@ const Portal = () => {
           <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
-          <SearchBar 
-            placeholder="Search here"
-            //onPress={() => alert("onPress")}
-            onChangeText={(text) => console.log(text)}>
-          </SearchBar>
+          <SearchBar
+            placeholder="Search"
+            onChangeText={setSearchQuery}
+            //onPressToFocus={true}
+            returnKeyType="search"
+            keyboardType="default"
+            //fontColor="#B5B5B5"
+            //iconColor="#B5B5B5"
+            //shadowColor="#282828"
+            //cancelIconColor="#B5B5B5"
+            //backgroundColor="#FFFFFF"
+          />
            </View>
             <ScrollView style={styles.newStyle}>
-              {buttonTitles.map((title, index) => (
+              {filteredButtonTitles.map((title, index) => (
                 <PortalButton doOne = {setUnscheduled} disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>
       );
     };
-
+    const styles = StyleSheet.create({
+      container: {
+        backgroundColor: "#ebe8e8"
+      },
+      arrow: {
+        width: 30,
+        height: 30,
+      },
+      newStyle: {
+        //alignItems: 'center',
+        //justifyContent: 'center',
+        flex: 2,
+        backgroundColor: "#ebe8e8",
+        marginVertical: 10,
+        
+      },
+      // button: { 
+      //   backgroundColor: 'white',
+      //   borderColor: 'black', 
+      //   borderWidth: 2,
+      //   borderRadius: 1, 
+      //   padding: 10 
+      // },
+      // buttonText: {
+      //   color: 'black',
+      //   textAlign: 'center',
+      // },
+      appButtonContainer: {
+        elevation: 8,
+        backgroundColor: "white",
+        // borderColor: "black",
+        // borderWidth: 2,
+        borderRadius: 10,
+        paddingVertical: 13,
+        paddingLeft: 12,
+        marginHorizontal: 13,
+        marginVertical: 7,
+        //textAlign: 'flex-start',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        //shadowColor: "black",
+        //shadowOffset: ,
+        //shadowRadius: 1,
+      },
+      appButtonContainer2: {
+        elevation: 8,
+        backgroundColor: "white",
+        // borderColor: "black",
+        // borderWidth: 2,
+        borderRadius: 10,
+        paddingVertical: 13,
+        paddingHorizontal: 12,
+        marginHorizontal: 12,
+        marginBottom: 7,
+        marginTop: 16
+        //shadowColor: "dark-grey",
+        //shadowOffset: ,
+        //shadowRadius: 0.1,
+      },
+      appButtonText: {
+        fontSize: 18,
+        color: "#2e2d2d",
+        //fontWeight: "bold",
+        alignSelf: "flex-start",
+        //textTransform: "lowercase"
+      },
+      appButtonText2: {
+        fontSize: 18,
+        color: "black",
+        fontWeight: "bold",
+        alignSelf: "center",
+        //textTransform: "lowercase"
+      },
+      textbox: {
+        borderColor: "black",
+        borderWidth: 2,
+        alignSelf: 'center',
+        paddingHorizontal: 165,
+        paddingVertical: 5,
+        backgroundColor: "white"
+      },
+    
+    });
+    
     export default Portal;
