@@ -5,6 +5,7 @@ import axios from 'axios';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
+import SearchBar from 'react-native-dynamic-search-bar';
 const geturl = "http://192.168.86.23:18080/getUnscheduled";
 const schedurl = "http://192.168.86.23:18080/schedule";
 const getsched = "http://192.168.86.23:18080/getScheduled"
@@ -101,7 +102,7 @@ const Portal = () => {
     const [buttonLikes, setButtonLikes] = useState<string[]>([]);
     const [scheduled, setScheduled] = useState<string>();
     const theDate = startDate ? new Date() : null;
-    let likeIndex = 0;
+    //let likeIndex = 0;
     let buttonNames: any[] = [];
     const handleDayPress = (day: any) => {
       const selectedDate = new Date(day).toDateString();
@@ -117,7 +118,7 @@ const Portal = () => {
         const data = { 
           username: username, 
           password: password, 
-          date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
+          //date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
         };
         const response = await axios.post(getFavUrl, data, {
           headers: {
@@ -130,6 +131,7 @@ const Portal = () => {
       }
     }
     const setUnscheduled = async () => {
+      let likeIndex = 0;
       try {
         await setFavorites();
 
@@ -232,13 +234,18 @@ const Portal = () => {
         />
           </View>
           <View style={styles.container}>
-          <TouchableOpacity style = {styles.appButtonContainer2}>
+          <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
+          <SearchBar 
+            placeholder="Search here"
+            //onPress={() => alert("onPress")}
+            onChangeText={(text) => console.log(text)}>
+          </SearchBar>
            </View>
             <ScrollView style={styles.newStyle}>
               {buttonTitles.map((title, index) => (
-                <PortalButton disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton doOne = {setUnscheduled} disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>

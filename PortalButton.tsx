@@ -16,10 +16,11 @@ interface Props {
     theDate: Date;
     initiallyLiked: boolean;
     disabled: boolean;
+    doOne: () => void;
     
 }
 
-const PortalButton = ({ disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
+const PortalButton = ({ doOne, disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
     const [isLiked, setIsLiked] = useState(initiallyLiked);
     const [isDisabled, setIsDisabled] = useState(disabled);
 
@@ -56,6 +57,7 @@ const PortalButton = ({ disabled, initiallyLiked, theDate, title, onPress, style
         } catch (error) {
             console.log(error);
           }
+        doOne;
     };
     return(
         <TouchableOpacity disabled = {isDisabled} onPress={onPress} style={styleCont}>
