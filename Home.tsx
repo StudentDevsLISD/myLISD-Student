@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TurboModuleRegistry } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
@@ -6,6 +6,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Portal from './Portal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PeriodTimer from './PeriodTimer';
+import SettingsDropdown from './SettingsDropdown';
+import IDs from './ID'
+
 
 
 const Tab = createBottomTabNavigator();
@@ -53,19 +56,34 @@ const Tab1Screen = () => {
 // rest of the code remains same as before
 
 
-const Tab2Screen = () => (
+const Tab2Screen = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    });
+  }, [navigation]);
+  return(
   <Portal />
-);
+  );
+};
 
-const Tab3Screen = () => (
-  <View>
-    <Image
-      style={styles.IDCard} 
-      source={require('./assets/Mellisa.png')}
-      />
+const Tab3Screen = () => {
+  const navigation = useNavigation();
 
-  </View>
-);
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    });
+  }, [navigation]);
+  return(
+    <IDs/>
+  );
+};
+
+const Tab4Screen = () => {
+  const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({
@@ -74,7 +92,7 @@ const Tab3Screen = () => (
   }, [navigation]);
   return(
   <View>
-    <Text>Coming Soon</Text>
+    <Text>Club Hub</Text>
   </View>
   );
 };
@@ -89,7 +107,7 @@ const Tab5Screen = () => {
   }, [navigation]);
   return(
   <View>
-    <Text>Coming Soon</Text>
+    <Text>Community</Text>
   </View>
   );
 };
@@ -240,6 +258,4 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-
-
 
