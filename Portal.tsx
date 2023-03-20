@@ -4,7 +4,7 @@ import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const mainurl = "http://192.168.86.33:18080";
+const mainurl = "http://192.168.83.33:18080";
 const geturl = mainurl + "/getUnscheduled";
 const schedurl = mainurl + "/schedule";
 const getsched = mainurl + "/getScheduled"
@@ -140,22 +140,22 @@ const Portal = () => {
         <>
         <View style={styles.container}>
         <CalendarStrip
-          // daySelectionAnimation={{
-          //   type: 'border',
-          //   duration: 200,
-          //   borderWidth: 1,
-          //   borderHighlightColor: '#7743CE',
-          // }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#ededed',
+          }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
-          dateNumberStyle={{ color: 'black' }}
-          dateNameStyle={{ color: 'black' }}
-          highlightDateNumberStyle={{ color: '#7743CE' }}
-          highlightDateNameStyle={{ color: '#7743CE' }}
+          dateNumberStyle={{ color: 'black', fontSize: 20 }}
+          dateNameStyle={{ color: 'black', fontSize: 10 }}
+          highlightDateNumberStyle={{ color: '#3495eb' }}
+          highlightDateNameStyle={{ color: '#3495eb' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
+          scrollable={true}
           useIsoWeekday={true}
         />
           </View>
@@ -169,7 +169,7 @@ const Portal = () => {
             returnKeyType="search"
             keyboardType="default"
             style={{
-              color: '#2e2d2d',
+              color: 'black',
               backgroundColor: '#ebe8e8',
               paddingHorizontal: 10,
               paddingVertical: 5,
@@ -184,7 +184,7 @@ const Portal = () => {
               shadowRadius: 2,
               elevation: 5,
               borderBottomWidth: 3, // Add this line to create the border
-              borderBottomColor: '#000', // Customize the color of the border
+              borderBottomColor: '#3495eb', // Customize the color of the border
             }}
             placeholderTextColor="#2e2d2d"
           />
@@ -241,4 +241,4 @@ const Portal = () => {
       },
     });
     
-    export default Portal;
+export default Portal;

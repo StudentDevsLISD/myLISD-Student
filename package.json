@@ -22,7 +22,7 @@
     "react-native": "0.71.1",
     "react-native-barcode-builder": "^2.0.0",
     "react-native-barcode-svg": "^0.0.15",
-    "react-native-calendar-strip": "^1.4.2",
+    "react-native-calendar-strip": "^2.2.6",
     "react-native-calendars": "^1.1275.0",
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-elements": "^3.4.3",

@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ProgressBarAndroid } from 'react-native';
 
-
-
-
 interface Period {
   start: Date;
   duration: number;
 }
-
 
 const PeriodTimer = () => {
   const [timeLeft, setTimeLeft] = useState('00:00');
@@ -56,12 +52,14 @@ const PeriodTimer = () => {
           setCurrentPeriod(0);
         }
       }
-      const TotalMinsLeft = periodSchedule[currentPeriod].duration - (
+      const TotalMinsLeft = 
+      //periodSchedule[currentPeriod].duration - 
+      (
         ((currentHrs * 60) + currentMins) - 
         ((periodSchedule[currentPeriod].start.getHours() * 60) +
         periodSchedule[currentPeriod].start.getMinutes())
         );
-      setTimeLeft(Math.floor(TotalMinsLeft / 60).toString() + ":" + (TotalMinsLeft % 60).toString());
+      setTimeLeft(Math.floor(TotalMinsLeft / 60).toString() + " hr " + (TotalMinsLeft % 60).toString() + ' min');
       setProgress(
         TotalMinsLeft / periodSchedule[3].duration
         );
@@ -128,6 +126,7 @@ const styles = StyleSheet.create({
     height: 30,
     overflow: 'hidden',
     borderRadius: 11,
+    color: '#3495eb',
   },
 });
 

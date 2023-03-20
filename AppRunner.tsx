@@ -209,12 +209,12 @@ const Tab5Screen = () => {
 const tabBarOptions = {
   headerTitle: () => (
     <View style={{ alignItems: 'center' }}>
-      <Image source={require('./assets/lisd_white_2.jpg')} style={{ width: 278, height: 53,  }} />
+      <Image source={require('./assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, }} />
     </View>
   ),
   headerStyle: {
     backgroundColor: '#005a87',
-    height: 100,
+    height: 115,
   },
 };
 
