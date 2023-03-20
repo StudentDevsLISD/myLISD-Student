@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PeriodTimer from './PeriodTimer';
 import SettingsDropdown from './SettingsDropdown';
 import NetInfo from '@react-native-community/netinfo';
+import IDs from './ID'
 
 
 
@@ -369,7 +370,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     transform: [{rotate: '90deg'}],
     alignSelf: 'center',
-  },
+  },  
   offlineContainer: {
     flex: 1,
     alignItems: "center",
@@ -382,6 +383,4 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-
-
 

@@ -6,8 +6,9 @@ import { NavigationProp, CommonActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import axios from 'axios';
+import Home from './Home';
 
-const loginurl = "http://192.168.1.250:18080/login";
+const loginurl = "http://192.168.1.170:18080/login";
 
 type RootStackParamList = {
   Home: undefined;
