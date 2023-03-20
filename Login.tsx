@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationProp } from '@react-navigation/native';
+import { NavigationProp, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import axios from 'axios';
 import Home from './Home';
 
-const loginurl = "http://192.168.1.170:18080/login";
+const loginurl = "http://192.168.1.250:18080/login";
 
 type RootStackParamList = {
   Home: undefined;
@@ -35,12 +37,20 @@ const Login = ({ navigation }: Props) => {
         params: {
           APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
         }
-
+  
       });
       if (response.data.status === "success") {
         await AsyncStorage.setItem('username', username);
         await AsyncStorage.setItem('password', password);
-        navigation.navigate('Home');
+        
+        // Reset the navigation stack and navigate to the Home screen
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          })
+        );
+        
       } else {
         setErrorMessage('Incorrect username or password');
       }

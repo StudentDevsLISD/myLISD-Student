@@ -1,63 +1,100 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TurboModuleRegistry } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TurboModuleRegistry } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Portal from './Portal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PeriodTimer from './PeriodTimer';
-import ID from './ID';
+
 
 const Tab = createBottomTabNavigator();
+const handleLogout = async (navigation: NavigationProp<any>) => {
+  AsyncStorage.removeItem('username');
+  AsyncStorage.removeItem('password');
+  navigation.dispatch(
+    CommonActions.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    }),
+  );
+};
+export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
-const Tab1Screen = () => (
-  <View style={styles.container}>
 
-  <Text style={styles.letter_day}>{'A'}</Text>
-    <Text style={styles.letter_day_2}>{'day'}</Text>
-    <Text style={styles.date}>{'03/15'}</Text>
-    <Text style={styles.day}>{'Wednesday'}</Text>
+const Tab1Screen = () => {
+  const navigation = useNavigation();
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    });
+  }, [navigation]);
 
-    <PeriodTimer periodSchedule={[
-      { start: new Date('2023-03-15T08:00:00'), duration: 60 },
-      { start: new Date('2023-03-15T09:00:00'), duration: 90 },
-      { start: new Date('2023-03-15T10:30:00'), duration: 45 },
-      { start: new Date('2023-03-15T11:30:00'), duration: 60 },
-    ]} />
+  return (
+    <View style={styles.container}>
+      <Text style={styles.letter_day}>{'A'}</Text>
+      <Text style={styles.letter_day_2}>{'day'}</Text>
+      <Text style={styles.date}>{'03/15'}</Text>
+      <Text style={styles.day}>{'Wednesday'}</Text>
 
-    {/* <Image
-      style={styles.logo}
-      source={require('./assets/lisd.png')}
-    /> */}
-
-  </View>
-);
+      <PeriodTimer
+        periodSchedule={[
+          { start: new Date('2023-03-15T08:00:00'), duration: 60 },
+          { start: new Date('2023-03-15T09:00:00'), duration: 90 },
+          { start: new Date('2023-03-15T10:30:00'), duration: 45 },
+          { start: new Date('2023-03-15T11:30:00'), duration: 60 },
+        ]}
+      />
+    </View>
+  );
+};
 
 // rest of the code remains same as before
 
 
 const Tab2Screen = () => (
-  <Portal/>
+  <Portal />
 );
 
 const Tab3Screen = () => (
-  <ID/>
-);
-
-const Tab4Screen = () => (
   <View>
-    <Text>Coming Soon</Text>
+    <Image
+      style={styles.IDCard} 
+      source={require('./assets/Mellisa.png')}
+      />
+
   </View>
 );
 
-const Tab5Screen = () => (
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    });
+  }, [navigation]);
+  return(
   <View>
     <Text>Coming Soon</Text>
   </View>
-);
+  );
+};
+
+const Tab5Screen = () => {
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    });
+  }, [navigation]);
+  return(
+  <View>
+    <Text>Coming Soon</Text>
+  </View>
+  );
+};
 
 const Home = () => (
-  <NavigationContainer independent = {true}>
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
@@ -100,7 +137,6 @@ const Home = () => (
           )}}
       />
     </Tab.Navigator>
-  </NavigationContainer>
 );
 
 

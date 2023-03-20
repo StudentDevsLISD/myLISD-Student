@@ -4,8 +4,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const setFavUrl = "http://192.168.1.170:18080/addFavorite";
-const removeFavUrl = "http://192.168.1.170:18080/withdrawFavorite";
+const setFavUrl = "http://192.168.1.250:18080/addFavorite";
+const removeFavUrl = "http://192.168.1.250:18080/withdrawFavorite";
 
 interface Props {
     title: string;
