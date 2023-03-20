@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 const mainurl = "http://192.168.86.33:18080";
 const ABurl = mainurl + "/getAB";
+const getsched = mainurl + "/getScheduled"
 const Home = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
-  //const [currentDateString, setCurrentDateString] = useState(currentDate.toISOString);
+  const [scheduled, setScheduled] = useState<string>();;
   const [Lday, setLday] = useState("?");
   const dateArray = [
     'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
@@ -31,9 +32,29 @@ const Home = () => {
       console.log(error);
     }
   }
+  const getScheduled = async() => {
+    try {
+      const username = await AsyncStorage.getItem('username');
+      const password = await AsyncStorage.getItem('password');
+      const data = { 
+        username: username, 
+        password: password, 
+        date: "'" + currentDate.toDateString().substring(8,10) + " " + currentDate.toDateString().substring(4,7) + " " + currentDate.toDateString().substring(11,15) + "']" 
+      };
+      const response = await axios.post(getsched, data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+        });
+        setScheduled(response.data.scheduled)
+        } catch (error) {
+          console.log(error);
+        }
+      }
   useEffect(() => {
     getDate();
     setCurrentDate;
+    getScheduled();
   }, [currentDate]);
 
   return (
@@ -52,6 +73,9 @@ const Home = () => {
             { start: new Date('2023-03-15T10:30:00'), duration: 45 },
             { start: new Date('2023-03-15T11:30:00'), duration: 60 },
         ]} />
+    <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
+          <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + currentDate.toDateString()}</Text>
+    </TouchableOpacity>     
     </>
   );
 };
@@ -104,6 +128,22 @@ const styles = StyleSheet.create({
       marginTop: -30,
       height: 100,
       width: 250,
+    },
+    appButtonContainer2: {
+      elevation: 8,
+      backgroundColor: "white",
+      borderRadius: 10,
+      paddingVertical: 13,
+      paddingHorizontal: 12,
+      marginHorizontal: 12,
+      marginBottom: 7,
+      marginTop: 16
+    },
+    appButtonText2: {
+      fontSize: 18,
+      color: "black",
+      fontWeight: "bold",
+      alignSelf: "center",
     },  
   });
 
