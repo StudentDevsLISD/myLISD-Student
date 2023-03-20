@@ -1,14 +1,14 @@
 import React, { useEffect, useState} from 'react';
-import { Button, ScrollView, View, StyleSheet, Text, TextInput} from 'react-native';
-import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
+import { ScrollView, View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
-import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const geturl = "http://192.168.86.33:18080/getUnscheduled";
-const schedurl = "http://192.168.86.33:18080/schedule";
-const getsched = "http://192.168.86.33:18080/getScheduled"
-const getFavUrl = "http://192.168.86.33:18080/getFavorites";
+const geturl = "http://192.168.1.170:18080/getUnscheduled";
+const schedurl = "http://192.168.1.170:18080/schedule";
+const getsched = "http://192.168.1.170:18080/getScheduled"
+const getFavUrl = "http://192.168.1.170:18080/getFavorites";
+
 const Portal = () => {
     const [startDate, setStartDate] = useState(new Date());
     const datePortal = startDate.toDateString();
@@ -190,84 +190,43 @@ const Portal = () => {
       container: {
         backgroundColor: "#ebe8e8"
       },
-      arrow: {
-        width: 30,
-        height: 30,
-      },
       newStyle: {
-        //alignItems: 'center',
-        //justifyContent: 'center',
         flex: 2,
         backgroundColor: "#ebe8e8",
         marginVertical: 10,
-        
       },
-      // button: { 
-      //   backgroundColor: 'white',
-      //   borderColor: 'black', 
-      //   borderWidth: 2,
-      //   borderRadius: 1, 
-      //   padding: 10 
-      // },
-      // buttonText: {
-      //   color: 'black',
-      //   textAlign: 'center',
-      // },
       appButtonContainer: {
         elevation: 8,
         backgroundColor: "white",
-        // borderColor: "black",
-        // borderWidth: 2,
         borderRadius: 10,
         paddingVertical: 13,
         paddingLeft: 12,
         marginHorizontal: 13,
         marginVertical: 7,
-        //textAlign: 'flex-start',
         flexDirection: "row",
         justifyContent: "space-between",
-        //shadowColor: "black",
-        //shadowOffset: ,
-        //shadowRadius: 1,
       },
       appButtonContainer2: {
         elevation: 8,
         backgroundColor: "white",
-        // borderColor: "black",
-        // borderWidth: 2,
         borderRadius: 10,
         paddingVertical: 13,
         paddingHorizontal: 12,
         marginHorizontal: 12,
         marginBottom: 7,
         marginTop: 16
-        //shadowColor: "dark-grey",
-        //shadowOffset: ,
-        //shadowRadius: 0.1,
       },
       appButtonText: {
         fontSize: 18,
         color: "#2e2d2d",
-        //fontWeight: "bold",
         alignSelf: "flex-start",
-        //textTransform: "lowercase"
       },
       appButtonText2: {
         fontSize: 18,
         color: "black",
         fontWeight: "bold",
         alignSelf: "center",
-        //textTransform: "lowercase"
       },
-      textbox: {
-        borderColor: "black",
-        borderWidth: 2,
-        alignSelf: 'center',
-        paddingHorizontal: 165,
-        paddingVertical: 5,
-        backgroundColor: "white"
-      },
-    
     });
     
     export default Portal;

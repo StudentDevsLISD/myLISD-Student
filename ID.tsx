@@ -37,19 +37,72 @@ const getStoredImageUrl = async () => {
   return null;
 };
 
+const storeData = async (key: string, value: string) => {
+  try {
+    await AsyncStorage.setItem(key, value);
+  } catch (error) {
+    console.error(`Error storing ${key}:`, error);
+  }
+};
+
+const getData = async (key: string) => {
+  try {
+    return await AsyncStorage.getItem(key);
+  } catch (error) {
+    console.error(`Error getting stored ${key}:`, error);
+  }
+  return null;
+};
+
 const ID = () => {
   const [selectedScreen, setSelectedScreen] = useState(0);
   const [localImagePath, setLocalImagePath] = useState<string | null>(null);
-  const firstName = 'Pranav'; //api
-  const lastName = 'Sarma'; //api
-  const barcodeNumber = '420069'; //api
-  const studentIDNum = '#' + barcodeNumber;
-  const grade = 10; //api
-  const gradeText = 'Grade: ' + grade;
+  const [firstName, setFirstName] = useState<string | null>(null);
+  const [lastName, setLastName] = useState<string | null>(null);
+  const [grade, setGrade] = useState<number | null>(null);
 
   const imageUrl = 'https://www.austintexas.gov/sites/default/files/files/Sustainability/Pranav-headshot.png';
   const imageName = 'StudentID.jpg';
   const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const storedFirstName = await getData('firstName');
+      const storedLastName = await getData('lastName');
+      const storedGrade = await getData('grade');
+
+      if (!storedFirstName || !storedLastName || !storedGrade) {
+        // Fetch data from APIs and store them
+        // Replace the URL placeholders with the actual API URLs
+        const nameResponse = await fetch('https://api.example.com/name');
+        const gradeResponse = await fetch('https://api.example.com/grade');
+
+        const nameData = await nameResponse.json();
+        const gradeData = await gradeResponse.json();
+
+        // Store fetched data in AsyncStorage
+        storeData('firstName', nameData.firstName);
+        storeData('lastName', nameData.lastName);
+        storeData('grade', String(gradeData));
+
+        // Set state variables
+        setFirstName(nameData.firstName);
+        setLastName(nameData.lastName);
+        setGrade(gradeData);
+      } else {
+        // Set state variables from stored data
+        setFirstName(storedFirstName);
+        setLastName(storedLastName);
+        setGrade(Number(storedGrade));
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const barcodeNumber = '420069'; //will come from a substring of the login username
+  const studentIDNum = '#' + barcodeNumber;
+  const gradeText = 'Grade: ' + grade;
 
   useEffect(() => {
     const loadImage = async () => {
@@ -64,7 +117,7 @@ const ID = () => {
     };
 
     RNFS.exists(imagePath)
-      .then((exists: any) => {
+      .then((exists) => {
         if (exists) {
           loadImage();
         } else {
@@ -72,7 +125,7 @@ const ID = () => {
           setLocalImagePath(imagePath);
         }
       })
-      .catch((error: any) => {
+      .catch((error) => {
         console.error('Error checking image existence:', error);
       });
   }, []);
@@ -105,13 +158,13 @@ const ID = () => {
   );
 
   const SecondScreen = () => (
-<View style={styles.secondScreenContainer}>
+    <View style={styles.secondScreenContainer}>
       <Image
         style={styles.smartTag}
         source={require('./assets/SmartTagID.png')}
       />
-      <Text style={styles.firstName2}>JAYACHANDRA</Text>
-      <Text style={styles.lastName2}>DASARI</Text>
+      <Text style={styles.firstName2}>{firstName}</Text>
+      <Text style={styles.lastName2}>{lastName}</Text>
       <View style={styles.barcodeContainer2}>
         <Barcode value={barcodeNumber} format="CODE39" height={60} />
       </View>

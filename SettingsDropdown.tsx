@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { NavigationContainer, useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
-import { HandleLogout } from './Home'; 
+import { useNavigation } from '@react-navigation/native';
+import { HandleLogout } from './AppRunner'; 
 
 type Props = {
     handleLogout: HandleLogout;
