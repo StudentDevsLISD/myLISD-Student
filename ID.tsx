@@ -64,7 +64,7 @@ const ID = () => {
     };
 
     RNFS.exists(imagePath)
-      .then((exists) => {
+      .then((exists: any) => {
         if (exists) {
           loadImage();
         } else {
@@ -72,7 +72,7 @@ const ID = () => {
           setLocalImagePath(imagePath);
         }
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error('Error checking image existence:', error);
       });
   }, []);

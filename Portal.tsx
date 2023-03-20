@@ -5,10 +5,10 @@ import axios from 'axios';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const geturl = "http://192.168.1.250:18080/getUnscheduled";
-const schedurl = "http://192.168.1.250:18080/schedule";
-const getsched = "http://192.168.1.250:18080/getScheduled"
-const getFavUrl = "http://192.168.1.250:18080/getFavorites";
+const geturl = "http://192.168.86.33:18080/getUnscheduled";
+const schedurl = "http://192.168.86.33:18080/schedule";
+const getsched = "http://192.168.86.33:18080/getScheduled"
+const getFavUrl = "http://192.168.86.33:18080/getFavorites";
 const Portal = () => {
     const [startDate, setStartDate] = useState(new Date());
     const datePortal = startDate.toDateString();

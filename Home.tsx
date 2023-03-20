@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PeriodTimer from './PeriodTimer';
 import SettingsDropdown from './SettingsDropdown';
 import NetInfo from '@react-native-community/netinfo';
-import IDs from './ID'
+import IDs from './ID';
 
 
 
@@ -50,7 +50,7 @@ const Tab1Screen = () => {
   }, [navigation]);
 
   return (
-    <View style={styles.container}>
+    <>
       {isConnected ? (
         <>
           <Text style={styles.letter_day}>{'A'}</Text>
@@ -73,7 +73,7 @@ const Tab1Screen = () => {
           <Text style={styles.offlineText}>No Internet Connection</Text>
         </View>
       )}
-    </View>
+    </>
   );
 };
 
@@ -138,20 +138,11 @@ const Tab3Screen = () => {
     };
   }, [navigation]);
   return(
-  <View>
-    {isConnected ? (
-    <Image
-      style={styles.IDCard} 
-      source={require('./assets/Mellisa.png')}
-      />
-    ) : (
-      <View style={styles.offlineContainer}>
-      <Icon name="wifi" size={32} color="#888" />
-      <Text style={styles.offlineText}>No Internet Connection</Text>
-    </View>
-    )}
+  <>
+    
+    <IDs/>
 
-  </View>
+  </>
   );
 };
 
@@ -178,7 +169,7 @@ const Tab4Screen = () => {
     };
   }, [navigation]);
   return(
-  <View>
+  <>
     {isConnected? (
     <Text>Club Hub</Text>
   
@@ -188,7 +179,7 @@ const Tab4Screen = () => {
       <Text style={styles.offlineText}>No Internet Connection</Text>
     </View>
     )}
-    </View>
+    </>
   );
 };
 
@@ -215,7 +206,7 @@ const Tab5Screen = () => {
     };
   }, [navigation]);
   return(
-  <View>
+  <>
     {isConnected ? (
     <Text>Community</Text>
     ) : (
@@ -224,7 +215,7 @@ const Tab5Screen = () => {
       <Text style={styles.offlineText}>No Internet Connection</Text>
     </View>
     )}
-  </View>
+  </>
   );
 };
 
