@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Button, ScrollView, View, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState} from 'react';
+import { Button, ScrollView, View, StyleSheet, Text, TextInput} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
 import axios from 'axios';
 import { TouchableOpacity, TouchableHighlight } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-import SearchBar from 'react-native-search-bar';
 const geturl = "http://192.168.1.250:18080/getUnscheduled";
 const schedurl = "http://192.168.1.250:18080/schedule";
 const getsched = "http://192.168.1.250:18080/getScheduled"
@@ -46,11 +45,12 @@ const Portal = () => {
           }
         });
         setButtonLikes(response.data.favorites);
+        setUnscheduled(response.data.favorites);
       } catch (error) {
         console.log(error);
       }
     }
-    const setUnscheduled = async () => {
+    const setUnscheduled = async (buttonLikes: string[]) => {
       let likeIndex = 0;
       try {
         await setFavorites();
@@ -67,16 +67,15 @@ const Portal = () => {
             'Content-Type': 'application/json'
           }
         });
-        for (let i = 0; i < response.data.meetings.length; i++) {
-            if(buttonLikes.includes(response.data.meetings[i])){
-              buttonNames.splice(likeIndex, 0, response.data.meetings[i]);
-              likeIndex++;
-            } else {
-              buttonNames.push(response.data.meetings[i]);
-            }
+        const sortedMeetings = response.data.meetings.sort(
+          (a: string, b: string) => {
+            const aIsLiked = buttonLikes.includes(a);
+            const bIsLiked = buttonLikes.includes(b);
+        
+            return (aIsLiked === bIsLiked) ? 0 : aIsLiked ? -1 : 1;
           }
-        setButtonTitles(buttonNames);
-        //setButtonTitles(response.data.meetings());
+        );
+        setButtonTitles(sortedMeetings);
       } catch (error) {
         console.log(error);
       }
@@ -102,12 +101,12 @@ const Portal = () => {
     };
     useEffect(() => {
       setScheduledMeeting();
-      setUnscheduled();
+      setFavorites();
     }, [startDate]);
     
     useEffect(() => {
       setScheduledMeeting();
-      setUnscheduled();
+      setFavorites();
     }, [scheduled]);
 
     for (let i = 0; i < 7; i++) {
@@ -157,22 +156,31 @@ const Portal = () => {
           <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
-          <SearchBar
+          <TextInput
             placeholder="Search"
             onChangeText={setSearchQuery}
-            //onPressToFocus={true}
             returnKeyType="search"
             keyboardType="default"
-            //fontColor="#B5B5B5"
-            //iconColor="#B5B5B5"
-            //shadowColor="#282828"
-            //cancelIconColor="#B5B5B5"
-            //backgroundColor="#FFFFFF"
+            style={{
+              color: '#2e2d2d',
+              backgroundColor: '#ebe8e8',
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              marginTop: 7,
+              marginHorizontal: 13,
+              borderRadius: 10,
+              shadowColor: '#ebe8e8',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.5,
+              shadowRadius: 2,
+              elevation: 5,
+            }}
+            placeholderTextColor="#2e2d2d"
           />
            </View>
             <ScrollView style={styles.newStyle}>
               {filteredButtonTitles.map((title, index) => (
-                <PortalButton doOne = {setUnscheduled} disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton doOne = {setFavorites} disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>

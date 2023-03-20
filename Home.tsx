@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TurboModuleRegistry } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import Portal from './Portal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PeriodTimer from './PeriodTimer';
 import SettingsDropdown from './SettingsDropdown';
+import NetInfo from '@react-native-community/netinfo';
 
 
 
@@ -26,62 +27,128 @@ export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
 const Tab1Screen = () => {
   const navigation = useNavigation();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
     });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.letter_day}>{'A'}</Text>
-      <Text style={styles.letter_day_2}>{'day'}</Text>
-      <Text style={styles.date}>{'03/15'}</Text>
-      <Text style={styles.day}>{'Wednesday'}</Text>
+      {isConnected ? (
+        <>
+          <Text style={styles.letter_day}>{'A'}</Text>
+          <Text style={styles.letter_day_2}>{'day'}</Text>
+          <Text style={styles.date}>{'03/15'}</Text>
+          <Text style={styles.day}>{'Wednesday'}</Text>
 
-      <PeriodTimer
-        periodSchedule={[
-          { start: new Date('2023-03-15T08:00:00'), duration: 60 },
-          { start: new Date('2023-03-15T09:00:00'), duration: 90 },
-          { start: new Date('2023-03-15T10:30:00'), duration: 45 },
-          { start: new Date('2023-03-15T11:30:00'), duration: 60 },
-        ]}
-      />
+          <PeriodTimer
+            periodSchedule={[
+              { start: new Date('2023-03-15T08:00:00'), duration: 60 },
+              { start: new Date('2023-03-15T09:00:00'), duration: 90 },
+              { start: new Date('2023-03-15T10:30:00'), duration: 45 },
+              { start: new Date('2023-03-15T11:30:00'), duration: 60 },
+            ]}
+          />
+        </>
+      ) : (
+        <View style={styles.offlineContainer}>
+          <Icon name="wifi" size={32} color="#888" />
+          <Text style={styles.offlineText}>No Internet Connection</Text>
+        </View>
+      )}
     </View>
   );
 };
 
-// rest of the code remains same as before
 
 
 const Tab2Screen = () => {
   const navigation = useNavigation();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
     });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
   return(
-  <Portal />
+    <>
+    {isConnected ? (
+      <Portal />
+    ):(
+      <View style={styles.offlineContainer}>
+      <Icon name="wifi" size={32} color="#888" />
+      <Text style={styles.offlineText}>No Internet Connection</Text>
+    </View>
+    )}
+    </>
   );
 };
 
 const Tab3Screen = () => {
   const navigation = useNavigation();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
     });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
   return(
   <View>
+    {isConnected ? (
     <Image
       style={styles.IDCard} 
       source={require('./assets/Mellisa.png')}
       />
+    ) : (
+      <View style={styles.offlineContainer}>
+      <Icon name="wifi" size={32} color="#888" />
+      <Text style={styles.offlineText}>No Internet Connection</Text>
+    </View>
+    )}
 
   </View>
   );
@@ -89,30 +156,73 @@ const Tab3Screen = () => {
 
 const Tab4Screen = () => {
   const navigation = useNavigation();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
     });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
   return(
   <View>
+    {isConnected? (
     <Text>Club Hub</Text>
-  </View>
+  
+    ) : (
+      <View style={styles.offlineContainer}>
+      <Icon name="wifi" size={32} color="#888" />
+      <Text style={styles.offlineText}>No Internet Connection</Text>
+    </View>
+    )}
+    </View>
   );
 };
 
 const Tab5Screen = () => {
   const navigation = useNavigation();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
     });
+    NetInfo.fetch().then(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected !== null) {
+        setIsConnected(state.isConnected);
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
   }, [navigation]);
   return(
   <View>
+    {isConnected ? (
     <Text>Community</Text>
+    ) : (
+      <View style={styles.offlineContainer}>
+      <Icon name="wifi" size={32} color="#888" />
+      <Text style={styles.offlineText}>No Internet Connection</Text>
+    </View>
+    )}
   </View>
   );
 };
@@ -259,7 +369,16 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     transform: [{rotate: '90deg'}],
     alignSelf: 'center',
-  }
+  },
+  offlineContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  offlineText: {
+    marginTop: 8,
+    fontSize: 16,
+  },
 });
 
 export default Home;

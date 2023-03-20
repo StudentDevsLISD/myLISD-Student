@@ -1650,6 +1650,11 @@
   resolved "https://registry.npmjs.org/@react-native-community/masked-view/-/masked-view-0.1.11.tgz"
   integrity sha512-rQfMIGSR/1r/SyN87+VD8xHHzDYeHaJq6elOSCAD+0iLagXkSI2pfA0LmSXP21uw5i3em7GkkRjfJ8wpqWXZNw==
 
+"@react-native-community/netinfo@^9.3.7":
+  version "9.3.7"
+  resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-9.3.7.tgz"
+  integrity sha512-+taWmE5WpBp0uS6kf+bouCx/sn89G9EpR4s2M/ReLvctVIFL2Qh8WnWfBxqK9qwgmFha/uqjSr2Gq03OOtiDcw==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -1850,7 +1855,7 @@
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-native-vector-icons@^6.4.13":
+"@types/react-native-vector-icons@^6.4.13", "@types/react-native-vector-icons@^6.4.6":
   version "6.4.13"
   resolved "https://registry.npmjs.org/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.13.tgz"
   integrity sha512-1PqFoKuXTSzMHwGMAr+REdYJBQAbe9xrww3ecZR0FsHcD1K+vGS/rxuAriL4rsI6+p69sZQjDzpEVAbDQcjSwA==
@@ -3880,7 +3885,7 @@ hermes-profile-transformer@^0.0.6:
   dependencies:
     source-map "^0.7.3"
 
-hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -5675,6 +5680,11 @@ open@^6.2.0:
   dependencies:
     is-wsl "^1.1.0"
 
+opencollective-postinstall@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz"
+  integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
+
 optionator@^0.9.1:
   version "0.9.1"
   resolved "https://registry.npmjs.org/optionator/-/optionator-0.9.1.tgz"
@@ -6063,6 +6073,20 @@ react-native-dynamic-search-bar@^2.0.2:
   resolved "https://registry.npmjs.org/react-native-dynamic-search-bar/-/react-native-dynamic-search-bar-2.0.2.tgz"
   integrity sha512-VOJf43hwfA5TRmYPTmPd5+unosruKXxVL41vP/AaofMrYM90hen0LOgGxUkZquqjg/nQidv/PsQhzOx02orE7w==
 
+react-native-elements@^3.4.3:
+  version "3.4.3"
+  resolved "https://registry.npmjs.org/react-native-elements/-/react-native-elements-3.4.3.tgz"
+  integrity sha512-VtZc25EecPZyUBER85zFK9ZbY6kkUdcm1ZwJ9hdoGSCr1R/GFgxor4jngOcSYeMvQ+qimd5No44OVJW3rSJECA==
+  dependencies:
+    "@types/react-native-vector-icons" "^6.4.6"
+    color "^3.1.2"
+    deepmerge "^4.2.2"
+    hoist-non-react-statics "^3.3.2"
+    lodash.isequal "^4.5.0"
+    opencollective-postinstall "^2.0.3"
+    react-native-ratings "8.0.4"
+    react-native-size-matters "^0.3.1"
+
 react-native-gesture-handler@^2.9.0, "react-native-gesture-handler@>= 1.0.0":
   version "2.9.0"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz"
@@ -6092,6 +6116,13 @@ react-native-paper@^5.2.0:
     "@callstack/react-theme-provider" "^3.0.8"
     color "^3.1.2"
     use-event-callback "^0.1.0"
+
+react-native-ratings@8.0.4:
+  version "8.0.4"
+  resolved "https://registry.npmjs.org/react-native-ratings/-/react-native-ratings-8.0.4.tgz"
+  integrity sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A==
+  dependencies:
+    lodash "^4.17.15"
 
 react-native-reanimated@^2.14.4:
   version "2.14.4"
@@ -6126,6 +6157,11 @@ react-native-search-bar@^3.5.1:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-size-matters@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npmjs.org/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz"
+  integrity sha512-mKOfBLIBFBcs9br1rlZDvxD5+mAl8Gfr5CounwJtxI6Z82rGrMO+Kgl9EIg3RMVf3G855a85YVqHJL2f5EDRlw==
+
 "react-native-spinkit@>= 1.5.0":
   version "1.5.1"
   resolved "https://registry.npmjs.org/react-native-spinkit/-/react-native-spinkit-1.5.1.tgz"
@@ -6138,7 +6174,7 @@ react-native-swipe-gestures@^1.0.5:
   resolved "https://registry.npmjs.org/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
 
-react-native-vector-icons@*, react-native-vector-icons@^9.2.0:
+react-native-vector-icons@*, react-native-vector-icons@^9.2.0, react-native-vector-icons@>7.0.0:
   version "9.2.0"
   resolved "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.2.0.tgz"
   integrity sha512-wKYLaFuQST/chH3AJRjmOLoLy3JEs1JR6zMNgTaemFpNoXs0ztRnTxcxFD9xhX7cJe1/zoN5BpQYe7kL0m5yyA==
@@ -6146,7 +6182,7 @@ react-native-vector-icons@*, react-native-vector-icons@^9.2.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@>=0.40, react-native@>=0.57, react-native@0.71.1:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@>=0.40, react-native@>=0.57, react-native@>=0.59, react-native@0.71.1:
   version "0.71.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.1.tgz"
   integrity sha512-bLP5+IBj2IX6tgF9WnC/UL2ZPYkVUPsU4xqZV1jntTC2TH4xyLrvfKACjGlz5nQ3Mx4BmOFqsnMxithm53+6Aw==
