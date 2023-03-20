@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,14 +16,15 @@ import Community from './ComOp';
 
 const Tab = createBottomTabNavigator();
 const handleLogout = async (navigation: NavigationProp<any>) => {
-  AsyncStorage.removeItem('username');
-  AsyncStorage.removeItem('password');
-  navigation.dispatch(
-    CommonActions.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    }),
-  );
+  await AsyncStorage.removeItem('username');
+  await AsyncStorage.removeItem('password');
+  navigation.navigate('Login')
+  // navigation.dispatch(
+  //   CommonActions.reset({
+  //     index: 0,
+  //     routes: [{ name: 'Login' }],
+  //   }),
+  // );
 };
 export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
@@ -202,8 +203,20 @@ const Tab5Screen = () => {
   );
 };
 
+const tabBarOptions = {
+  headerTitle: () => (
+    <View style={{ alignItems: 'center' }}>
+      <Image source={require('./assets/lisd_white_2.jpg')} style={{ width: 300, height: 75 }} />
+    </View>
+  ),
+  headerStyle: {
+    backgroundColor: '#005a87',
+    height: 100,
+  },
+};
+
 const AppRunner = () => (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={tabBarOptions}>
       <Tab.Screen
         name="Home"
         component={Tab1Screen}

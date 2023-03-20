@@ -34,7 +34,7 @@ const Navigation = () => {
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
-            children={() => <Home/>}
+            component={Home}
             options={{
             headerShown: false,
             }}
@@ -55,7 +55,6 @@ const Navigation = () => {
       )}
     </NavigationContainer>
   );
-  
 }
 
 export default Navigation;
