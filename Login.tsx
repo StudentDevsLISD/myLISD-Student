@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
 
-const loginurl = "http://192.168.1.170:18080/login";
+const loginurl = "http://192.168.86.33:18080/login";
 
 type RootStackParamList = {
   Home: undefined;

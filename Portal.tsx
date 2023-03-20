@@ -4,10 +4,11 @@ import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const geturl = "http://192.168.1.170:18080/getUnscheduled";
-const schedurl = "http://192.168.1.170:18080/schedule";
-const getsched = "http://192.168.1.170:18080/getScheduled"
-const getFavUrl = "http://192.168.1.170:18080/getFavorites";
+const mainurl = "http://192.168.86.33:18080";
+const geturl = mainurl + "/getUnscheduled";
+const schedurl = mainurl + "/schedule";
+const getsched = mainurl + "/getScheduled"
+const getFavUrl = mainurl + "/getFavorites";
 
 const Portal = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -53,7 +54,7 @@ const Portal = () => {
     const setUnscheduled = async (buttonLikes: string[]) => {
       let likeIndex = 0;
       try {
-        await setFavorites();
+        // await setFavorites();
 
         const username = await AsyncStorage.getItem('username');
         const password = await AsyncStorage.getItem('password');
@@ -139,6 +140,12 @@ const Portal = () => {
         <>
         <View style={styles.container}>
         <CalendarStrip
+          // daySelectionAnimation={{
+          //   type: 'border',
+          //   duration: 200,
+          //   borderWidth: 1,
+          //   borderHighlightColor: '#7743CE',
+          // }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}

@@ -1,14 +1,50 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text } from 'react-native';
 import PeriodTimer from './PeriodTimer';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+const mainurl = "http://192.168.86.33:18080";
+const ABurl = mainurl + "/getAB";
 const Home = () => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  //const [currentDateString, setCurrentDateString] = useState(currentDate.toISOString);
+  const [Lday, setLday] = useState("?");
+  const dateArray = [
+    'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+  ]
+  const getDate = async() => {
+    try {
+      const username = await AsyncStorage.getItem('username');
+      const password = await AsyncStorage.getItem('password');
+      const data = { 
+        username: username, 
+        password: password, 
+        date: "'" + currentDate.toDateString().substring(8,10) + " " + currentDate.toDateString().substring(4,7) + " " + currentDate.toDateString().substring(11,15) + "']" 
+      };
+      const response = await axios.post(ABurl, data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      setLday(response.data.day)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    getDate();
+    setCurrentDate;
+  }, [currentDate]);
+
   return (
     <>
-    <Text style={styles.letter_day}>{'A'}
+    <Text style={styles.letter_day}>{Lday}
     </Text><Text style={styles.letter_day_2}>{'day'}
-    </Text><Text style={styles.date}>{'03/15'}</Text>
-    <Text style={styles.day}>{'Wednesday'}</Text>
+    </Text><Text style={styles.date}>{
+      currentDate.toISOString().substring(5,7) + "/" + 
+      currentDate.toISOString().substring(8,10)  
+      }</Text>
+    <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
     <PeriodTimer
         periodSchedule={[
             { start: new Date('2023-03-15T08:00:00'), duration: 60 },
