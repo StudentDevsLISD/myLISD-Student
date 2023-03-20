@@ -1,12 +1,11 @@
-import React, { Component, useEffect, useState } from 'react';
-import { Button, ScrollView, View, StyleSheet, StyleProp, ViewStyle, Text } from 'react-native';
-import CalendarStrip from 'react-native-calendar-strip'; // import CalendarStrip
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, StyleProp, ViewStyle, Text } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
-import { TouchableOpacity, TouchableHighlight } from 'react-native';
+import { TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const setFavUrl = "http://192.168.86.23:18080/addFavorite";
-const removeFavUrl = "http://192.168.86.23:18080/withdrawFavorite";
+const setFavUrl = "http://192.168.1.170:18080/addFavorite";
+const removeFavUrl = "http://192.168.1.170:18080/withdrawFavorite";
 
 interface Props {
     title: string;

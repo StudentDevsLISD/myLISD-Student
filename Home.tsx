@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Portal from './Portal';
 import PeriodTimer from './PeriodTimer';
-
+import ID from './ID';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,28 +37,22 @@ const Tab1Screen = () => (
 
 
 const Tab2Screen = () => (
-  <Portal />
+  <Portal/>
 );
 
 const Tab3Screen = () => (
-  <View>
-    <Image
-      style={styles.IDCard} 
-      source={require('./assets/Mellisa.png')}
-      />
-
-  </View>
+  <ID/>
 );
 
 const Tab4Screen = () => (
   <View>
-    <Text>Club Hub</Text>
+    <Text>Coming Soon</Text>
   </View>
 );
 
 const Tab5Screen = () => (
   <View>
-    <Text>Community</Text>
+    <Text>Coming Soon</Text>
   </View>
 );
 
