@@ -15,7 +15,7 @@ const SettingsDropdown: React.FC<Props> = ({ handleLogout }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setMenuVisible(!menuVisible)}>
-        <Icon name="cog" size={24} color="#000" />
+        <Icon name="cog" size={35} color="#fff" />
       </TouchableOpacity>
       {menuVisible && (
         <View style={styles.menu}>

@@ -153,6 +153,7 @@ const Stack = createStackNavigator();
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
     const checkAuthentication = async () => {
       const username = await AsyncStorage.getItem('username');
@@ -166,6 +167,7 @@ const App = () => {
   
     checkAuthentication();
   }, []);
+
   return (
     <NavigationContainer>
       {isLoading ? (
@@ -176,16 +178,22 @@ const App = () => {
         <Stack.Navigator>
           <Stack.Screen
             name="Home"
-            children={() => <Home/>}
+            component={Home}
             options={{
-            headerShown: false,
+              headerShown: false,
             }}
-            />
+          />
         </Stack.Navigator>
       ) : (
         // If the user is not authenticated, show the Login screen
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="Home"
             component={Home}
@@ -197,7 +205,6 @@ const App = () => {
       )}
     </NavigationContainer>
   );
-  
 }
 
 export default App;

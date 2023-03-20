@@ -14,14 +14,15 @@ import IDs from './ID';
 
 const Tab = createBottomTabNavigator();
 const handleLogout = async (navigation: NavigationProp<any>) => {
-  AsyncStorage.removeItem('username');
-  AsyncStorage.removeItem('password');
-  navigation.dispatch(
-    CommonActions.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    }),
-  );
+  await AsyncStorage.removeItem('username');
+  await AsyncStorage.removeItem('password');
+  navigation.navigate('Login');
+  // navigation.dispatch(
+  //   CommonActions.reset({
+  //     index: 0,
+  //     routes: [{ name: 'Login' }],
+  //   }),
+  // );
 };
 export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
@@ -104,7 +105,7 @@ const Tab2Screen = () => {
   return(
     <>
     {isConnected ? (
-      <Portal />
+      <Portal/>
     ):(
       <View style={styles.offlineContainer}>
       <Icon name="wifi" size={32} color="#888" />
@@ -218,9 +219,19 @@ const Tab5Screen = () => {
   </>
   );
 };
-
+const tabBarOptions = {
+  headerTitle: () => (
+    <View style={{ alignItems: 'center' }}>
+      <Image source={require('./assets/lisd_white_2.jpg')} style={{ width: 300, height: 75 }} />
+    </View>
+  ),
+  headerStyle: {
+    backgroundColor: '#005a87',
+    height: 100,
+  },
+};
 const Home = () => (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={tabBarOptions}>
       <Tab.Screen
         name="Home"
         component={Tab1Screen}

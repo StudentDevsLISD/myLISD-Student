@@ -166,14 +166,18 @@ const Portal = () => {
               backgroundColor: '#ebe8e8',
               paddingHorizontal: 10,
               paddingVertical: 5,
-              marginTop: 7,
+              marginVertical: 7,
+              height: 50,
+              fontSize: 25,
               marginHorizontal: 13,
-              borderRadius: 10,
+              borderRadius: 0,
               shadowColor: '#ebe8e8',
               shadowOffset: { width: 0, height: 2 },
               shadowOpacity: 0.5,
               shadowRadius: 2,
               elevation: 5,
+              borderBottomWidth: 3, // Add this line to create the border
+              borderBottomColor: '#000', // Customize the color of the border
             }}
             placeholderTextColor="#2e2d2d"
           />
@@ -199,7 +203,7 @@ const Portal = () => {
         //justifyContent: 'center',
         flex: 2,
         backgroundColor: "#ebe8e8",
-        marginVertical: 10,
+        marginVertical: 0,
         
       },
       // button: { 
@@ -240,7 +244,8 @@ const Portal = () => {
         paddingHorizontal: 12,
         marginHorizontal: 12,
         marginBottom: 7,
-        marginTop: 16
+        marginTop: 16,
+        //height: 200,
         //shadowColor: "dark-grey",
         //shadowOffset: ,
         //shadowRadius: 0.1,
