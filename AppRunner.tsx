@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
@@ -32,6 +33,7 @@ export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 const Tab1Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
+  
 
   useEffect(() => {
     navigation.setOptions({
@@ -65,6 +67,7 @@ const Tab1Screen = () => {
     </>
   );
 };
+
 
 
 

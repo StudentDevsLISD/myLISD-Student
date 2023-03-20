@@ -1,12 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity} from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { NavigationProp, useFocusEffect, useNavigation} from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { View } from 'react-native';
+
+const periodSchedule = [
+  { start: new Date(Date.UTC(0, 0, 0, 3, 45)), duration: 90 }, // 1st period
+  { start: new Date(Date.UTC(0, 0, 0, 5, 20)), duration: 90 }, // 2nd period
+  { start: new Date(Date.UTC(0, 0, 0, 6, 50)), duration: 35 }, // Ranger time
+  { start: new Date(Date.UTC(0, 0, 0, 7, 30)), duration: 120 }, // 3rd + lunch
+  { start: new Date(Date.UTC(0, 0, 0, 9, 35)), duration: 90 }, // 4th period
+];
+
 const mainurl = "http://192.168.86.33:18080";
 const ABurl = mainurl + "/getAB";
-const getsched = mainurl + "/getScheduled"
+const getsched = mainurl + "/getScheduled";
 const Home = () => {
+  const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [scheduled, setScheduled] = useState<string>();;
   const [Lday, setLday] = useState("?");
@@ -50,15 +63,28 @@ const Home = () => {
         } catch (error) {
           console.log(error);
         }
-      }
-  useEffect(() => {
-    getDate();
-    setCurrentDate;
-    getScheduled();
-  }, [currentDate]);
+      }   
+      useEffect(() => {
+        getDate();
+        setCurrentDate;
+        getScheduled();
+      }, []);
+    
+      useFocusEffect(
+        React.useCallback(() => {
+          getDate();
+          setCurrentDate(new Date()); // this will update the state and trigger a re-render
+          getScheduled();
+        }, [])
+      );
+  
+  // const handleHomePress = () => {
+  //   setShouldRender(!shouldRender); // toggle state variable to trigger re-render
+  //   navigation.navigate('Home');
+  // };
 
   return (
-    <>
+    <View style = {styles.container}>
     <Text style={styles.letter_day}>{Lday}
     </Text><Text style={styles.letter_day_2}>{'day'}
     </Text><Text style={styles.date}>{
@@ -67,68 +93,69 @@ const Home = () => {
       }</Text>
     <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
     <PeriodTimer
-        periodSchedule={[
-            { start: new Date('2023-03-15T08:00:00'), duration: 60 },
-            { start: new Date('2023-03-15T09:00:00'), duration: 90 },
-            { start: new Date('2023-03-15T10:30:00'), duration: 45 },
-            { start: new Date('2023-03-15T11:30:00'), duration: 60 },
-        ]} />
+         />
     <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + currentDate.toDateString()}</Text>
     </TouchableOpacity>     
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-    letter_day:{
-      backgroundColor: 'white',
-      paddingVertical: 6,
-      paddingHorizontal: 34,
-      marginHorizontal: 20,
-      marginBottom: 7,
-      marginTop: 20,
-      fontSize: 80,
-      borderWidth: 2,
-      borderColor: '#ebe8e8',
-      borderRadius: 15,
-      paddingBottom: 18,
-      paddingTop: 0,
-      overflow: 'hidden',
-    },
-    letter_day_2:{
-      fontSize: 16,
-      paddingVertical: 0,
-      paddingHorizontal: 26,
-      marginHorizontal: 39,
-      marginBottom: 0,
-      marginTop: -37,
-      height: 100,
-      width: 250,
-    },
-    date: {
-      backgroundColor: "#fff",
-      marginLeft: 158,
-      marginTop: -186,
-      fontSize: 66,
-      borderWidth: 2,
-      borderColor: '#ebe8e8',
-      borderRadius: 15,
-      paddingBottom: 34,
-      paddingTop: 2,
-      paddingHorizontal: 20,
-      overflow: 'hidden',
-  
-    },
-    day:{
-      fontSize: 15,
-      paddingVertical: 0,
-      marginHorizontal: 225,
-      marginBottom: 0,
-      marginTop: -30,
-      height: 100,
-      width: 250,
-    },
+  container: {
+    flex: 1,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    backgroundColor: "ebe8e8"
+  },  
+  letter_day:{
+    backgroundColor: 'white',
+    paddingVertical: 6,
+    paddingHorizontal: 34,
+    marginHorizontal: 20,
+    marginBottom: 7,
+    marginTop: 20,
+    fontSize: 80,
+    borderWidth: 2,
+    borderColor: '#ebe8e8',
+    borderRadius: 15,
+    paddingBottom: 18,
+    paddingTop: -10,
+    overflow: 'hidden',
+  },
+  letter_day_2:{
+    fontSize: 16,
+    paddingVertical: 0,
+    paddingHorizontal: 26,
+    marginHorizontal: 39,
+    marginBottom: 0,
+    marginTop: -37,
+    height: 100,
+    width: 250,
+  },
+  date: {
+    backgroundColor: "#fff",
+    marginLeft: 158,
+    marginTop: -186,
+    fontSize: 66,
+    borderWidth: 2,
+    borderColor: '#ebe8e8',
+    borderRadius: 15,
+    paddingBottom: 34,
+    paddingTop: 2,
+    paddingHorizontal: 20,
+    overflow: 'hidden',
+
+  },
+  day:{
+    fontSize: 15,
+    paddingVertical: 0,
+    marginHorizontal: 225,
+    marginBottom: 0,
+    marginTop: -30,
+    height: 100,
+    width: 250,
+  },
     appButtonContainer2: {
       elevation: 8,
       backgroundColor: "white",
@@ -137,12 +164,12 @@ const styles = StyleSheet.create({
       paddingHorizontal: 12,
       marginHorizontal: 12,
       marginBottom: 7,
-      marginTop: 16
+      marginTop: 16,
+      width: '93%'
     },
     appButtonText2: {
       fontSize: 18,
       color: "black",
-      fontWeight: "bold",
       alignSelf: "center",
     },  
   });

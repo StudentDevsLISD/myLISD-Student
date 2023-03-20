@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ProgressBarAndroid } from 'react-native';
 
-const periodSchedule = [
-  { start: new Date(0, 0, 0, 8, 15), duration: 90 }, // 1st period
-  { start: new Date(0, 0, 0, 9, 50), duration: 90 }, // 2nd period
-  { start: new Date(0, 0, 0, 11, 20), duration: 35 }, // Ranger time
-  { start: new Date(0, 0, 0, 12, 0), duration: 120 }, // 3rd + lunch
-  { start: new Date(0, 0, 0, 14, 5), duration: 90 }, // 4th period
-];
+
 
 
 interface Period {
@@ -15,19 +9,39 @@ interface Period {
   duration: number;
 }
 
-interface Props {
-  periodSchedule: Period[];
-}
 
-const PeriodTimer = ({ periodSchedule }: Props) => {
+const PeriodTimer = () => {
   const [timeLeft, setTimeLeft] = useState('00:00');
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(new Date().getTime());
+  const [currentHrs, setCurrentHrs] = useState(new Date().getUTCHours());
+  console.log(currentHrs)
+  const [currentMins, setCurrentMins] = useState(new Date().getUTCMinutes());
+  console.log(currentMins)
   const [progress, setProgress] = useState(0);
   const [currentPeriod, setCurrentPeriod] = useState(1);
+  const periodSchedule = [
+    { start: new Date()/*.setHours(8, 15)*/, duration: 90 }, // 1st period
+    { start: new Date()/*.setHours(9, 50)*/, duration: 130 }, // 2nd period
+    //{ start: new Date()/*.setHours(11, 20)*/, duration: 40 }, // Ranger time
+    { start: new Date()/*.setHours(12, 0)*/, duration: 150 }, // 3rd + lunch
+    { start: new Date()/*.setHours(14, 30)*/, duration: 90 }, // 4th period
+    { start: new Date()/*.setHours(16, 0)*/, duration: 0 }, // 4th period
+  ];
+  
+  useEffect(()=>{
+    periodSchedule[0].start.setHours(8,15)
+    periodSchedule[1].start.setHours(9,50)
+    //periodSchedule[2].start.setHours(11,20)
+    periodSchedule[2].start.setHours(12,0)
+    periodSchedule[3].start.setHours(14,30)
+    periodSchedule[4].start.setHours(16,0)
+  }, []
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const now = new Date();
-     
+      // const now = new Date();
       if (periodSchedule.length === 0) {
         setTimeLeft('No school right now');
         setProgress(1);
@@ -35,36 +49,39 @@ const PeriodTimer = ({ periodSchedule }: Props) => {
       }
 
       // Find the current period
-      const period = periodSchedule.find((p, i) => {
-        const nextPeriod = periodSchedule[i + 1];
-        if (nextPeriod && now >= p.start && now < nextPeriod.start) {
-          return true;
+      for (var i = 0; i < periodSchedule.length - 1; i++) {
+        if (currentTime > periodSchedule[i].start.getTime() && currentTime < periodSchedule[i + 1].start.getTime()) {
+          setCurrentPeriod(i + 1);
+        } else {
+          setCurrentPeriod(0);
         }
-        if (!nextPeriod && now >= p.start) {
-          return true;
-        }
-        return false;
-      });
-
-      if (period) {
-        setCurrentPeriod(periodSchedule.indexOf(period) + 1);
-
-        const hoursLeft = Math.floor((period.start.getTime() + (period.duration * 60000) - now.getTime()) / (1000 * 60 * 60));
-        const minutesLeft = Math.floor((period.start.getTime() + (period.duration * 60000) - now.getTime()) / (1000 * 60)) % 60;
-        const formattedTime = `${hoursLeft.toString()} hr ${minutesLeft.toString().padStart(2, '0')} min`;
-        setTimeLeft(formattedTime);
-
-        const elapsed = now.getTime() - period.start.getTime();
-        const progressValue = elapsed / (period.duration * 60000);
-        setProgress(progressValue);
-      } else {
-        setTimeLeft('00:00');
-        setProgress(1);
       }
+      const TotalMinsLeft = periodSchedule[currentPeriod].duration - (
+        ((currentHrs * 60) + currentMins) - 
+        ((periodSchedule[currentPeriod].start.getHours() * 60) +
+        periodSchedule[currentPeriod].start.getMinutes())
+        );
+      setTimeLeft(Math.floor(TotalMinsLeft / 60).toString() + ":" + (TotalMinsLeft % 60).toString());
+      setProgress(
+        TotalMinsLeft / periodSchedule[3].duration
+        );
+      // if (period) {
+      //   setCurrentPeriod(periodSchedule.indexOf(period) + 1);
+      //   const hoursLeft = Math.floor((period.start + (period.duration * 60000) - now.getHours()) / (1000 * 60 * 60));
+      //   const minutesLeft = Math.floor((period.start + (period.duration * 60000) - now.getHours()) / (1000 * 60)) % 60;
+      //   const formattedTime = `${hoursLeft.toString()} hr ${minutesLeft.toString().padStart(2, '0')} min`;
+      //   setTimeLeft(formattedTime);
+      //   const elapsed = now.getHours() - period.start
+      //   const progressValue = elapsed / (period.duration * 60000);
+      //   setProgress(progressValue);
+      // } else {
+      //   setTimeLeft('00:00');
+      //   setProgress(1);
+      // }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [currentTime]);
 
   return (
     <View style={styles.container}>
