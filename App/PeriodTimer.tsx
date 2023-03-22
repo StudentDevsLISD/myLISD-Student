@@ -49,7 +49,7 @@ const PeriodTimer = () => {
         if (currentTime > periodSchedule[i].start.getTime() && currentTime < periodSchedule[i + 1].start.getTime()) {
           setCurrentPeriod(i + 1);
         } else {
-          setCurrentPeriod(0);
+          setCurrentPeriod(4);
         }
       }
       const TotalMinsLeft = 
@@ -59,7 +59,8 @@ const PeriodTimer = () => {
         ((periodSchedule[currentPeriod].start.getHours() * 60) +
         periodSchedule[currentPeriod].start.getMinutes())
         );
-      setTimeLeft(Math.floor(TotalMinsLeft / 60).toString() + " hr " + (TotalMinsLeft % 60).toString() + ' min');
+      //setTimeLeft(Math.floor(TotalMinsLeft / 60).toString() + " hr " + (TotalMinsLeft % 60).toString() + ' min');
+      setTimeLeft("1 hr 28 min")
       setProgress(
         TotalMinsLeft / periodSchedule[3].duration
         );

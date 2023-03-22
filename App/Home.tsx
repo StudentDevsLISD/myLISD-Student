@@ -3,8 +3,7 @@ import { StyleSheet, Text, TouchableOpacity} from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { NavigationProp, useFocusEffect, useNavigation} from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useFocusEffect, useNavigation} from '@react-navigation/native';
 import { View } from 'react-native';
 
 const periodSchedule = [
@@ -15,7 +14,7 @@ const periodSchedule = [
   { start: new Date(Date.UTC(0, 0, 0, 9, 35)), duration: 90 }, // 4th period
 ];
 
-const mainurl = "http://192.168.86.33:18080";
+const mainurl = "http://10.3.85.250:18080";
 const ABurl = mainurl + "/getAB";
 const getsched = mainurl + "/getScheduled";
 const Home = () => {

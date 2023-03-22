@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SettingsDropdown from './SettingsDropdown';
+import SettingsDropdown from '../SettingsDropdown';
 import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
 import Portal from './Portal';
@@ -209,7 +208,7 @@ const Tab5Screen = () => {
 const tabBarOptions = {
   headerTitle: () => (
     <View style={{ alignItems: 'center' }}>
-      <Image source={require('./assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, }} />
+      <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, }} />
     </View>
   ),
   headerStyle: {

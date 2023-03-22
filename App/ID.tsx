@@ -61,7 +61,7 @@ const ID = () => {
   const [lastName, setLastName] = useState<string | null>(null);
   const [grade, setGrade] = useState<number | null>(null);
 
-  const imageUrl = 'https://www.austintexas.gov/sites/default/files/files/Sustainability/Pranav-headshot.png';
+  const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
   const imageName = 'StudentID.jpg';
   const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
 
@@ -139,7 +139,7 @@ const ID = () => {
     <View>
       <Image
         style={styles.IDCard}
-        source={require('./assets/VRHS_ID_Rounded.png')} //api
+        source={require('../assets/VRHS_ID_Rounded.png')} //api
       />
       <Text style={styles.firstName}>Jayachandra</Text>
       <Text style={styles.lastName}>Dasari</Text>
@@ -161,7 +161,7 @@ const ID = () => {
     <View style={styles.secondScreenContainer}>
       <Image
         style={styles.smartTag}
-        source={require('./assets/SmartTagID.png')}
+        source={require('../assets/SmartTagID.png')}
       />
       <Text style={styles.firstName2}>JAYACHANDRA</Text>
       <Text style={styles.lastName2}>DASARI</Text>

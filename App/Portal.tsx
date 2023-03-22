@@ -4,7 +4,7 @@ import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const mainurl = "http://192.168.83.33:18080";
+const mainurl = "http://10.3.85.250:18080";
 const geturl = mainurl + "/getUnscheduled";
 const schedurl = mainurl + "/schedule";
 const getsched = mainurl + "/getScheduled"
