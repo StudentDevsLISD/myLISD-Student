@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-const ComOp = () => {
+const ClubHub = () => {
     return (
-        <Text>Community Opportunities</Text>
+        <Text>Coming Soon</Text>
     );
   };
 
-export default ComOp;
+export default ClubHub;

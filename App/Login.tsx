@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
 
-const loginurl = "http://192.168.86.33:18080/login";
+const loginurl = "http://10.3.85.250:18080/login";
 
 type RootStackParamList = {
   Home: undefined;
@@ -61,7 +61,7 @@ const Login = ({ navigation }: Props) => {
     <View style={styles.container}>
       <Image
           style={styles.logo}
-          source={require('./assets/lisd.png')}
+          source={require('../assets/lisd.png')}
         />   
       <TextInput
         label="Username"

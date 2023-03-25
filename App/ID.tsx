@@ -61,7 +61,7 @@ const ID = () => {
   const [lastName, setLastName] = useState<string | null>(null);
   const [grade, setGrade] = useState<number | null>(null);
 
-  const imageUrl = 'https://www.austintexas.gov/sites/default/files/files/Sustainability/Pranav-headshot.png';
+  const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
   const imageName = 'StudentID.jpg';
   const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
 
@@ -100,9 +100,9 @@ const ID = () => {
     fetchData();
   }, []);
 
-  const barcodeNumber = '420069'; //will come from a substring of the login username
+  const barcodeNumber = '942584'; //will come from a substring of the login username
   const studentIDNum = '#' + barcodeNumber;
-  const gradeText = 'Grade: ' + grade;
+  const gradeText = 'Grade: 11';
 
   useEffect(() => {
     const loadImage = async () => {
@@ -139,10 +139,10 @@ const ID = () => {
     <View>
       <Image
         style={styles.IDCard}
-        source={require('./assets/VRHS_ID_Rounded.png')} //api
+        source={require('../assets/VRHS_ID_Rounded.png')} //api
       />
-      <Text style={styles.firstName}>{firstName}</Text>
-      <Text style={styles.lastName}>{lastName}</Text>
+      <Text style={styles.firstName}>Jayachandra</Text>
+      <Text style={styles.lastName}>Dasari</Text>
       <Text style={styles.grade}>{gradeText}</Text>
       <Text style={styles.IDNum}>{studentIDNum}</Text>
       {localImagePath && (
@@ -161,10 +161,10 @@ const ID = () => {
     <View style={styles.secondScreenContainer}>
       <Image
         style={styles.smartTag}
-        source={require('./assets/SmartTagID.png')}
+        source={require('../assets/SmartTagID.png')}
       />
-      <Text style={styles.firstName2}>{firstName}</Text>
-      <Text style={styles.lastName2}>{lastName}</Text>
+      <Text style={styles.firstName2}>JAYACHANDRA</Text>
+      <Text style={styles.lastName2}>DASARI</Text>
       <View style={styles.barcodeContainer2}>
         <Barcode value={barcodeNumber} format="CODE39" height={60} />
       </View>

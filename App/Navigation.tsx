@@ -3,8 +3,8 @@ import { Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from './AppRunner';
 import Login from './Login';
+import Home from './AppRunner';
 
 const Stack = createStackNavigator();
 
