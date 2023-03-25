@@ -140,24 +140,28 @@ const Portal = () => {
         <>
         <View style={styles.container}>
         <CalendarStrip
-          // daySelectionAnimation={{
-          //   type: 'border',
-          //   duration: 200,
-          //   borderWidth: 1,
-          //   borderHighlightColor: '#7743CE',
-          // }}
-          calendarAnimation={{ type: 'sequence', duration: 30 }}
-          style={{ height: 100, paddingTop: 15,}}
-          calendarHeaderStyle={{ color: 'black' }}
-          calendarColor={'white'}
-          dateNumberStyle={{ color: 'black' }}
-          dateNameStyle={{ color: 'black' }}
-          highlightDateNumberStyle={{ color: '#7743CE' }}
-          highlightDateNameStyle={{ color: '#7743CE' }}
-          selectedDate={startDate}
-          onDateSelected={handleDayPress}
-          useIsoWeekday={true}
-        />
+    calendarAnimation={{ type: 'sequence', duration: 30 }}
+    daySelectionAnimation={{
+      type: 'background',
+      duration: 200,
+      highlightColor: '#e3e3e3',
+      animType: '',
+      animUpdateType: '',
+      animProperty: '',
+      animSpringDamping: '',
+    }}
+    style={{ height: 100, paddingTop: 15,}}
+    calendarHeaderStyle={{ color: 'black' }}
+    calendarColor={'white'}
+    dateNumberStyle={{ color: 'black' }}
+    dateNameStyle={{ color: 'black' }}
+    highlightDateNumberStyle={{ color: '#7743CE' }}
+    highlightDateNameStyle={{ color: '#7743CE' }}
+    selectedDate={startDate}
+    onDateSelected={handleDayPress}
+    //scrollable={true}
+    useIsoWeekday={true}
+  />
           </View>
           <View style={styles.container}>
           <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
