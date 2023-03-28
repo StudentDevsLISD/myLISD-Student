@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@googleapis/classroom": "^1.0.4",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/netinfo": "^9.3.7",
@@ -18,13 +19,15 @@
     "@react-navigation/bottom-tabs": "^6.5.4",
     "@react-navigation/stack": "^6.3.16",
     "axios": "^1.3.3",
-    "googleapis": "^114.0.0",
+    "fs": "^0.0.1-security",
+    "google-auth-library": "^8.7.0",
     "jsbarcode": "^3.11.5",
+    "path": "^0.12.7",
     "react": "18.2.0",
     "react-native": "0.71.1",
     "react-native-barcode-builder": "^2.0.0",
     "react-native-barcode-svg": "^0.0.15",
-    "react-native-calendar-strip": "^2.2.6",
+    "react-native-calendar-strip": "^1.4.2",
     "react-native-calendars": "^1.1275.0",
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-elements": "^3.4.3",
@@ -40,7 +43,9 @@
     "react-native-switch-selector": "^2.3.0",
     "react-native-tab-view": "^3.5.1",
     "react-native-vector-icons": "^9.2.0",
-    "rn-fetch-blob": "^0.12.0"
+    "rn-fetch-blob": "^0.12.0",
+    "stream": "^0.0.2",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

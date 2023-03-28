@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity} from 'react-native';
 import PeriodTimer from './PeriodTimer';
-import { google } from 'googleapis';
+//import { google } from 'googleapis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useFocusEffect, useNavigation} from '@react-navigation/native';
 import { View } from 'react-native';
+import ClassroomTabs from './ClassroomTabs';
 
 const periodSchedule = [
   { start: new Date(Date.UTC(0, 0, 0, 3, 45)), duration: 90 }, // 1st period
@@ -15,9 +16,9 @@ const periodSchedule = [
   { start: new Date(Date.UTC(0, 0, 0, 9, 35)), duration: 90 }, // 4th period
 ];
 
-const mainurl = "http://10.3.85.250:18080";
+const mainurl = "https://api.leanderisd.org/portal";
 const ABurl = mainurl + "/getAB";
-const getsched = mainurl + "/getScheduled";
+const getsched = mainurl + "/getScheduledMeeting";
 const Home = () => {
   const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -28,16 +29,21 @@ const Home = () => {
   ]
   const getDate = async() => {
     try {
-      const username = await AsyncStorage.getItem('username');
-      const password = await AsyncStorage.getItem('password');
       const data = { 
-        username: username, 
-        password: password, 
-        date: "'" + currentDate.toDateString().substring(8,10) + " " + currentDate.toDateString().substring(4,7) + " " + currentDate.toDateString().substring(11,15) + "']" 
+        campus: "003", 
+        date: currentDate.toLocaleString("default", { year: "numeric" }) + "-" + 
+        currentDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
+        currentDate.toLocaleString("default", { day: "2-digit" })      
       };
       const response = await axios.post(ABurl, data, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'clientAuthUN': 'usrVRHSApiDataAccess',
+          'clientAuthPwd': '59kt61&Tm!F5',
+        },
+        params: {
+          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
         }
       });
       setLday(response.data.day)
@@ -47,19 +53,27 @@ const Home = () => {
   }
   const getScheduled = async() => {
     try {
-      const username = await AsyncStorage.getItem('username');
-      const password = await AsyncStorage.getItem('password');
+      const idNum = await AsyncStorage.getItem('studentID');
       const data = { 
-        username: username, 
-        password: password, 
-        date: "'" + currentDate.toDateString().substring(8,10) + " " + currentDate.toDateString().substring(4,7) + " " + currentDate.toDateString().substring(11,15) + "']" 
+        campus: "003", 
+        student: idNum,
+        date: currentDate.toLocaleString("default", { year: "numeric" }) + "-" + 
+        currentDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
+        currentDate.toLocaleString("default", { day: "2-digit" })    
       };
       const response = await axios.post(getsched, data, {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'clientAuthUN': 'usrVRHSApiDataAccess',
+          'clientAuthPwd': '59kt61&Tm!F5',
+        },
+        params: {
+          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
         }
         });
-        setScheduled(response.data.scheduled)
+        //console.log(response.data.scheduled)
+        setScheduled(response.data.scheduled[0].name)
         } catch (error) {
           console.log(error);
         }
@@ -96,7 +110,8 @@ const Home = () => {
          />
     <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + currentDate.toDateString()}</Text>
-    </TouchableOpacity>     
+    </TouchableOpacity> 
+    {/* <ClassroomTabs/>     */}
     </View>
   );
 };

@@ -4,9 +4,9 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { TouchableOpacity, } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const mainurl = "http://192.168.86.33:18080"
+const mainurl = "https://api.leanderisd.org/portal"
 const setFavUrl = mainurl + "/addFavorite";
-const removeFavUrl = mainurl + "/withdrawFavorite";
+const removeFavUrl = mainurl + "/removeFavorite";
 
 interface Props {
     title: string;
@@ -17,10 +17,11 @@ interface Props {
     initiallyLiked: boolean;
     disabled: boolean;
     doOne: () => void;
+    schedule_id: Number;
     
 }
 
-const PortalButton = ({ doOne, disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
+const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
     const [isLiked, setIsLiked] = useState(initiallyLiked);
     const [isDisabled, setIsDisabled] = useState(disabled);
 
@@ -32,17 +33,25 @@ const PortalButton = ({ doOne, disabled, initiallyLiked, theDate, title, onPress
         setIsDisabled(disabled);
     }, [disabled]);
 
-    const handleLike = async (isLiked: boolean) => {
+    const handleLike = async (isLiked: boolean, schedID: Number) => {
         try {
-            const username = await AsyncStorage.getItem('username');
-            const password = await AsyncStorage.getItem('password');
+            const idNum = await AsyncStorage.getItem('studentID');
             console.log(title);
-            const data = { username: username, password: password, favorite: title };
+            const data = { 
+                student: idNum, 
+                schedule_id: schedID, 
+                };
             if(!isLiked){
             const response = await axios.post(setFavUrl, data, {
-              headers: {
-                'Content-Type': 'application/json'
-              }
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                    'clientAuthUN': 'usrVRHSApiDataAccess',
+                    'clientAuthPwd': '59kt61&Tm!F5',
+                  },
+                  params: {
+                    APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+                  }
             });
             setIsLiked(true);
             } else {
@@ -63,7 +72,7 @@ const PortalButton = ({ doOne, disabled, initiallyLiked, theDate, title, onPress
         <TouchableOpacity disabled = {isDisabled} onPress={onPress} style={styleCont}>
             <Text style={styleText}>{title}</Text>
             <TouchableOpacity
-                onPress={() => handleLike(isLiked)}
+                onPress={() => handleLike(isLiked, schedule_id)}
                 style={styles.likeButton}
                 activeOpacity={0.7}
       >

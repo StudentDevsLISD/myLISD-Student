@@ -4,8 +4,10 @@ import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
+import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 
-const loginurl = "http://10.3.85.250:18080/login";
+
+const loginurl = "https://api.leanderisd.org/portal/login";
 
 type RootStackParamList = {
   Home: undefined;
@@ -39,6 +41,7 @@ const Login = ({ navigation }: Props) => {
       if (response.data.status === "success") {
         await AsyncStorage.setItem('username', username);
         await AsyncStorage.setItem('password', password);
+        await AsyncStorage.setItem('studentID', response.data.id)
         
         // Reset the navigation stack and navigate to the Home screen
         navigation.dispatch(

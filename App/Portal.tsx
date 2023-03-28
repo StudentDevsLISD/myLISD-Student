@@ -4,11 +4,19 @@ import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PortalButton from './PortalButton';
-const mainurl = "http://192.168.86.33:18080";
-const geturl = mainurl + "/getUnscheduled";
-const schedurl = mainurl + "/schedule";
-const getsched = mainurl + "/getScheduled"
+const mainurl = "https://api.leanderisd.org/portal";
+const geturl = mainurl + "/getMeetings";
+const schedurl = mainurl + "/portalClass";
+const getsched = mainurl + "/getScheduledMeeting"
 const getFavUrl = mainurl + "/getFavorites";
+
+interface MeetingDictionary {
+  [key: string]: number;
+}
+
+interface StringBoolDictionary {
+  [key: string]: boolean;
+}
 
 const Portal = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -18,7 +26,11 @@ const Portal = () => {
     const [buttonLikes, setButtonLikes] = useState<string[]>([]);
     const [scheduled, setScheduled] = useState<string>();
     const theDate = startDate ? new Date() : null;
+    const [isMandatory, setIsMandatory] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [MeetingDict, setMeetingDict] = useState<MeetingDictionary>({});
+    const [RestrictedDict, setRestrictedDict] = useState<StringBoolDictionary>({});
+    const [FullDict, setFullDict] = useState<StringBoolDictionary>({});
     const filteredButtonTitles = buttonTitles.filter((title) =>
     title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -31,44 +43,61 @@ const Portal = () => {
       setMarkedDates(newMarkedDates);
       setStartDate(new Date(day));
     };
-    const setFavorites = async () => {
-      try {
-        const username = await AsyncStorage.getItem('username');
-        const password = await AsyncStorage.getItem('password');
-        const data = { 
-          username: username, 
-          password: password, 
-          //date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
-        };
-        const response = await axios.post(getFavUrl, data, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        setButtonLikes(response.data.favorites);
-        setUnscheduled(response.data.favorites);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    const setUnscheduled = async (buttonLikes: string[]) => {
+    const setUnscheduled = async () => {
       let likeIndex = 0;
       try {
         // await setFavorites();
 
-        const username = await AsyncStorage.getItem('username');
-        const password = await AsyncStorage.getItem('password');
+        const idNum = await AsyncStorage.getItem('studentID');
         const data = { 
-          username: username, 
-          password: password, 
-          date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
+          campus: "003", 
+          student: idNum, 
+          date: startDate.toLocaleString("default", { year: "numeric" }) + "-" + 
+          startDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
+          startDate.toLocaleString("default", { day: "2-digit" })
         };
         const response = await axios.post(geturl, data, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'clientAuthUN': 'usrVRHSApiDataAccess',
+            'clientAuthPwd': '59kt61&Tm!F5',
+          },
+          params: {
+            APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
           }
         });
-        const sortedMeetings = response.data.meetings.sort(
+        var meetingLikes = [];
+        var meetingNames = [];
+        const meetingDict: MeetingDictionary = {};
+        const meetingRestricted: StringBoolDictionary = {};
+        const meetingFull: StringBoolDictionary = {};
+        for(var i = 0; i<response.data.meetings.length; i++){
+            if(response.data.meetings[i].restricted){
+              meetingNames.push("RESTRICTED - " + response.data.meetings[i].name);
+            } else if(response.data.meetings[i].full){
+              meetingNames.push("FULL - " + response.data.meetings[i].name);
+            } else {
+              meetingNames.push(response.data.meetings[i].name);
+            }
+            if(response.data.meetings[i].favorite){
+              meetingLikes.push(response.data.meetings[i].name)
+            }
+        }
+        for (let i = 0; i < meetingNames.length; i++) {
+          meetingDict[meetingNames[i]] = response.data.meetings[i].schedule_id;
+        }
+        for(let i = 0; i < meetingNames.length; i++){
+          meetingRestricted[meetingNames[i]] = response.data.meetings[i].restricted;
+        }
+        for(let i = 0; i < meetingNames.length; i++){
+          meetingFull[meetingNames[i]] = response.data.meetings[i].full;
+        }
+        setMeetingDict(meetingDict);
+        setRestrictedDict(meetingRestricted);
+        setFullDict(meetingFull);
+        setButtonLikes(meetingLikes);
+        const sortedMeetings = Object.keys(meetingDict).sort(
           (a: string, b: string) => {
             const aIsLiked = buttonLikes.includes(a);
             const bIsLiked = buttonLikes.includes(b);
@@ -83,31 +112,43 @@ const Portal = () => {
     };
     const setScheduledMeeting = async () => {
       try {
-        const username = await AsyncStorage.getItem('username');
-        const password = await AsyncStorage.getItem('password');
+        const idNum = await AsyncStorage.getItem('studentID');
         const data = { 
-          username: username, 
-          password: password, 
-          date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']" 
-        };
+          campus: "003", 
+          student: idNum, 
+          date: startDate.toLocaleString("default", { year: "numeric" }) + "-" + 
+          startDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
+          startDate.toLocaleString("default", { day: "2-digit" })         };
         const response = await axios.post(getsched, data, {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'clientAuthUN': 'usrVRHSApiDataAccess',
+            'clientAuthPwd': '59kt61&Tm!F5',
+          },
+          params: {
+            APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
           }
         });
-        setScheduled(response.data.scheduled);
+        if(response.data.scheduled[0].mandatory){
+          setScheduled("MANDATORY - " + response.data.scheduled[0].name);
+          setIsMandatory(true);
+        } else {
+          setScheduled(response.data.scheduled[0].name);
+          setIsMandatory(false);
+        }
       } catch (error) {
         console.log(error);
       }
     };
     useEffect(() => {
       setScheduledMeeting();
-      setFavorites();
+      setUnscheduled();
     }, [startDate]);
     
     useEffect(() => {
       setScheduledMeeting();
-      setFavorites();
+      setUnscheduled();
     }, [scheduled]);
 
     for (let i = 0; i < 7; i++) {
@@ -119,18 +160,26 @@ const Portal = () => {
       }
       const handleSchedule = async (title: string) => {
         try {
-          const username = await AsyncStorage.getItem('username');
-          const password = await AsyncStorage.getItem('password');
+          const idNum = await AsyncStorage.getItem('studentID');
           console.log(title);
-          const data = { username: username, password: password, date: "'" + startDate.toDateString().substring(8,10) + " " + startDate.toDateString().substring(4,7) + " " + startDate.toDateString().substring(11,15) + "']", sched_class: title };
+          const data = { 
+            student: idNum, 
+            schedule_id: Number(MeetingDict?.[title])
+          }
           const response = await axios.post(schedurl, data, {
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Accept': '*/*',
+              'clientAuthUN': 'usrVRHSApiDataAccess',
+              'clientAuthPwd': '59kt61&Tm!F5',
+            },
+            params: {
+              APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
             }
           });
           setScheduled(title);
-          console.log(startDate instanceof Date)
-          console.log(response.data);
+          //console.log(startDate instanceof Date)
+          //console.log(response.data);
         } catch (error) {
           console.log(error);
         }
@@ -191,7 +240,7 @@ const Portal = () => {
            </View>
             <ScrollView style={styles.newStyle}>
               {filteredButtonTitles.map((title, index) => (
-                <PortalButton doOne = {setFavorites} disabled = {title.includes('[RESTRICTED]')} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton schedule_id ={MeetingDict?.[title]} doOne = {setUnscheduled} disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>
