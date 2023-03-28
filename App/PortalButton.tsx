@@ -33,7 +33,10 @@ const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, t
         setIsDisabled(disabled);
     }, [disabled]);
 
-    const handleLike = async (isLiked: boolean, schedID: Number) => {
+    const handleLike = async (isLiked: boolean, yes: boolean, schedID: Number) => {
+        if(yes){
+            return;
+        }
         try {
             const idNum = await AsyncStorage.getItem('studentID');
             console.log(title);
@@ -72,7 +75,7 @@ const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, t
         <TouchableOpacity disabled = {isDisabled} onPress={onPress} style={styleCont}>
             <Text style={styleText}>{title}</Text>
             <TouchableOpacity
-                onPress={() => handleLike(isLiked, schedule_id)}
+                onPress={() => isDisabled ? handleLike(isLiked, true, schedule_id) : handleLike(isLiked, false, schedule_id)}
                 style={styles.likeButton}
                 activeOpacity={0.7}
       >
