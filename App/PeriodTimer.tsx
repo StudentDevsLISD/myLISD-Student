@@ -64,7 +64,7 @@ const PeriodTimer = () => {
 
   return (
     <View>
-      <Text>Current Period: {currentPeriod?.name && (
+      <Text>Current Period: {currentPeriod?.name ? currentPeriod.name : "No Period" }{currentPeriod?.name && (
         <View>
           <Text>Time Remaining: {getRemainingTime(currentPeriod)}</Text>
           {currentPeriod?.startTime && (
