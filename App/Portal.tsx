@@ -31,6 +31,7 @@ const Portal = () => {
     const [MeetingDict, setMeetingDict] = useState<MeetingDictionary>({});
     const [RestrictedDict, setRestrictedDict] = useState<StringBoolDictionary>({});
     const [FullDict, setFullDict] = useState<StringBoolDictionary>({});
+    const [MandDict, setMandDict] = useState<StringBoolDictionary>({});
     const filteredButtonTitles = buttonTitles.filter((title) =>
     title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -44,6 +45,7 @@ const Portal = () => {
       setStartDate(new Date(day));
     };
     const setUnscheduled = async () => {
+      console.log("trying")
       let likeIndex = 0;
       try {
         // await setFavorites();
@@ -72,6 +74,7 @@ const Portal = () => {
         const meetingDict: MeetingDictionary = {};
         const meetingRestricted: StringBoolDictionary = {};
         const meetingFull: StringBoolDictionary = {};
+        const meetingMand: StringBoolDictionary = {};
         for(var i = 0; i<response.data.meetings.length; i++){
             if(response.data.meetings[i].restricted){
               meetingNames.push("RESTRICTED - " + response.data.meetings[i].name);
@@ -93,9 +96,13 @@ const Portal = () => {
         for(let i = 0; i < meetingNames.length; i++){
           meetingFull[meetingNames[i]] = response.data.meetings[i].full;
         }
+        for(let i = 0; i < meetingNames.length; i++){
+          meetingMand[meetingNames[i]] = response.data.meetings[i].mandatory;
+        }
         setMeetingDict(meetingDict);
         setRestrictedDict(meetingRestricted);
         setFullDict(meetingFull);
+        setMandDict(meetingMand);
         setButtonLikes(meetingLikes);
         const sortedMeetings = Object.keys(meetingDict).sort(
           (a: string, b: string) => {
@@ -240,7 +247,7 @@ const Portal = () => {
            </View>
             <ScrollView style={styles.newStyle}>
               {filteredButtonTitles.map((title, index) => (
-                <PortalButton schedule_id ={MeetingDict?.[title]} doOne = {setUnscheduled} disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton schedule_id ={MeetingDict?.[title]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title] || MandDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>

@@ -19,7 +19,7 @@ const periodSchedule = [
 const mainurl = "https://api.leanderisd.org/portal";
 const ABurl = mainurl + "/getAB";
 const getsched = mainurl + "/getScheduledMeeting";
-const Home = () => {
+const Home = () => {  
   const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [scheduled, setScheduled] = useState<string>();;

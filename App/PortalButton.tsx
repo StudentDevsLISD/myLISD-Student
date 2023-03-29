@@ -16,12 +16,12 @@ interface Props {
     theDate: Date;
     initiallyLiked: boolean;
     disabled: boolean;
-    doOne: () => void;
+    //doOne: () => void;
     schedule_id: Number;
     
 }
 
-const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
+const PortalButton = ({ schedule_id, disabled, initiallyLiked, theDate, title, onPress, styleCont, styleText}: Props) => {
     const [isLiked, setIsLiked] = useState(initiallyLiked);
     const [isDisabled, setIsDisabled] = useState(disabled);
 
@@ -60,8 +60,14 @@ const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, t
             } else {
                 const response = await axios.post(removeFavUrl, data, {
                     headers: {
-                      'Content-Type': 'application/json'
-                    }
+                        'Content-Type': 'application/json',
+                        'Accept': '*/*',
+                        'clientAuthUN': 'usrVRHSApiDataAccess',
+                        'clientAuthPwd': '59kt61&Tm!F5',
+                      },
+                      params: {
+                        APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+                      }
                   });
                   setIsLiked(false);
             }
@@ -69,7 +75,7 @@ const PortalButton = ({ schedule_id, doOne, disabled, initiallyLiked, theDate, t
         } catch (error) {
             console.log(error);
           }
-        doOne;
+        //doOne;
     };
     return(
         <TouchableOpacity disabled = {isDisabled} onPress={onPress} style={styleCont}>
