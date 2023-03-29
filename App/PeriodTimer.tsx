@@ -26,11 +26,12 @@ const PeriodTimer = () => {
     const [hours, minutes] = period.endTime.split(':').map((time: string) => parseInt(time));
     const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), hours, minutes).getTime();
     const remaining = end - now;
-    if (remaining < 0) return '00:00';
-    const remainingMinutes = Math.floor(remaining / 60000);
-    const remainingSeconds = Math.floor((remaining % 60000) / 1000);
-    return `${remainingMinutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    if (remaining < 0) return '00 hrs 00 mins';
+    const remainingHours = Math.floor(remaining / 3600000);
+    const remainingMinutes = Math.floor((remaining % 3600000) / 60000);
+    return `${remainingHours} hrs ${remainingMinutes} mins`;
   };
+  
 
   const currentPeriod: {
     name?: string;
