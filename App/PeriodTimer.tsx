@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const PeriodTimer = () => {
@@ -63,25 +63,74 @@ const PeriodTimer = () => {
   
 
   return (
-    <View>
-      <Text>Current Period: {currentPeriod?.name ? currentPeriod.name : "No Period" }{currentPeriod?.name && (
-        <View>
-          <Text>Time Remaining: {getRemainingTime(currentPeriod)}</Text>
-          {currentPeriod?.startTime && (
-  <Progress.Bar 
-  progress={getProgress(currentPeriod)}
-  width={null}
-  color="#6CC644"
-  unfilledColor="#e6e6e6"
-  borderRadius={0}
-  height={20}
-/>
+    <View style = {styles.container}>
+      <Text style={styles.period}> {getRemainingTime(currentPeriod)  + " Left in " + currentPeriod?.name ? currentPeriod.name : "No Period" }</Text>
+      {/* <Text>Current Period: {currentPeriod?.name ? currentPeriod.name : "No Period" }{currentPeriod?.name && ( */}
+      <Text style={styles.timer}>{getRemainingTime(currentPeriod)}</Text>
+      <View style={styles.progressBarContainer}>
+        <Progress.Bar /*styleAttr="Horizontal"*/ indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.progressBar} />
+      </View>
+      </View>  
+//         <View>
+//           <Text>Time Remaining: {getRemainingTime(currentPeriod)}</Text>
+//           {currentPeriod?.startTime && (
+//   <Progress.Bar 
+//   progress={getProgress(currentPeriod)}
+//   width={null}
+//   color="#6CC644"
+//   unfilledColor="#e6e6e6"
+//   borderRadius={0}
+//   height={20}
+// />
+/* <View style={styles.container}>
+      <Text style={styles.period}>{`${periodSchedule.length === 0 ? '' : 'Left in '}${currentPeriod}th period`}</Text>
+      <Text style={styles.timer}>{timeLeft}</Text>
+      <View style={styles.progressBarContainer}>
+        <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={progress} color="#0066cc" style={styles.progressBar} />
+      </View>
+    </View>
 )}
         </View>
-      )}</Text>
-    </View>
+      )}</Text> */
+    //</View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    paddingHorizontal: 20,
+    paddingRight: 20,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    width: '94%',
+    marginVertical: -60,
+    borderWidth: 2,
+    borderColor: '#ebe8e8',
+  },
+  period: {
+    fontSize: 24,
+    textAlign: 'center',
+  },
+  timer: {
+    fontSize: 50,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  progressBarContainer: {
+    overflow: 'hidden',
+    paddingHorizontal: 0,
+  },
+  progressBar: {
+    width: '100%',
+    height: 30,
+    overflow: 'hidden',
+    borderRadius: 11,
+  },
+});
 
 export default PeriodTimer;
 
