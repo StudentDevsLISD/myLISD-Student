@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -24,6 +25,7 @@ const Home = () => {
   const [scheduled, setScheduled] = useState<string>();
   const [Lday, setLday] = useState('?');
   const [events, setEvents] = useState<{ id: string, summary: string }[]>([]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const dateArray = [
     'Sunday',
     'Monday',
@@ -43,6 +45,16 @@ const Home = () => {
     } catch (error) {
       console.error('Error signing in:', error);
     }
+  };
+
+  const removeDuplicateEvents = (eventsArray: any[]) => {
+    const uniqueEvents = eventsArray.reduce((accumulator: any[], event: any) => {
+      if (!accumulator.find((e: any) => e.id === event.id)) {
+        accumulator.push(event);
+      }
+      return accumulator;
+    }, []);
+    return uniqueEvents;
   };
 
 
@@ -115,12 +127,16 @@ const fetchEvents = async (calendarId: string | number | boolean, date: string |
   return events;
 };
 
-  const handleSignIn = useCallback(async () => {
-    const accessToken = await signIn();
+const handleSignIn = useCallback(async () => {
+  const accessToken = await signIn();
+  if (accessToken) {
+    setIsSignedIn(true);
     const calendarId = 'primary';
     const fetchedEvents = await fetchEvents(calendarId, currentDate, accessToken);
-    setEvents(fetchedEvents);
-  }, [currentDate]);
+    const uniqueEvents = removeDuplicateEvents(fetchedEvents);
+    setEvents(uniqueEvents);
+  }
+}, [currentDate]);
 
   const getDate = async () => {
     try {
@@ -218,12 +234,17 @@ const fetchEvents = async (calendarId: string | number | boolean, date: string |
         : 'No class scheduled for ' + currentDate.toDateString()}
     </Text>
   </TouchableOpacity>
-  <TouchableOpacity onPress={handleSignIn}>
-        <Text>Sign in with Google</Text>
-      </TouchableOpacity>
+  <ScrollView>
+  {!isSignedIn && (
+        <TouchableOpacity onPress={handleSignIn}>
+          <Text>Sign in with Google</Text>
+        </TouchableOpacity>
+      )}
+
       {events.map((event: { id: React.Key | null | undefined; summary: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
         <Text key={event.id}>{event.summary}</Text>
       ))}
+</ScrollView>
 </View>
 );
 };
