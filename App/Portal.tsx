@@ -196,23 +196,24 @@ const Portal = () => {
         <>
         <View style={styles.container}>
         <CalendarStrip
-          // daySelectionAnimation={{
-          //   type: 'border',
-          //   duration: 200,
-          //   borderWidth: 1,
-          //   borderHighlightColor: '#7743CE',
-          // }}
+        //if there is an error on the daySelectionAnimation do npm install react-native-calendar-strip@latest
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#3495eb',
+          }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
           dateNumberStyle={{ color: 'black' }}
           dateNameStyle={{ color: 'black' }}
-          highlightDateNumberStyle={{ color: '#7743CE' }}
-          highlightDateNameStyle={{ color: '#7743CE' }}
+          highlightDateNumberStyle={{ color: 'white' }}
+          highlightDateNameStyle={{ color: 'white' }}
           selectedDate={startDate}
           onDateSelected={handleDayPress}
           useIsoWeekday={true}
+          scrollable = {true}
         />
           </View>
           <View style={styles.container}>
@@ -225,7 +226,7 @@ const Portal = () => {
             returnKeyType="search"
             keyboardType="default"
             style={{
-              color: '#2e2d2d',
+              color: 'black',
               backgroundColor: '#ebe8e8',
               paddingHorizontal: 10,
               paddingVertical: 5,
@@ -240,7 +241,7 @@ const Portal = () => {
               shadowRadius: 2,
               elevation: 5,
               borderBottomWidth: 3, // Add this line to create the border
-              borderBottomColor: '#000', // Customize the color of the border
+              borderBottomColor: '#3495eb', // Customize the color of the border
             }}
             placeholderTextColor="#2e2d2d"
           />
