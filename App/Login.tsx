@@ -39,9 +39,13 @@ const Login = ({ navigation }: Props) => {
   
       });
       if (response.data.status === "success") {
+        console.log(response.data.first);
         await AsyncStorage.setItem('username', username);
         await AsyncStorage.setItem('password', password);
         await AsyncStorage.setItem('studentID', response.data.id)
+        await AsyncStorage.setItem('firstName', response.data.first)
+        await AsyncStorage.setItem('lastName', response.data.last)
+        await AsyncStorage.setItem('grade', response.data.grade)
         
         // Reset the navigation stack and navigate to the Home screen
         navigation.dispatch(

@@ -5,20 +5,51 @@ import Barcode from 'react-native-barcode-svg';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const downloadAndSaveImage = async (imageUrl: string, imagePath: string) => {
+// const downloadAndSaveImage = async (imageUrl: string, imagePath: string) => {
+//   try {
+//     const response = await RNFetchBlob.config({
+//       fileCache: true,
+//     }).fetch('GET', imageUrl);
+
+//     const base64Image = await response.readFile('base64');
+//     await RNFS.writeFile(imagePath, base64Image, 'base64');
+//     console.log('Image saved successfully:', imagePath);
+//   } catch (error) {
+//     console.error('Error downloading and saving image:', error);
+//   }
+// };
+const getImageUrlAPI = async () => {
   try {
-    const response = await RNFetchBlob.config({
-      fileCache: true,
-    }).fetch('GET', imageUrl);
+    const storedIDNum = await AsyncStorage.getItem('studentID');
+    const data = { "username": storedIDNum};
+    const response = await axios.post('https://api.leanderisd.org/portal/getPicture', data, {
+      headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'clientAuthUN': 'usrVRHSApiDataAccess',
+          'clientAuthPwd': '59kt61&Tm!F5',
+      },
+      params: {
+        APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+      }
 
-    const base64Image = await response.readFile('base64');
-    await RNFS.writeFile(imagePath, base64Image, 'base64');
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+const downloadAndSaveImage = async (imageData: string, imagePath: string) => {
+  try {
+    await RNFS.writeFile(imagePath, imageData, 'base64');
     console.log('Image saved successfully:', imagePath);
   } catch (error) {
     console.error('Error downloading and saving image:', error);
   }
 };
+
 
 const storeImageUrl = async (imageUrl: string) => {
   try {
@@ -37,13 +68,6 @@ const getStoredImageUrl = async () => {
   return null;
 };
 
-const storeData = async (key: string, value: string) => {
-  try {
-    await AsyncStorage.setItem(key, value);
-  } catch (error) {
-    console.error(`Error storing ${key}:`, error);
-  }
-};
 
 const getData = async (key: string) => {
   try {
@@ -60,68 +84,61 @@ const ID = () => {
   const [firstName, setFirstName] = useState<string | null>(null);
   const [lastName, setLastName] = useState<string | null>(null);
   const [grade, setGrade] = useState<number | null>(null);
+  const [studentID, setStudentIDNum] = useState<String>("");
+  const [imageUrl, setImageUrl] = useState<String>("");
+  //const [studentIDNum, setStudentIDNum] = useState<number | null>(null);
 
-  const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
+  //const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
   const imageName = 'StudentID.jpg';
   const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
 
   useEffect(() => {
     const fetchData = async () => {
-      const storedFirstName = await getData('firstName');
-      const storedLastName = await getData('lastName');
-      const storedGrade = await getData('grade');
+      const storedFirstName = await AsyncStorage.getItem('firstName');
+      const storedLastName = await AsyncStorage.getItem('lastName');
+      const storedGrade = await AsyncStorage.getItem('grade');
+      const storedIDNum = await AsyncStorage.getItem('studentID');
 
-      if (!storedFirstName || !storedLastName || !storedGrade) {
-        // Fetch data from APIs and store them
-        // Replace the URL placeholders with the actual API URLs
-        const nameResponse = await fetch('https://api.example.com/name');
-        const gradeResponse = await fetch('https://api.example.com/grade');
+      if (!storedFirstName || !storedLastName || !storedGrade || !storedIDNum) {
 
-        const nameData = await nameResponse.json();
-        const gradeData = await gradeResponse.json();
-
-        // Store fetched data in AsyncStorage
-        storeData('firstName', nameData.firstName);
-        storeData('lastName', nameData.lastName);
-        storeData('grade', String(gradeData));
-
-        // Set state variables
-        setFirstName(nameData.firstName);
-        setLastName(nameData.lastName);
-        setGrade(gradeData);
+        setFirstName(storedFirstName);
+        setLastName(storedLastName);
+        setGrade(Number(storedGrade));
+        setStudentIDNum(String(storedIDNum));
       } else {
         // Set state variables from stored data
         setFirstName(storedFirstName);
         setLastName(storedLastName);
         setGrade(Number(storedGrade));
+        setStudentIDNum(String(storedIDNum));
       }
     };
 
     fetchData();
   }, []);
 
-  const barcodeNumber = '942584'; //will come from a substring of the login username
-  const studentIDNum = '#' + barcodeNumber;
-  const gradeText = 'Grade: 11';
+ 
 
   useEffect(() => {
     const loadImage = async () => {
       const storedImageUrl = await getStoredImageUrl();
-
+    
       if (storedImageUrl !== imageUrl) {
-        await downloadAndSaveImage(imageUrl, imagePath);
-        storeImageUrl(imageUrl);
+        const imageData = await getImageUrlAPI();
+        await downloadAndSaveImage(imageData, imagePath);
+        storeImageUrl(imageData);
       }
-
+    
       setLocalImagePath(imagePath);
     };
+    
 
     RNFS.exists(imagePath)
-      .then((exists) => {
+      .then(async (exists) => {
         if (exists) {
           loadImage();
         } else {
-          downloadAndSaveImage(imageUrl, imagePath);
+          downloadAndSaveImage(await getImageUrlAPI(), imagePath);
           setLocalImagePath(imagePath);
         }
       })
@@ -141,10 +158,10 @@ const ID = () => {
         style={styles.IDCard}
         source={require('../assets/VRHS_ID_Rounded.png')} //api
       />
-      <Text style={styles.firstName}>Jayachandra</Text>
-      <Text style={styles.lastName}>Dasari</Text>
-      <Text style={styles.grade}>{gradeText}</Text>
-      <Text style={styles.IDNum}>{studentIDNum}</Text>
+      <Text style={styles.firstName}>{firstName}</Text>
+      <Text style={styles.lastName}>{lastName}</Text>
+      <Text style={styles.grade}>{grade}</Text>
+      <Text style={styles.IDNum}>{"#" + studentID}</Text>
       {localImagePath && (
         <Image
           style={styles.IDPic}
@@ -152,7 +169,7 @@ const ID = () => {
         />
       )}
       <View style={styles.barcodeContainer}>
-        <Barcode value={barcodeNumber} format="CODE39" height={50} />
+        <Barcode value={studentID.toString()} format="CODE39" height={50} />
       </View>
     </View>
   );
@@ -163,10 +180,10 @@ const ID = () => {
         style={styles.smartTag}
         source={require('../assets/SmartTagID.png')}
       />
-      <Text style={styles.firstName2}>JAYACHANDRA</Text>
-      <Text style={styles.lastName2}>DASARI</Text>
+      <Text style={styles.firstName2}>{firstName}</Text>
+      <Text style={styles.lastName2}>{lastName}</Text>
       <View style={styles.barcodeContainer2}>
-        <Barcode value={barcodeNumber} format="CODE39" height={60} />
+        <Barcode value={"944197"} format="CODE39" height={60} />
       </View>
     </View>
   );
