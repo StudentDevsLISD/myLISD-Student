@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
@@ -11,28 +11,21 @@ import Portal from './Portal';
 import IDs from './ID';
 import ClubHub from './ClubHub';
 import Community from './ComOp';
-
-
+import SplashScreen from './SplashScreen';
 
 const Tab = createBottomTabNavigator();
+
 const handleLogout = async (navigation: NavigationProp<any>) => {
   await AsyncStorage.removeItem('username');
   await AsyncStorage.removeItem('password');
-  navigation.navigate('Login')
-  // navigation.dispatch(
-  //   CommonActions.reset({
-  //     index: 0,
-  //     routes: [{ name: 'Login' }],
-  //   }),
-  // );
+  navigation.navigate('Login');
 };
-export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
+export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
 const Tab1Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
-  
 
   useEffect(() => {
     navigation.setOptions({
@@ -56,7 +49,7 @@ const Tab1Screen = () => {
   return (
     <>
       {isConnected ? (
-        <Home/>
+        <Home />
       ) : (
         <View style={styles.offlineContainer}>
           <Icon name="wifi" size={32} color="#888" />
@@ -66,9 +59,6 @@ const Tab1Screen = () => {
     </>
   );
 };
-
-
-
 
 const Tab2Screen = () => {
   const navigation = useNavigation();
@@ -92,16 +82,17 @@ const Tab2Screen = () => {
       unsubscribe();
     };
   }, [navigation]);
-  return(
+
+  return (
     <>
-    {isConnected ? (
-      <Portal/>
-    ):(
-      <View style={styles.offlineContainer}>
-      <Icon name="wifi" size={32} color="#888" />
-      <Text style={styles.offlineText}>No Internet Connection</Text>
-    </View>
-    )}
+      {isConnected ? (
+        <Portal />
+      ) : (
+        <View style={styles.offlineContainer}>
+          <Icon name="wifi" size={32} color="#888" />
+          <Text style={styles.offlineText}>No Internet Connection</Text>
+        </View>
+      )}
     </>
   );
 };
@@ -128,151 +119,161 @@ const Tab3Screen = () => {
       unsubscribe();
     };
   }, [navigation]);
-  return(
-    <IDs/>
-  );
+ 
+  return <IDs />;
 };
 
 const Tab4Screen = () => {
-  const navigation = useNavigation();
-  const [isConnected, setIsConnected] = useState(false);
+const navigation = useNavigation();
+const [isConnected, setIsConnected] = useState(false);
+useEffect(() => {
+  navigation.setOptions({
+    headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+  });
+  NetInfo.fetch().then(state => {
+    if (state.isConnected !== null) {
+      setIsConnected(state.isConnected);
+    }
+  });
+  const unsubscribe = NetInfo.addEventListener(state => {
+    if (state.isConnected !== null) {
+      setIsConnected(state.isConnected);
+    }
+  });
+  return () => {
+    unsubscribe();
+  };
+}, [navigation]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-    });
-    NetInfo.fetch().then(state => {
-      if (state.isConnected !== null) {
-        setIsConnected(state.isConnected);
-      }
-    });
-    const unsubscribe = NetInfo.addEventListener(state => {
-      if (state.isConnected !== null) {
-        setIsConnected(state.isConnected);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [navigation]);
-  return(
+return (
   <>
-    {isConnected? (
-    <ClubHub/>
+    {isConnected ? (
+      <ClubHub />
     ) : (
       <View style={styles.offlineContainer}>
-      <Icon name="wifi" size={32} color="#888" />
-      <Text style={styles.offlineText}>No Internet Connection</Text>
-    </View>
+        <Icon name="wifi" size={32} color="#888" />
+        <Text style={styles.offlineText}>No Internet Connection</Text>
+      </View>
     )}
-    </>
-  );
+  </>
+);
 };
 
 const Tab5Screen = () => {
-  const navigation = useNavigation();
-  const [isConnected, setIsConnected] = useState(false);
+const navigation = useNavigation();
+const [isConnected, setIsConnected] = useState(false);
+useEffect(() => {
+  navigation.setOptions({
+    headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+  });
+  NetInfo.fetch().then(state => {
+    if (state.isConnected !== null) {
+      setIsConnected(state.isConnected);
+    }
+  });
+  const unsubscribe = NetInfo.addEventListener(state => {
+    if (state.isConnected !== null) {
+      setIsConnected(state.isConnected);
+    }
+  });
+  return () => {
+    unsubscribe();
+  };
+}, [navigation]);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-    });
-    NetInfo.fetch().then(state => {
-      if (state.isConnected !== null) {
-        setIsConnected(state.isConnected);
-      }
-    });
-    const unsubscribe = NetInfo.addEventListener(state => {
-      if (state.isConnected !== null) {
-        setIsConnected(state.isConnected);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, [navigation]);
-  return(
+return (
   <>
     {isConnected ? (
-    <Community/>
+      <Community />
     ) : (
       <View style={styles.offlineContainer}>
-      <Icon name="wifi" size={32} color="#888" />
-      <Text style={styles.offlineText}>No Internet Connection</Text>
-    </View>
+        <Icon name="wifi" size={32} color="#888" />
+        <Text style={styles.offlineText}>No Internet Connection</Text>
+      </View>
     )}
   </>
-  );
+);
 };
 
 const tabBarOptions = {
-  headerTitle: () => (
-    <View style={{ alignItems: 'center' }}>
-      <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, }} />
-    </View>
-  ),
-  headerStyle: {
-    backgroundColor: '#005a87',
-    height: 115,
-  },
+headerTitle: () => (
+<View style={{ alignItems: 'center' }}>
+<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68 }} />
+</View>
+),
+headerStyle: {
+backgroundColor: '#005a87',
+height: 115,
+},
 };
 
-const AppRunner = () => (
-    <Tab.Navigator screenOptions={tabBarOptions}>
-      <Tab.Screen
-        name="Home"
-        component={Tab1Screen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="home" color={color} size={size} />
-          )}}
-      />
-      <Tab.Screen
-        name="Portal"
-        component={Tab2Screen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="map-marker" color={color} size={size} />
-          )}}
-      />
-      <Tab.Screen
-        name="IDs"
-        component={Tab3Screen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="credit-card" color={color} size={size} />
-          )}}
-      />
-      <Tab.Screen
-        name="Club Hub"
-        component={Tab4Screen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="group" color={color} size={size} />
-          )}}
-      />
-      <Tab.Screen
-        name="Community"
-        component={Tab5Screen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="bullhorn" color={color} size={size} />
-          )}}
-      />
-    </Tab.Navigator>
+const AppRunner = () => {
+const [isAppReady, setIsAppReady] = useState(false);
+useEffect(() => {
+  setTimeout(() => {
+    setIsAppReady(true);
+  }, 3000);
+}, []);
+
+if (!isAppReady) {
+  return <SplashScreen />;
+}
+
+return (
+  <Tab.Navigator screenOptions={tabBarOptions}>
+    <Tab.Screen
+      name="Home"
+      component={Tab1Screen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
+      }}
+    />
+    <Tab.Screen
+      name="Portal"
+      component={Tab2Screen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Icon name="map-marker" color={color} size={size} />,
+      }}
+    />
+    <Tab.Screen
+      name="IDs"
+      component={Tab3Screen}
+      options =
+      {{
+        tabBarIcon: ({ color, size }) => <Icon name="credit-card" color={color} size={size} />,
+      }}
+    />
+    <Tab.Screen
+      name="Club Hub"
+      component={Tab4Screen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Icon name="group" color={color} size={size} />,
+      }}
+    />
+    <Tab.Screen
+      name="Community"
+      component={Tab5Screen}
+      options={{
+        tabBarIcon: ({ color, size }) => <Icon name="bullhorn" color={color} size={size} />,
+      }}
+    />
+  </Tab.Navigator>
 );
+};
 
 const styles = StyleSheet.create({
-  offlineContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  offlineText: {
-    marginTop: 8,
-    fontSize: 16,
-  },
+offlineContainer: {
+flex: 1,
+alignItems: 'center',
+justifyContent: 'center',
+},
+offlineText: {
+marginTop: 8,
+fontSize: 16,
+},
 });
 
 export default AppRunner;
 
+ 
+        
