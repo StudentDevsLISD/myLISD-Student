@@ -87,7 +87,7 @@ const PortalButton = ({ schedule_id, disabled, initiallyLiked, theDate, title, o
       >
                 <FontAwesome
                     name={isLiked ? 'star' : 'star-o'}
-                    color={isLiked ? '#ffcd3c' : '#ffcd3c'}
+                    color={isLiked ? '#3495eb' : '#3495eb'}
                     size={30}
                 />
             </TouchableOpacity>  
