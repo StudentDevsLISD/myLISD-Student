@@ -87,7 +87,7 @@ const PortalButton = ({ schedule_id, disabled, initiallyLiked, theDate, title, o
       >
                 <FontAwesome
                     name={isLiked ? 'star' : 'star-o'}
-                    color={isLiked ? '#3495eb' : '#3495eb'}
+                    color={isLiked ? '#ffcd3c' : '#ffcd3c'}
                     size={30}
                 />
             </TouchableOpacity>  
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        marginHorizontal: 10,
+        marginHorizontal: 19,
         //marginVertical: 10,
         alignSelf: 'flex-end'
       },

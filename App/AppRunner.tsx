@@ -212,7 +212,7 @@ const [isAppReady, setIsAppReady] = useState(false);
 useEffect(() => {
   setTimeout(() => {
     setIsAppReady(true);
-  }, 3000);
+  }, 1500);
 }, []);
 
 if (!isAppReady) {
