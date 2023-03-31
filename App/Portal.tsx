@@ -197,11 +197,11 @@ const Portal = () => {
         <View style={styles.container}>
         <CalendarStrip
         //if there is an error on the daySelectionAnimation do npm install react-native-calendar-strip@latest
-          // daySelectionAnimation={{
-          //   type: 'background',
-          //   duration: 200,
-          //   highlightColor: '#3495eb',
-          // }}
+          daySelectionAnimation={{
+            type: 'background',
+            duration: 200,
+            highlightColor: '#3495eb',
+          }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
           style={{ height: 100, paddingTop: 15,}}
           calendarHeaderStyle={{ color: 'black' }}
@@ -213,7 +213,7 @@ const Portal = () => {
           selectedDate={startDate}
           onDateSelected={handleDayPress}
           useIsoWeekday={true}
-          //scrollable = {true}
+          scrollable = {true}
         />
           </View>
           <View style={styles.container}>
