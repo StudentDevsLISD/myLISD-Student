@@ -198,14 +198,17 @@ return (
 const tabBarOptions = {
 headerTitle: () => (
 <View style={{ alignItems: 'center' }}>
-<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68 }} />
+<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginTop: -15, marginLeft: -75,}} />
 </View>
 ),
 headerStyle: {
 backgroundColor: '#005a87',
-height: 115,
+height: 125,
 },
 };
+
+
+
 
 const AppRunner = () => {
 const [isAppReady, setIsAppReady] = useState(false);
@@ -244,10 +247,10 @@ return (
       }}
     />
     <Tab.Screen
-      name="Club Hub"
+      name="Feedback"
       component={Tab4Screen}
       options={{
-        tabBarIcon: ({ color, size }) => <Icon name="group" color={color} size={size} />,
+        tabBarIcon: ({ color, size }) => <Icon name="pencil" color={color} size={size} />,
       }}
     />
     <Tab.Screen
