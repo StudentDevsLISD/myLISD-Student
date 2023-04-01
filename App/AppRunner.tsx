@@ -247,10 +247,10 @@ return (
       }}
     />
     <Tab.Screen
-      name="Club Hub"
+      name="Feedback"
       component={Tab4Screen}
       options={{
-        tabBarIcon: ({ color, size }) => <Icon name="group" color={color} size={size} />,
+        tabBarIcon: ({ color, size }) => <Icon name="pencil" color={color} size={size} />,
       }}
     />
     <Tab.Screen
