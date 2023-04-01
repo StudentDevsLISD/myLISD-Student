@@ -324,7 +324,7 @@ googlebox:{
 appButtonContainer2: {
 elevation: 8,
 backgroundColor: 'white',
-borderRadius: 10,
+borderRadius: 15,
 paddingVertical: 13,
 paddingHorizontal: 12,
 marginHorizontal: 12,
