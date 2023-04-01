@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -236,8 +236,9 @@ const handleSignIn = useCallback(async () => {
   </TouchableOpacity>
   <ScrollView>
   {!isSignedIn && (
-        <TouchableOpacity onPress={handleSignIn}>
-          <Text>Sign in with Google</Text>
+        <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
+          <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
+          <Text style = {styles.google1}>Sign in with Google</Text>
         </TouchableOpacity>
       )}
 
@@ -303,6 +304,23 @@ marginTop: -30,
 height: 100,
 width: 250,
 },
+google1:{
+  marginLeft:85,
+  marginTop: -45,
+  fontSize: 25,
+  marginRight: 29,
+},
+googlebox:{
+  backgroundColor: '#ffffff',
+  borderRadius: 15,
+  paddingHorizontal: 20,
+  paddingRight: 20,
+  marginHorizontal: 10,
+  paddingBottom: 15,
+  width: '95%',
+  borderWidth: 2,
+  borderColor: '#ebe8e8',
+},
 appButtonContainer2: {
 elevation: 8,
 backgroundColor: 'white',
@@ -311,8 +329,10 @@ paddingVertical: 13,
 paddingHorizontal: 12,
 marginHorizontal: 12,
 marginBottom: 7,
-marginTop: 16,
+marginTop: -1,
 width: '93%',
+borderWidth: 2,
+borderColor: '#ebe8e8',
 },
 appButtonText2: {
 fontSize: 18,
