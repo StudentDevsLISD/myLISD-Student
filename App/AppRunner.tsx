@@ -204,6 +204,7 @@ headerTitle: () => (
 headerStyle: {
 backgroundColor: '#005a87',
 height: 125,
+// marginBottom: 0,
 },
 };
 

@@ -59,11 +59,12 @@ const ComOp = () => {
   const fetchEvents = async (calendarId: string, date: string, accessToken: any) => {
     setIsLoading(true);
     const timeMin = new Date(date);
+    timeMin.setDate(timeMin.getDate())
     timeMin.setHours(0, 0, 0, 0);
 
-    const timeMax = new Date(timeMin);
-    timeMax.setDate(timeMax.getDate() + 1);
-    timeMax.setHours(0, 0, 0, 0);
+    const timeMax = new Date(date);
+    timeMax.setDate(timeMax.getDate()+1);
+    timeMax.setHours(23, 59, 59, 999);
 
     const response = await axios.get(
       'https://www.googleapis.com/calendar/v3/users/me/calendarList',
