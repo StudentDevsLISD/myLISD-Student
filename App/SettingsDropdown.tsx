@@ -35,7 +35,8 @@ const SettingsDropdown: React.FC<Props> = ({ handleLogout }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginRight: 10,
+    marginRight: 20,
+    marginBottom:10,
     alignItems: 'center',
     justifyContent: 'center',
   },
