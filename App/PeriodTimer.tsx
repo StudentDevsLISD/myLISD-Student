@@ -15,7 +15,7 @@ const PeriodTimer = () => {
     startTime: string;
     endTime: string;
   }
-  
+    
   const periods: Period[] = [
     { name: 'School Starting in', startTime: '00:00', endTime: '08:15' },
     { name: '1st Period ends in', startTime: '08:15', endTime: '09:45' },

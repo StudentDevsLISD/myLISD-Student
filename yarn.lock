@@ -4201,11 +4201,6 @@ image-size@^0.6.0:
   resolved "https://registry.npmjs.org/image-size/-/image-size-0.6.3.tgz"
   integrity sha512-47xSUiQioGaB96nqtp5/q55m0aBQSQdyIloMOc/x+QVTDZLNmXE892IIDrJ0hM1A5vcNUDD5tDffkSP5lCaIIA==
 
-immutable@^4.0.0-rc.12:
-  version "4.2.4"
-  resolved "https://registry.npmjs.org/immutable/-/immutable-4.2.4.tgz"
-  integrity sha512-WDxL3Hheb1JkRN3sQkyujNlL/xRjAo3rJtaU5xeufUauG66JdMr32bLj4gF+vWl84DIA3Zxw7tiAjneYzRRw+w==
-
 import-fresh@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/import-fresh/-/import-fresh-2.0.0.tgz"
@@ -5760,7 +5755,7 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.6"
 
-moment@^2.24.0, moment@>=2.0.0:
+moment@^2.29.4, moment@>=2.0.0:
   version "2.29.4"
   resolved "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
@@ -6447,20 +6442,20 @@ react-native-calendar-strip@^2.2.6:
     prop-types "^15.6.0"
     recyclerlistview "^3.0.0"
 
-react-native-calendars@^1.1275.0:
-  version "1.1275.0"
-  resolved "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1275.0.tgz"
-  integrity sha512-3/3VX1WMUXi6kzsM2HLodLKVKXqiSlxbhhwDt5Ke+WgEVsr5stdyKK4JDZwJKOEEEqlHbRl+AMBgNBmof2/cyw==
+react-native-calendars@^1.1294.0:
+  version "1.1294.0"
+  resolved "https://registry.npmjs.org/react-native-calendars/-/react-native-calendars-1.1294.0.tgz"
+  integrity sha512-LJtXTdju9x4h3XjNS1gFne7TqH3BfylPEYyDJoCZFofID/lrjMr188SEIpL7Gu3aYfgi4EywZXXVSONWmC7scQ==
   dependencies:
     hoist-non-react-statics "^3.3.1"
-    immutable "^4.0.0-rc.12"
     lodash "^4.17.15"
     memoize-one "^5.2.1"
     prop-types "^15.5.10"
     react-native-swipe-gestures "^1.0.5"
+    recyclerlistview "^3.0.5"
     xdate "^0.8.0"
   optionalDependencies:
-    moment "^2.24.0"
+    moment "^2.29.4"
 
 react-native-codegen@^0.71.3:
   version "0.71.3"
@@ -6748,7 +6743,7 @@ recast@^0.20.4:
     source-map "~0.6.1"
     tslib "^2.0.1"
 
-recyclerlistview@^3.0.0:
+recyclerlistview@^3.0.0, recyclerlistview@^3.0.5:
   version "3.0.5"
   resolved "https://registry.npmjs.org/recyclerlistview/-/recyclerlistview-3.0.5.tgz"
   integrity sha512-JVHz13u520faEsbVqFrJOMuJjc4mJlOXODe5QdqAJHdl5/IpyYeo83uiHrpzxyLb8QtJ0889JMlDik+Z1Ed0QQ==
