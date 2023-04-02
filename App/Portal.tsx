@@ -203,7 +203,7 @@ const Portal = () => {
             highlightColor: '#3495eb',
           }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          style={{ height: 100, paddingTop: 15,}}
+          style={{ height: 100, paddingTop: "4.04%",}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
           dateNumberStyle={{ color: 'black' }}
@@ -220,6 +220,8 @@ const Portal = () => {
           <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
+          {/* {DO NOT DELETE JUST FOR TESTING PURPOSES TO SEE STYLING} */}
+          <PortalButton schedule_id ={1} /*doOne = {setUnscheduled}*/ disabled = {true} initiallyLiked = {false} theDate = {startDate} key = {1 } title = {"[RESTRICTED] - Intervention - Math - Francis, Saundra"} onPress={() => null} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
           <TextInput
             placeholder="Search"
             onChangeText={setSearchQuery}
@@ -231,9 +233,11 @@ const Portal = () => {
               paddingHorizontal: 10,
               paddingVertical: 5,
               marginVertical: 7,
-              height: 35,
+              height: "16%",
+              //35
               fontSize: 18,
-              marginHorizontal: 13,
+              marginHorizontal: "3.5%",
+              //13
               borderRadius: 0,
               shadowColor: '#ebe8e8',
               shadowOffset: { width: 0, height: 2 },
@@ -256,22 +260,29 @@ const Portal = () => {
     };
     const styles = StyleSheet.create({
       container: {
-        backgroundColor: "#ebe8e8"
+        backgroundColor: "#ebe8e8",
+        // marginBottom: -200,
       },
       newStyle: {
         flex: 2,
         backgroundColor: "#ebe8e8",
-        marginVertical: 0,
+        // marginTop: -200,
+        //padding: "1.2%"
         
       },
       appButtonContainer: {
         elevation: 8,
         backgroundColor: "white",
         borderRadius: 10,
-        paddingVertical: 13,
-        paddingLeft: 12,
-        marginHorizontal: 13,
-        marginVertical: 7,
+        paddingVertical: "3.5%",
+        //13
+        paddingLeft: "3.23%",
+        //12
+        paddingRight: 0,
+        marginHorizontal: "3.5%",
+        //13,
+        marginVertical: "1.88%",
+        //7
         flexDirection: "row",
         justifyContent: "space-between",
       },
@@ -279,16 +290,19 @@ const Portal = () => {
         elevation: 8,
         backgroundColor: "white",
         borderRadius: 10,
-        paddingVertical: 13,
-        paddingHorizontal: 12,
-        marginHorizontal: 12,
-        marginBottom: 7,
-        marginTop: 16
+        paddingVertical: "3.5%",
+        paddingHorizontal: "3.23%",
+        marginHorizontal: "3.23%",
+        marginBottom: "1.88%",
+        marginTop: 16/* "4.30%" */,
+        //16
       },
       appButtonText: {
         fontSize: 18,
         color: "#2e2d2d",
-        alignSelf: "flex-start",
+        alignSelf: "center",
+        width: "80%"
+        //marginRight: "10%",
       },
       appButtonText2: {
         fontSize: 18,
