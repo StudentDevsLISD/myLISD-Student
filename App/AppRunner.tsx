@@ -254,10 +254,10 @@ return (
       }}
     />
     <Tab.Screen
-      name="Community"
+      name="Calendar"
       component={Tab5Screen}
       options={{
-        tabBarIcon: ({ color, size }) => <Icon name="bullhorn" color={color} size={size} />,
+        tabBarIcon: ({ color, size }) => <Icon name="calendar" color={color} size={size} />,
       }}
     />
   </Tab.Navigator>
