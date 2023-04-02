@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -47,13 +47,17 @@ GoogleSignin.configure({
 
 const ComOp = () => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(true);
+
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().slice(0, 10));
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [events, setEvents] = useState<Event[]>([]);
   const [uniqueEvents, setUniqueEvents] = useState<Event[]>([]);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState<string | undefined>();
 
   const fetchEvents = async (calendarId: string, date: string, accessToken: any) => {
+    setIsLoading(true);
     const timeMin = new Date(date);
     timeMin.setHours(0, 0, 0, 0);
 
@@ -124,14 +128,15 @@ const ComOp = () => {
       await GoogleSignin.hasPlayServices();
       await GoogleSignin.signIn();
       const tokens = await GoogleSignin.getTokens();
-      return tokens.accessToken;
+      setAccessToken(tokens.accessToken);
+      //return tokens.accessToken;
     } catch (error) {
       console.error('Error signing in:', error);
     }
   };
   const handleSignIn = useCallback(async () => {
     try {
-      const accessToken = await signIn();
+      await signIn();
       setIsSignedIn(true);
       const fetchedEvents = await fetchEvents('primary', currentDate, accessToken);
       setUniqueEvents(removeDuplicateEvents(fetchedEvents));
@@ -161,10 +166,11 @@ const ComOp = () => {
       useEffect(() => {
       const fetchAndSetEvents = async () => {
       if (isSignedIn) {
-      const accessToken = await signIn();
+      // const accessToken = await signIn();
       const fetchedEvents = await fetchEvents('primary', selectedDate, accessToken);
       const uniqueEvents = removeDuplicateEvents(fetchedEvents);
       setEvents(uniqueEvents);
+      setIsLoading(false);
       }
       };
       fetchAndSetEvents();
@@ -184,20 +190,19 @@ const ComOp = () => {
       )}
       {isSignedIn && (
       <>
-      <Calendar onDayPress={handleDayPress} markedDates={{ [selectedDate]: { selected: true } }} />
-      <ScrollView>
-      {events.length > 0 ? (
-      events.map((event: any) => (
-      <View key={event.id} style={styles.eventContainer}>
-      <Text style={styles.eventText}>{event.summary}</Text>
-      </View>
-      ))
-      ) : (
-      <Text style={styles.noEventsText}>No events found for this day.</Text>
-      )}
-      </ScrollView>
+        <Calendar /* paddingTop = {80} */ onDayPress={handleDayPress} markedDates={{ [selectedDate]: { selected: true } }} />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <ScrollView>
+            {/* //...events list or "No events found" message */}
+            {events.map((event: { id: React.Key | null | undefined; summary: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+            <Text key={event.id}>{event.summary}</Text>
+            ))}
+          </ScrollView>
+        )}
       </>
-      )}
+    )}
       </View>
       );
       };

@@ -221,7 +221,7 @@ const Portal = () => {
           <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
           {/* {DO NOT DELETE JUST FOR TESTING PURPOSES TO SEE STYLING} */}
-          <PortalButton schedule_id ={1} /*doOne = {setUnscheduled}*/ disabled = {true} initiallyLiked = {false} theDate = {startDate} key = {1 } title = {"[RESTRICTED] - Intervention - Math - Francis, Saundra"} onPress={() => null} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+          <PortalButton schedule_id ={1} /*doOne = {setUnscheduled}*/ disabled = {true} initiallyLiked = {false} theDate = {startDate} key = {1 } title = {"[RESTRICTED] - Intervvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvention - Math - Francis, Saundra"} onPress={() => null} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
           <TextInput
             placeholder="Search"
             onChangeText={setSearchQuery}
