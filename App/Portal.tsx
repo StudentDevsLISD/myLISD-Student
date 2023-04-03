@@ -230,8 +230,9 @@ const Portal = () => {
               backgroundColor: '#ebe8e8',
               paddingHorizontal: 10,
               paddingVertical: 5,
-              marginVertical: 7,
-              height: "16%",
+              marginTop: 7,
+              marginBottom: 0,
+              height: 35,
               //35
               fontSize: 18,
               marginHorizontal: "3.5%",
