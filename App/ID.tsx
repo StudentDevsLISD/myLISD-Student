@@ -111,7 +111,7 @@
     //const [studentIDNum, setStudentIDNum] = useState<number | null>(null);
 
     //const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
-    const imageName = 'StudentID.jpg';
+    const imageName = 'StudentID.gif';
     const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
 
     useEffect(() => {
