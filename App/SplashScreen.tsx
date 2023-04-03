@@ -5,7 +5,7 @@ const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/lisd_white_2.jpg')}
+        source={require('../assets/SplashScreen.webp')}
         style={styles.logo}
       />
     </View>
@@ -17,10 +17,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   logo: {
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 400,
   },
 });
 

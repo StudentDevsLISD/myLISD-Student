@@ -12,6 +12,7 @@ import IDs from './ID';
 import ClubHub from './ClubHub';
 import Community from './ComOp';
 import SplashScreen from './SplashScreen';
+import { AuthProvider } from './AuthContext';
 
 const Tab = createBottomTabNavigator();
 
@@ -224,6 +225,7 @@ if (!isAppReady) {
 }
 
 return (
+  <AuthProvider>
   <Tab.Navigator screenOptions={tabBarOptions}>
     <Tab.Screen
       name="Home"
@@ -262,6 +264,7 @@ return (
       }}
     />
   </Tab.Navigator>
+  </AuthProvider>
 );
 };
 

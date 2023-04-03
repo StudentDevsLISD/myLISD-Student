@@ -6,6 +6,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env';
 import { Calendar } from 'react-native-calendars';
+import { useAuth } from './AuthContext';
 
 type GoogleSigninUser = {
   idToken: string;
@@ -53,7 +54,7 @@ const ComOp = () => {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [events, setEvents] = useState<Event[]>([]);
   const [uniqueEvents, setUniqueEvents] = useState<Event[]>([]);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const { isSignedIn, setIsSignedIn } = useAuth();
   const [accessToken, setAccessToken] = useState<string | undefined>();
 
   const fetchEvents = async (calendarId: string, date: string, accessToken: any) => {
