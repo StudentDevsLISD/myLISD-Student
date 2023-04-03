@@ -62,8 +62,8 @@
       const fileName = `StudentID.${extension}`;
       
       // Write the image data to the file with the correct extension and format
-      await RNFS.writeFile(imagePath + fileName, imageData, 'base64');
-      console.log('Image saved successfully:', imagePath + fileName);
+      await RNFetchBlob.fs.writeFile(`${imagePath}/${fileName}`, imageData, 'base64');
+      console.log('Image saved successfully:', `${imagePath}${fileName}`);
     } catch (error) {
       console.error('Error downloading and saving image:', error);
     }
@@ -148,7 +148,7 @@
         if (storedImageUrl !== imageUrl) {
           const imageData = await getImageUrlAPI();
           const base64ImageData = `data:image/gif;base64,${imageData}`;
-          await downloadAndSaveImage(imageData, RNFS.DocumentDirectoryPath + '/', mimeType);
+          await downloadAndSaveImage(imageData, RNFS.DocumentDirectoryPath + "/", mimeType);
           storeImageUrl(base64ImageData);
           setLocalImagePath(base64ImageData);
         } else {

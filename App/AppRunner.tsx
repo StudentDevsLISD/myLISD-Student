@@ -30,7 +30,7 @@ const Tab1Screen = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+      headerRight: () => <SettingsDropdown handleLogout={handleLogout} />,
     });
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
@@ -199,7 +199,7 @@ return (
 const tabBarOptions = {
 headerTitle: () => (
 <View style={{ alignItems: 'center' }}>
-<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginTop: -15, marginLeft: -75,}} />
+<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginBottom: 12, marginLeft: 0,}} />
 </View>
 ),
 headerStyle: {

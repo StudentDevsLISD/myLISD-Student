@@ -37,6 +37,13 @@ const Portal = () => {
     );
     //let likeIndex = 0;
     let buttonNames: any[] = [];
+    const onLikeButtonPressed = (title: string, isLiked: any) => {
+      if (isLiked) {
+        setButtonLikes([...buttonLikes, title]);
+      } else {
+        setButtonLikes(buttonLikes.filter(title => title !== title));
+      }
+    };
     const handleDayPress = (day: any) => {
       const selectedDate = new Date(day).toDateString();
       const newMarkedDates: { [date: string]: {} } = {};
@@ -45,7 +52,7 @@ const Portal = () => {
       setStartDate(new Date(day));
     };
     const setUnscheduled = async () => {
-      console.log("trying")
+      // console.log("trying")
       let likeIndex = 0;
       try {
         // await setFavorites();
@@ -156,7 +163,7 @@ const Portal = () => {
     useEffect(() => {
       setScheduledMeeting();
       setUnscheduled();
-    }, [scheduled]);
+    }, [scheduled, /* buttonLikes */, onLikeButtonPressed]);
 
     for (let i = 0; i < 7; i++) {
       const currentDate = new Date(startDate);
@@ -251,7 +258,7 @@ const Portal = () => {
            </View>
             <ScrollView style={styles.newStyle}>
               {filteredButtonTitles.map((title, index) => (
-                <PortalButton schedule_id ={MeetingDict?.[title]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title] || MandDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+                <PortalButton onLikeButtonPressed={onLikeButtonPressed} schedule_id ={MeetingDict?.[title]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title] || MandDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
               ))}
             </ScrollView>
             </>
