@@ -7,6 +7,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useAuth } from './AuthContext';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -25,7 +26,7 @@ const Home = () => {
   const [scheduled, setScheduled] = useState<string>();
   const [Lday, setLday] = useState('?');
   const [events, setEvents] = useState<{ id: string, summary: string }[]>([]);
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  const { isSignedIn, setIsSignedIn } = useAuth();
   const dateArray = [
     'Sunday',
     'Monday',
