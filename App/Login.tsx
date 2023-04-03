@@ -46,7 +46,7 @@ const Login = ({ navigation }: Props) => {
         await AsyncStorage.setItem('firstName', response.data.first)
         await AsyncStorage.setItem('lastName', response.data.last)
         await AsyncStorage.setItem('grade', response.data.grade)
-        
+        console.log("done")
         // Reset the navigation stack and navigate to the Home screen
         navigation.dispatch(
           CommonActions.reset({
