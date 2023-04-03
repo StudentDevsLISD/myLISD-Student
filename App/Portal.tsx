@@ -203,7 +203,7 @@ const Portal = () => {
             highlightColor: '#3495eb',
           }}
           calendarAnimation={{ type: 'sequence', duration: 30 }}
-          style={{ height: 100, paddingTop: "4.04%",}}
+          style={{ height: 100, paddingTop: "4.04%", paddingHorizontal: 5,}}
           calendarHeaderStyle={{ color: 'black' }}
           calendarColor={'white'}
           dateNumberStyle={{ color: 'black' }}
