@@ -101,9 +101,11 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 16,
     minWidth: 200,
+    backgroundColor: '#bfe1ff'
   },
   button: {
     marginTop: 16,
+    backgroundColor:'#3495eb',
   },
   error: {
     color: 'red',
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
     width: 250,
     marginTop: 5,
     alignSelf: "center",
+    marginBottom: 30,
   },
 });
 
