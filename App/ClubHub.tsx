@@ -8,6 +8,17 @@ import {
 } from 'react-native';
 import { Input, Button, Divider } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
+import { GoogleSignin, User } from '@react-native-google-signin/google-signin';
+import { GOOGLE_WEB_CLIENT_ID } from '@env';
+import { Calendar } from 'react-native-calendars';
+import { useAuth } from './AuthContext';
+
+GoogleSignin.configure({
+  iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
+  webClientId: GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: true,
+  scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
+});
 
 const ClubHub = () => {
   const [feedbackMessage, setFeedbackMessage] = useState('');

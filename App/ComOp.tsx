@@ -138,11 +138,14 @@ const ComOp = () => {
   };
   const handleSignIn = useCallback(async () => {
     try {
-      await signIn();
+      const a = await signIn();
+      if(a != null){
       setIsSignedIn(true);
       const fetchedEvents = await fetchEvents('primary', currentDate, accessToken);
       setUniqueEvents(removeDuplicateEvents(fetchedEvents));
       setEvents(uniqueEvents);
+      await AsyncStorage.setItem('accessToken', a);
+      }
       } catch (error) {
       console.error('Error signing in:', error);
       }
@@ -159,6 +162,7 @@ const ComOp = () => {
       };
       
       useEffect(() => {
+      // setAccessToken(await AsyncStorage.getItem("accessToken") ? await AsyncStorage.getItem("accessToken"): new Date().toISOString());  
       const interval = setInterval(() => {
       setCurrentDate(new Date().toISOString().slice(0, 10));
       }, 60000);

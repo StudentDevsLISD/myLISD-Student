@@ -136,6 +136,7 @@ const handleSignIn = useCallback(async () => {
     const fetchedEvents = await fetchEvents(calendarId, currentDate, accessToken);
     const uniqueEvents = removeDuplicateEvents(fetchedEvents);
     setEvents(uniqueEvents);
+    await AsyncStorage.setItem('accessToken', accessToken);
   }
 }, [currentDate]);
 
