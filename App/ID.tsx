@@ -323,6 +323,7 @@
       fontSize: 30,
       fontWeight: 'bold',
       textAlign: 'center',
+      textTransform: 'uppercase',
     },
     lastName2: {
       position: 'absolute',
@@ -334,6 +335,7 @@
       fontSize: 23,
       fontWeight: 'bold',
       textAlign: 'center',
+      textTransform: 'uppercase',
     },
     barcodeContainer2: {
       position: 'absolute',
