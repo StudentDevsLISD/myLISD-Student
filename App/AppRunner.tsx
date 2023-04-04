@@ -199,7 +199,7 @@ return (
 const tabBarOptions = {
 headerTitle: () => (
 <View style={{ alignItems: 'center' }}>
-<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginBottom: 12, marginLeft: 0,}} />
+<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginBottom: 12, marginLeft: -75,}} />
 </View>
 ),
 headerStyle: {
