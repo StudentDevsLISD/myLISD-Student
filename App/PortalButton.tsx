@@ -18,7 +18,7 @@ interface Props {
   initiallyLiked: boolean;
   disabled: boolean;
   schedule_id: number;
-  onLikeButtonPressed: any;
+  //onLikeButtonPressed: any;
 }
 
 const PortalButton = ({
@@ -30,7 +30,7 @@ const PortalButton = ({
   onPress,
   styleCont,
   styleText,
-  onLikeButtonPressed
+  //onLikeButtonPressed
 }: Props) => {
   const [isLiked, setIsLiked] = useState(initiallyLiked);
   const [isDisabled, setIsDisabled] = useState(disabled);
@@ -67,7 +67,7 @@ const PortalButton = ({
                 }
                 });
                 setIsLiked(true);
-                onLikeButtonPressed(title, true);
+                //onLikeButtonPressed(title, true);
                 } else {
                 const response = await axios.post(removeFavUrl, data, {
                 headers: {
@@ -81,7 +81,7 @@ const PortalButton = ({
                 }
                 });
                 setIsLiked(false);
-                onLikeButtonPressed(title, false);
+                //onLikeButtonPressed(title, false);
                 }
                 } catch (error) {
                 console.log(error);
