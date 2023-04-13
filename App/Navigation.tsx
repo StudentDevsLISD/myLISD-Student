@@ -29,21 +29,16 @@ const Navigation = () => {
       {isLoading ? (
         // You can show a loading indicator while checking AsyncStorage
         <Text>Loading...</Text>
-      ) : isAuthenticated ? (
-        // If the user is authenticated, navigate to the Home screen
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-            headerShown: false,
-            }}
-            />
-        </Stack.Navigator>
       ) : (
-        // If the user is not authenticated, show the Login screen
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
+        // Include the Login screen in both cases
+        <Stack.Navigator initialRouteName={isAuthenticated ? "Home" : "Login"}>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
           <Stack.Screen
             name="Home"
             component={Home}
@@ -55,6 +50,6 @@ const Navigation = () => {
       )}
     </NavigationContainer>
   );
-}
+};
 
 export default Navigation;
