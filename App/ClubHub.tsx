@@ -13,17 +13,10 @@ import { GOOGLE_WEB_CLIENT_ID } from '@env';
 import { Calendar } from 'react-native-calendars';
 import { useAuth } from './AuthContext';
 
-GoogleSignin.configure({
-  iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
-  webClientId: GOOGLE_WEB_CLIENT_ID,
-  offlineAccess: true,
-  scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
-});
+import axios from 'axios';
 
 const ClubHub = () => {
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [showPicker, setShowPicker] = useState(false);
-
 
   const handleFeedbackMessageChange = (value: React.SetStateAction<string>) => {
     setFeedbackMessage(value);
@@ -31,12 +24,31 @@ const ClubHub = () => {
 
   const handleSubmit = () => {
     // Handle form submission here
-    console.log( feedbackMessage);
+    console.log(feedbackMessage);
+
+    // Send data to Google Forms API
+    const formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfaz1RhM1BQ7Blhltd_gRCAstPiWJoUfVyf1bwDAe7a4oIs2A/formResponse';
+    const fieldId = '770734773';
+    const formData = {
+      'entry.770734773': feedbackMessage,
+    };
+
+    axios.post(formUrl, new URLSearchParams(formData).toString(), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    
 
     // Clear form fields
     setFeedbackMessage('');
   };
-
 
   return (
     <View style={styles.container}>
@@ -44,7 +56,6 @@ const ClubHub = () => {
         label="Feedback Message"
         placeholder="Enter your feedback here"
         value={feedbackMessage}
-        // inputStyle = {width = {100}}
         onChangeText={handleFeedbackMessageChange}
         multiline
       />
