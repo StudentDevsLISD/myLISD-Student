@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, ProgressBarAndroid} from 'react-native';
+import { Text, View, StyleSheet, Platform, ProgressBarAndroid, ProgressViewIOS} from 'react-native';
 import * as Progress from 'react-native-progress';
 
 const PeriodTimer = () => {
@@ -75,7 +75,11 @@ const PeriodTimer = () => {
           // color="#0066cc"
           //style={styles.progressBar}
         /> */}
-        <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.progressBar} />
+{Platform.OS === 'android' ?
+  <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.progressBar} />
+  :
+  <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.progressBar} />
+}
       </View>
     </View>
   );
