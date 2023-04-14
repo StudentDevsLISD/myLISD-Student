@@ -42,6 +42,7 @@ const Home = () => {
       await GoogleSignin.hasPlayServices();
       await GoogleSignin.signIn();
       const tokens = await GoogleSignin.getTokens();
+      await AsyncStorage.setItem('asyncAccessToken', tokens.accessToken);
       return tokens.accessToken;
     } catch (error) {
       console.error('Error signing in:', error);
@@ -142,8 +143,9 @@ const handleSignIn = useCallback(async () => {
 
   const getDate = async () => {
     try {
+      const campus = await AsyncStorage.getItem("campus");
       const data = {
-        campus: '003',
+        campus: campus?.toString(),
         date:
           currentDate.toLocaleString('default', { year: 'numeric' }) +
           '-' +
@@ -171,8 +173,9 @@ const handleSignIn = useCallback(async () => {
   const getScheduled = async () => {
     try {
       const idNum = await AsyncStorage.getItem('studentID');
+      const campus = await AsyncStorage.getItem("campus");
       const data = {
-        campus: '003',
+        campus: campus?.toString,
         student: idNum,
         date:
           currentDate.toLocaleString('default', { year: 'numeric' }) +

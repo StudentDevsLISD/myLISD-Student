@@ -50,8 +50,9 @@ const Portal = () => {
         // await setFavorites();
 
         const idNum = await AsyncStorage.getItem('studentID');
+        const campus = await AsyncStorage.getItem("campus");
         const data = { 
-          campus: "003", 
+          campus: campus?.toString(), 
           student: idNum, 
           date: startDate.toLocaleString("default", { year: "numeric" }) + "-" + 
           startDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
@@ -119,8 +120,9 @@ const Portal = () => {
     const setScheduledMeeting = async () => {
       try {
         const idNum = await AsyncStorage.getItem('studentID');
+        const campus = await AsyncStorage.getItem("campus");
         const data = { 
-          campus: "003", 
+          campus: campus?.toString(), 
           student: idNum, 
           date: startDate.toLocaleString("default", { year: "numeric" }) + "-" + 
           startDate.toLocaleString("default", { month: "2-digit" }) + "-"  +
