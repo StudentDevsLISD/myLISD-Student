@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
+import CalendarEvent from './CalendarEvent';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -25,8 +26,10 @@ const Home = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [scheduled, setScheduled] = useState<string>();
   const [Lday, setLday] = useState('?');
-  const [events, setEvents] = useState<{ id: string, summary: string }[]>([]);
+  const [events, setEvents] = useState<{ id: string, summary: string ,start: string, end: string}[]>([]);
   const { isSignedIn, setIsSignedIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
   const dateArray = [
     'Sunday',
     'Monday',
@@ -60,38 +63,58 @@ const Home = () => {
   };
 
 
-const fetchEvents = async (calendarId: string | number | boolean, date: string | number | Date, accessToken: any) => {
-  const timeMin = new Date(date);
-  timeMin.setHours(0, 0, 0, 0);
-
-  const timeMax = new Date(timeMin);
-  timeMax.setDate(timeMax.getDate());
-  timeMax.setHours(23, 59, 59, 999);
-
-  const response = await axios.get(
-    'https://www.googleapis.com/calendar/v3/users/me/calendarList',
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+  const fetchEvents = async (calendarId: string | number | boolean, date: string | number | Date, accessToken: any) => {
+    setIsLoading(true);
+    const timeMin = new Date(date);
+    timeMin.setHours(0, 0, 0, 0);
+  
+    const timeMax = new Date(timeMin);
+    timeMax.setDate(timeMax.getDate());
+    timeMax.setHours(23, 59, 59, 999);
+    
+    const response = await axios.get(
+      'https://www.googleapis.com/calendar/v3/users/me/calendarList',
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          minAccessRole: 'freeBusyReader', // fetch all calendars the user can see free/busy information for
+        },
       },
-      params: {
-        minAccessRole: 'freeBusyReader', // fetch all calendars the user can see free/busy information for
-      },
-    },
-  );
-
-  const calendarList = response.data.items;
-  const events = [];
-
-  for (let i = 0; i < calendarList.length; i++) {
-    const calendar = calendarList[i];
-    if (calendar.id === 'primary') {
-      // skip the primary calendar since we are already fetching events from it
-      continue;
+    );
+  
+    const calendarList = response.data.items;
+    const events = [];
+  
+    for (let i = 0; i < calendarList.length; i++) {
+      const calendar = calendarList[i];
+      if (calendar.id === 'primary') {
+        // skip the primary calendar since we are already fetching events from it
+        continue;
+      }
+  
+      const calendarEvents = await axios.get(
+        `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            timeMin: timeMin.toISOString(),
+            timeMax: timeMax.toISOString(),
+            singleEvents: true,
+            orderBy: 'startTime',
+          },
+        },
+      );
+  
+      events.push(...calendarEvents.data.items);
     }
-
-    const calendarEvents = await axios.get(
-      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events`,
+  
+    // fetch events from the primary calendar
+    const primaryEvents = await axios.get(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent('primary')}/events`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -104,42 +127,42 @@ const fetchEvents = async (calendarId: string | number | boolean, date: string |
         },
       },
     );
+  
+    events.push(...primaryEvents.data.items);
+  
+    const formattedEvents = events.map((event: any) => ({
+      id: event.id,
+      summary: event.summary,
+      start: event.start.dateTime || event.start.date,
+      end: event.end.dateTime || event.end.date,
+    }));
+  
+    const sortedEvents = formattedEvents.sort((a, b) => {
+      const aStart = new Date(a.start);
+      const bStart = new Date(b.start);
+      return aStart.getTime() - bStart.getTime();
+    });
+    setIsLoading(false);
+    return sortedEvents;
+    
+  };
+  
+  
 
-    events.push(...calendarEvents.data.items);
-  }
-
-  // fetch events from the primary calendar
-  const primaryEvents = await axios.get(
-    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent('primary')}/events`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      params: {
-        timeMin: timeMin.toISOString(),
-        timeMax: timeMax.toISOString(),
-        singleEvents: true,
-        orderBy: 'startTime',
-      },
-    },
-  );
-
-  events.push(...primaryEvents.data.items);
-
-  return events;
-};
-
-const handleSignIn = useCallback(async () => {
-  const accessToken = await signIn();
-  if (accessToken) {
-    setIsSignedIn(true);
-    const calendarId = 'primary';
-    const fetchedEvents = await fetchEvents(calendarId, currentDate, accessToken);
-    const uniqueEvents = removeDuplicateEvents(fetchedEvents);
-    setEvents(uniqueEvents);
-    await AsyncStorage.setItem('accessToken', accessToken);
-  }
-}, [currentDate]);
+  const handleSignIn = useCallback(async () => {
+    const accessToken = await signIn();
+    if (accessToken) {
+      setIsSignedIn(true);
+      const calendarId = 'primary';
+      setIsLoading(true); // Set isLoading to true before fetching events
+      const fetchedEvents = await fetchEvents(calendarId, currentDate, accessToken);
+      const uniqueEvents = removeDuplicateEvents(fetchedEvents);
+      setEvents(uniqueEvents);
+      await AsyncStorage.setItem('accessToken', accessToken);
+      setIsLoading(false); // Set isLoading to false after fetching events
+    }
+  }, [currentDate]);
+  
 
   const getDate = async () => {
     try {
@@ -239,23 +262,44 @@ const handleSignIn = useCallback(async () => {
         : 'No class scheduled for ' + currentDate.toDateString()}
     </Text>
   </TouchableOpacity>
-  <ScrollView>
+  <Text style = {styles.work}>
+    Today's Work
+  </Text>
+  <>
+  
   {!isSignedIn && (
         <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
           <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
           <Text style = {styles.google1}>Sign in with Google</Text>
         </TouchableOpacity>
       )}
-
-      {events.map((event: { id: React.Key | null | undefined; summary: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
-        <Text key={event.id}>{event.summary}</Text>
-      ))}
+  <ScrollView style={styles.newStyle}>
+  {isLoading ? (
+    <ActivityIndicator size="large" color="#007AFF" />
+  ) : (
+    events.map((event) => (
+      <CalendarEvent
+        id={event.id}
+        summary={event.summary}
+        start={event.start}
+        end={event.end}
+      />
+    ))
+  )}
 </ScrollView>
+
+</>
 </View>
 );
 };
 
 const styles = StyleSheet.create({
+work:{
+  fontSize: 24,
+  alignSelf: "center",
+  marginVertical: 8,
+  marginBottom: 12,
+},
 container: {
 flex: 1,
 alignItems: 'flex-start',
@@ -308,6 +352,13 @@ marginBottom: 0,
 marginTop: -30,
 height: 100,
 width: 250,
+},
+newStyle: {
+  flex: 2,
+  width: "100%"
+  // marginTop: -200,
+  //padding: "1.2%"
+  
 },
 google1:{
   marginLeft:85,
