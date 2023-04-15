@@ -10,6 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
 
+
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
 const getsched = mainurl + '/getScheduledMeeting';
