@@ -13,6 +13,7 @@ import ClubHub from './ClubHub';
 import Community from './ComOp';
 import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
+import SettingsScreen from './SettingsDropdown';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,9 +30,9 @@ const Tab1Screen = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={handleLogout} />,
-    });
+    // navigation.setOptions({
+    //   headerRight: () => <SettingsDropdown handleLogout={handleLogout} />,
+    // });
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
@@ -66,9 +67,9 @@ const Tab2Screen = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-    });
+    // navigation.setOptions({
+    //   headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    // });
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
@@ -103,9 +104,9 @@ const Tab3Screen = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-    });
+    // navigation.setOptions({
+    //   headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+    // });
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
@@ -128,9 +129,9 @@ const Tab4Screen = () => {
 const navigation = useNavigation();
 const [isConnected, setIsConnected] = useState(false);
 useEffect(() => {
-  navigation.setOptions({
-    headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-  });
+  // navigation.setOptions({
+  //   headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+  // });
   NetInfo.fetch().then(state => {
     if (state.isConnected !== null) {
       setIsConnected(state.isConnected);
@@ -164,9 +165,9 @@ const Tab5Screen = () => {
 const navigation = useNavigation();
 const [isConnected, setIsConnected] = useState(false);
 useEffect(() => {
-  navigation.setOptions({
-    headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-  });
+  // navigation.setOptions({
+  //   headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
+  // });
   NetInfo.fetch().then(state => {
     if (state.isConnected !== null) {
       setIsConnected(state.isConnected);
@@ -185,7 +186,7 @@ useEffect(() => {
 return (
   <>
     {isConnected ? (
-      <Community />
+      <SettingsScreen handleLogout={handleLogout}/>
     ) : (
       <View style={styles.offlineContainer}>
         <Icon name="wifi" size={32} color="#888" />

@@ -17,7 +17,7 @@ const PeriodTimer = () => {
   }
     
   const periods: Period[] = [
-    { name: 'School Starting in', startTime: '00:00', endTime: '08:15' },
+    { name: 'No school right now', startTime: '00:00', endTime: '08:15' },
     { name: '1st Period ends in', startTime: '08:15', endTime: '09:45' },
     { name: 'Passing Period ends in', startTime: '09:45', endTime: '09:50' },
     { name: '2nd Period ends in', startTime: '09:50', endTime: '11:20' },
@@ -26,7 +26,7 @@ const PeriodTimer = () => {
     { name: '3rd Period ends in', startTime: '12:00', endTime: '14:00' },
     { name: 'Passing Period ends in', startTime: '14:00', endTime: '14:05' },
     { name: '4th Period ends in', startTime: '14:05', endTime: '15:35' },
-    { name: 'Next Day in', startTime: '15:35', endTime: '23:59' },
+    { name: 'No school right now', startTime: '15:35', endTime: '23:59' },
   ];
 
   const getRemainingTime = (period: Period) => {
