@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import { ScrollView, View, StyleSheet, Text, TextInput, TouchableOpacity} from 'react-native';
+import { ScrollView, View, StyleSheet, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,11 @@ interface MeetingDictionary {
 
 interface StringBoolDictionary {
   [key: string]: boolean;
+}
+
+interface RenderItemProps {
+  item: string;
+  index: number;
 }
 
 const Portal = () => {
@@ -193,6 +198,10 @@ const Portal = () => {
         }
       };
 
+      const renderItem = ({ item, index }: RenderItemProps) => (
+        <PortalButton /* onLikeButtonPressed={onLikeButtonPressed} */ schedule_id ={MeetingDict?.[item]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[item] || FullDict?.[item] || MandDict?.[item]} initiallyLiked = {buttonLikes.includes(item)} theDate = {startDate} key = {index} title = {item.toString()} onPress={() => handleSchedule(item)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+      );
+
       return (
         <>
         <View style={styles.container}>
@@ -250,11 +259,12 @@ const Portal = () => {
             placeholderTextColor="#2e2d2d"
           />
            </View>
-            <ScrollView style={styles.newStyle}>
-              {filteredButtonTitles.map((title, index) => (
-                <PortalButton /* onLikeButtonPressed={onLikeButtonPressed} */ schedule_id ={MeetingDict?.[title]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[title] || FullDict?.[title] || MandDict?.[title]} initiallyLiked = {buttonLikes.includes(title)} theDate = {startDate} key = {index} title = {title.toString()} onPress={() => handleSchedule(title)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
-              ))}
-            </ScrollView>
+           <FlatList
+            style={styles.newStyle}
+            data={filteredButtonTitles}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            />
             </>
       );
     };
