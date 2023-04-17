@@ -70,12 +70,16 @@ const Login = ({ navigation }: Props) => {
       <Image
           style={styles.logo}
           source={require('../assets/lisd.png')}
-        />   
+        />  
+      <Text style ={styles.work}>
+        Please use your LISD username and password
+        </Text>   
       <TextInput
         label="Username"
-        value={username}
+        value={ username}
         onChangeText={setUsername}
-        style={styles.input}
+        style={styles.input} 
+        secureTextEntry={false}
       />
       <TextInput
         label="Password"
@@ -120,6 +124,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 30,
   },
+  work: {
+  fontSize: 18,
+  alignSelf: "center",
+  textAlign: "center",
+  marginTop: -16,
+  marginBottom: 18,
+  }
 });
 
 export default Login;
