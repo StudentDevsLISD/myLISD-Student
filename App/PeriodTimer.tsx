@@ -30,6 +30,9 @@ const PeriodTimer = () => {
   ];
 
   const getRemainingTime = (period: Period) => {
+    if (period.name === 'No school right now') {
+      return '_ _ _ _ _ _ _ _';
+    }
     const now = currentTime.getTime();
     const [hours, minutes] = period.endTime.split(':').map((time) => parseInt(time));
     const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), hours, minutes).getTime();
