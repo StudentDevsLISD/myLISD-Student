@@ -19,7 +19,7 @@ interface Props {
   disabled: boolean;
   schedule_id: number;
   //onLikeButtonPressed: any;
-}
+} 
 
 const PortalButton = ({
   schedule_id,
