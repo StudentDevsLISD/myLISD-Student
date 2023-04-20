@@ -47,6 +47,7 @@ const Login = ({ navigation }: Props) => {
         await AsyncStorage.setItem('lastName', response.data.last)
         await AsyncStorage.setItem('grade', response.data.grade)
         await AsyncStorage.setItem('campus', response.data.campus);
+        await AsyncStorage.setItem('subcampus', response.data.subcampus ? response.data.subcampus : "");
         console.log("done")
         // Reset the navigation stack and navigate to the Home screen
         navigation.dispatch(

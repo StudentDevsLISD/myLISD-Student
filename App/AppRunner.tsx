@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -65,17 +65,51 @@ const Tab1Screen = () => {
 const Tab2Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
+  const [campus, setCampus] = useState("");
+  const [school, setSchool] = useState("");
+  const [subCampus, setSubCampus] = useState("");
+  const [isMainCampusSelected, setIsMainCampusSelected] = useState(true);
 
   useEffect(() => {
-    // navigation.setOptions({
-    //   headerRight: () => <SettingsDropdown handleLogout={() => handleLogout(navigation)} />,
-    // });
-    NetInfo.fetch().then(state => {
+    const setTheCampuses = async () => {
+      var x = await AsyncStorage.getItem("campus");
+      var y = await AsyncStorage.getItem("subcampus");
+      setCampus(x ?? "");
+      setSubCampus(y ?? x ?? "");
+
+      // Set the initial value of school based on isMainCampusSelected
+      setSchool(isMainCampusSelected ? (x ?? "") : (y ?? x ?? ""));
+    };
+    setTheCampuses();
+  }, []);
+
+
+  // Add this function to switch between main and sub campus
+  const switchCampus = () => {
+    setIsMainCampusSelected(!isMainCampusSelected);
+    setSchool(isMainCampusSelected ? subCampus : campus);
+  };
+
+  // Update the headerRight option to include the switchCampus function
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={switchCampus}>
+          <Text style={{ marginRight: 10 }}>
+            {isMainCampusSelected ? "Switch to Sub Campus" : "Switch to Main Campus"}
+          </Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, isMainCampusSelected]);
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
       }
     });
-    const unsubscribe = NetInfo.addEventListener(state => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
       }
@@ -83,12 +117,19 @@ const Tab2Screen = () => {
     return () => {
       unsubscribe();
     };
-  }, [navigation]);
+  }, [navigation, school]);
 
+  if (campus === "" || school === "") {
+    return (
+      <View style={styles.offlineContainer}>
+        <ActivityIndicator size="large" color="#005a87" />
+      </View>
+    );
+  }
   return (
     <>
       {isConnected ? (
-        <Portal />
+        <Portal campus={school} />
       ) : (
         <View style={styles.offlineContainer}>
           <Icon name="wifi" size={32} color="#888" />
@@ -98,6 +139,8 @@ const Tab2Screen = () => {
     </>
   );
 };
+
+
 
 const Tab3Screen = () => {
   const navigation = useNavigation();
@@ -200,7 +243,7 @@ return (
 const tabBarOptions = {
 headerTitle: () => (
 <View style={{ alignItems: 'center' }}>
-<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 278, height: 68, marginBottom: 12, marginLeft: -75,}} />
+<Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 12, marginLeft: -100,}} />
 </View>
 ),
 headerStyle: {

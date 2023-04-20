@@ -10,6 +10,9 @@ const schedurl = mainurl + "/portalClass";
 const getsched = mainurl + "/getScheduledMeeting"
 const getFavUrl = mainurl + "/getFavorites";
 
+interface Props {
+  campus: string;
+}
 interface MeetingDictionary {
   [key: string]: number;
 }
@@ -23,7 +26,7 @@ interface RenderItemProps {
   index: number;
 }
 
-const Portal = () => {
+const Portal = ({campus}:Props) => {
     const [startDate, setStartDate] = useState(new Date());
     const datePortal = startDate.toDateString();
     const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
@@ -55,7 +58,6 @@ const Portal = () => {
         // await setFavorites();
 
         const idNum = await AsyncStorage.getItem('studentID');
-        const campus = await AsyncStorage.getItem("campus");
         const data = { 
           campus: campus?.toString(), 
           student: idNum, 
@@ -125,7 +127,6 @@ const Portal = () => {
     const setScheduledMeeting = async () => {
       try {
         const idNum = await AsyncStorage.getItem('studentID');
-        const campus = await AsyncStorage.getItem("campus");
         const data = { 
           campus: campus?.toString(), 
           student: idNum, 
