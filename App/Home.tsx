@@ -167,7 +167,7 @@ const Home = () => {
 
   const getDate = async () => {
     try {
-      const campus = await AsyncStorage.getItem("campus");
+      const campus = await AsyncStorage.getItem('campus');
       const data = {
         campus: campus?.toString(),
         date:
@@ -188,11 +188,12 @@ const Home = () => {
           APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
         },
       });
-      setLday(response.data.day);
+      setLday(response.data.day || '-'); // Set "-" if response.data.day is falsy
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const getScheduled = async () => {
     try {
