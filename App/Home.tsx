@@ -26,7 +26,7 @@ const Home = () => {
   const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [scheduled, setScheduled] = useState<string>();
-  const [Lday, setLday] = useState('?');
+  const [Lday, setLday] = useState('-');
   const [events, setEvents] = useState<{ id: string, summary: string ,start: string, end: string}[]>([]);
   const { isSignedIn, setIsSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
