@@ -8,4 +8,5 @@ const CustomText = (props) => {
   return <Text style={mergedStyle} {...rest} />;
 };
 
+
 export default CustomText;

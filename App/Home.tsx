@@ -34,6 +34,7 @@ const Home = () => {
   const { isSignedIn, setIsSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
+    
   const dateArray = [
     'Sunday',
     'Monday',
