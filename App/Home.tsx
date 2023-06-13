@@ -10,7 +10,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import CustomText from './CustomText';
 
 
 
@@ -252,31 +251,31 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-     <CustomText style={styles.letter_day}>{Lday}</CustomText>
-  <CustomText style={styles.letter_day_2}>{'day'}</CustomText>
-  <CustomText style={styles.date}>
+     <Text style={styles.letter_day}>{Lday}</Text>
+  <Text style={styles.letter_day_2}>{'day'}</Text>
+  <Text style={styles.date}>
     {currentDate.toISOString().substring(5, 7) +
       '/' +
       currentDate.toISOString().substring(8, 10)}
-  </CustomText>
-  <CustomText style={styles.day}>{dateArray[currentDate.getDay()]}</CustomText>
+  </Text>
+  <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
   <PeriodTimer />
   <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
-    <CustomText style={styles.appButtonCustomText2}>
+    <Text style={styles.appButtonText2}>
       {scheduled
         ? 'Scheduled: ' + scheduled
         : 'No class scheduled for ' + currentDate.toDateString()}
-    </CustomText>
+    </Text>
   </TouchableOpacity>
-  <CustomText style = {styles.work}>
+  <Text style = {styles.work}>
     Today's Work
-  </CustomText>
+  </Text>
   <>
   
   {!isSignedIn && (
         <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
           <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
-          <CustomText style = {styles.google1}>Sign in with Google</CustomText>
+          <Text style = {styles.google1}>Sign in with Google</Text>
         </TouchableOpacity>
       )}
   <ScrollView style={styles.newStyle}>
@@ -410,7 +409,7 @@ borderColor: '#ebe8e8',
 fontWeight: 'normal',
 
 },
-appButtonCustomText2: {
+appButtonText2: {
 fontSize: 18,
 color: 'black',
 alignSelf: 'center',
