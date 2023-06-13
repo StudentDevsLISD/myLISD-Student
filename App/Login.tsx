@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { GOOGLE_WEB_CLIENT_ID } from '@env';
 
 
 const loginurl = "https://api.leanderisd.org/portal/login";
@@ -18,10 +19,38 @@ type Props = {
   navigation: NavigationProp<RootStackParamList, 'Home'>;
 };
 // type Props = StackScreenProps<RootStackParamList, 'Home'>;
+GoogleSignin.configure({
+  iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
+  webClientId: GOOGLE_WEB_CLIENT_ID,
+  offlineAccess: true,
+  scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
+});
 const Login = ({ navigation }: Props) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signIn();
+      const tokens = await GoogleSignin.getTokens();
+      await AsyncStorage.setItem('asyncAccessToken', tokens.accessToken);
+      return tokens.accessToken;
+    } catch (error) {
+      console.error('Error signing in:', error);
+    }
+  };
+  const handleSignIn = useCallback(async () => {
+    const accessToken = await signIn();
+    if (accessToken) {
+      setIsSignedIn(true);
+      const calendarId = 'primary';
+      // setIsLoading(true); // Set isLoading to true before fetching events
+      handleLogin();
+    }
+  }, [currentDate]);
 
   const handleLogin = async () => {
     try {
@@ -93,6 +122,10 @@ const Login = ({ navigation }: Props) => {
       <Button mode="contained" onPress={handleLogin} style={styles.button}>
         Login
       </Button>
+      <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
+          <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
+          <Text style = {styles.google1}>Sign in with Google</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -131,7 +164,24 @@ const styles = StyleSheet.create({
   textAlign: "center",
   marginTop: -16,
   marginBottom: 18,
-  }
+  },
+  google1:{
+    marginLeft:85,
+    marginTop: -45,
+    fontSize: 25,
+    marginRight: 29,
+  },
+  googlebox:{
+    backgroundColor: '#ffffff',
+    borderRadius: 15,
+    paddingHorizontal: 20,
+    paddingRight: 20,
+    marginHorizontal: 10,
+    paddingBottom: 15,
+    width: '95%',
+    borderWidth: 2,
+    borderColor: '#ebe8e8',
+  },
 });
 
 export default Login;

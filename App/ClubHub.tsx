@@ -51,7 +51,7 @@ const ClubHub = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <Input
         label="Feedback Message"
         placeholder="Enter your feedback here"
@@ -61,6 +61,7 @@ const ClubHub = () => {
       />
       <Button title="Submit" onPress={handleSubmit} />
     </View>
+    
   );
 };
 

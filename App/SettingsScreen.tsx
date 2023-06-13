@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { HandleLogout } from './AppRunner';
-
+import ClubHub from './ClubHub';
 type Props = {
   handleLogout: HandleLogout;
 };
@@ -21,6 +21,7 @@ const SettingsScreen: React.FC<Props> = ({ handleLogout }) => {
         <Icon name="sign-out" size={24} color="#fff" />
         <Text style={styles.logoutButtonText}>Log Out</Text>
       </TouchableOpacity>
+      <ClubHub/>
     </View>
   );
 };
