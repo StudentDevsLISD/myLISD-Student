@@ -16,6 +16,8 @@ import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 import Grades from './Grades';
 
+
+
 const Tab = createBottomTabNavigator();
 
 const handleLogout = async (navigation: NavigationProp<any>) => {

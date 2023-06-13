@@ -9,6 +9,8 @@ import { GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+
 
 
 const mainurl = 'https://api.leanderisd.org/portal';
@@ -31,6 +33,7 @@ const Home = () => {
   const { isSignedIn, setIsSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
+    
   const dateArray = [
     'Sunday',
     'Monday',
@@ -309,56 +312,64 @@ justifyContent: 'flex-start',
 backgroundColor: 'ebe8e8',
 },
 letter_day: {
+
 backgroundColor: 'white',
 paddingVertical: 6,
 paddingHorizontal: 34,
 marginHorizontal: 20,
 marginBottom: 7,
 marginTop: 20,
-fontSize: 80,
+fontSize: RFPercentage(10),
 borderWidth: 2,
 borderColor: '#ebe8e8',
 borderRadius: 15,
 paddingBottom: 18,
 paddingTop: -10,
 overflow: 'hidden',
+fontWeight: 'normal',
+
 },
 letter_day_2: {
 fontSize: 16,
 paddingVertical: 0,
-paddingHorizontal: 26,
+paddingHorizontal: 25,
 marginHorizontal: 39,
 marginBottom: 0,
 marginTop: -37,
 height: 100,
 width: 250,
+fontWeight: 'normal',
+
 },
 date: {
-backgroundColor: '#fff',
-marginLeft: 158,
-marginTop: -186,
-fontSize: 66,
-borderWidth: 2,
-borderColor: '#ebe8e8',
-borderRadius: 15,
-paddingBottom: 34,
-paddingTop: 2,
-paddingHorizontal: 20,
-overflow: 'hidden',
+  backgroundColor: '#fff',
+  marginLeft: 158,
+  marginTop: -186,
+  fontSize: RFPercentage(8), // Adjust the value (5) to your preference
+  borderWidth: 2,
+  borderColor: '#ebe8e8',
+  borderRadius: 15,
+  paddingBottom: 34,
+  paddingTop: 2,
+  paddingHorizontal: 20,
+  overflow: 'hidden',
+  fontWeight: 'normal',
 },
 day: {
-fontSize: 15,
-paddingVertical: 0,
-marginHorizontal: 225,
-marginBottom: 0,
-marginTop: -30,
-height: 100,
-width: 250,
+  fontSize: 15, // Adjust the value (2) to your preference
+  paddingVertical: 0,
+  marginHorizontal: 225,
+  marginBottom: 0,
+  marginTop: -30,
+  height: 100,
+  width: 250,
+  fontWeight: "normal",
 },
 newStyle: {
   flex: 2,
   width: "100%"
   // marginTop: -200,
+  
   //padding: "1.2%"
   
 },
@@ -367,6 +378,8 @@ google1:{
   marginTop: -45,
   fontSize: 25,
   marginRight: 29,
+  fontWeight: 'normal',
+
 },
 googlebox:{
   backgroundColor: '#ffffff',
@@ -378,6 +391,8 @@ googlebox:{
   width: '95%',
   borderWidth: 2,
   borderColor: '#ebe8e8',
+  fontWeight: 'normal',
+
 },
 appButtonContainer2: {
 elevation: 8,
@@ -391,11 +406,15 @@ marginTop: -1,
 width: '93%',
 borderWidth: 2,
 borderColor: '#ebe8e8',
+fontWeight: 'normal',
+
 },
 appButtonText2: {
 fontSize: 18,
 color: 'black',
 alignSelf: 'center',
+fontWeight: 'normal',
+
 },
 });
 
