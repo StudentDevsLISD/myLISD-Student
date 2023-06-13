@@ -9,6 +9,7 @@ const geturl = mainurl + "/getMeetings";
 const schedurl = mainurl + "/portalClass";
 const getsched = mainurl + "/getScheduledMeeting"
 const getFavUrl = mainurl + "/getFavorites";
+import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 
 interface Props {
   campus: string;
@@ -69,11 +70,11 @@ const Portal = ({campus}:Props) => {
           headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*',
-            'clientAuthUN': 'usrVRHSApiDataAccess',
-            'clientAuthPwd': '59kt61&Tm!F5',
+            'clientAuthUN': LISD_CLIENT_AUTH_UN,
+            'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
           },
           params: {
-            APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+            APIKey: LISD_API_KEY,
           }
         });
         var meetingLikes = [];
@@ -137,11 +138,11 @@ const Portal = ({campus}:Props) => {
           headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*',
-            'clientAuthUN': 'usrVRHSApiDataAccess',
-            'clientAuthPwd': '59kt61&Tm!F5',
+            'clientAuthUN': LISD_CLIENT_AUTH_UN,
+            'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
           },
           params: {
-            APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+            APIKey: LISD_API_KEY,
           }
         });
         if(response.data.scheduled[0].mandatory){
@@ -184,11 +185,11 @@ const Portal = ({campus}:Props) => {
             headers: {
               'Content-Type': 'application/json',
               'Accept': '*/*',
-              'clientAuthUN': 'usrVRHSApiDataAccess',
-              'clientAuthPwd': '59kt61&Tm!F5',
+              'clientAuthUN': LISD_CLIENT_AUTH_UN,
+              'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
             },
             params: {
-              APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+              APIKey: LISD_API_KEY,
             }
           });
           setScheduled(title);

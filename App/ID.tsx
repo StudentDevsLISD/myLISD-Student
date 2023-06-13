@@ -8,6 +8,7 @@
   import axios from 'axios';
   import base64js from 'base64-js';
   const mimeType = 'image/gif';
+  import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 
   const getImageUrlAPI = async () => {
     try {
@@ -20,11 +21,11 @@
           headers: {
             'Content-Type': 'application/json',
             Accept: '*/*',
-            clientAuthUN: 'usrVRHSApiDataAccess',
-            clientAuthPwd: '59kt61&Tm!F5',
+            clientAuthUN: LISD_CLIENT_AUTH_UN,
+            clientAuthPwd: LISD_CLIENT_AUTH_PWD,
           },
           params: {
-            APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+            APIKey: LISD_API_KEY,
           },
           responseType: 'arraybuffer', // set the response type to arraybuffer to get the raw image data
         }

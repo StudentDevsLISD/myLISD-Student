@@ -10,6 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 
 
 
@@ -184,11 +185,11 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          clientAuthUN: 'usrVRHSApiDataAccess',
-          clientAuthPwd: '59kt61&Tm!F5',
+          clientAuthUN: LISD_CLIENT_AUTH_UN,
+          clientAuthPwd: LISD_CLIENT_AUTH_PWD,
         },
         params: {
-          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+          APIKey: LISD_API_KEY,
         },
       });
       setLday(response.data.day || '-'); // Set "-" if response.data.day is falsy
@@ -216,11 +217,11 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
           Accept: '*/*',
-          clientAuthUN: 'usrVRHSApiDataAccess',
-          clientAuthPwd: '59kt61&Tm!F5',
+          clientAuthUN: LISD_CLIENT_AUTH_UN,
+          clientAuthPwd: LISD_CLIENT_AUTH_PWD,
         },
         params: {
-          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+          APIKey: LISD_API_KEY,
         },
       });
       setScheduled(response.data.scheduled[0].name);
