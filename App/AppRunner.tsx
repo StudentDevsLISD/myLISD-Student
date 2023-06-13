@@ -15,6 +15,8 @@ import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 
+
+
 const Tab = createBottomTabNavigator();
 
 const handleLogout = async (navigation: NavigationProp<any>) => {

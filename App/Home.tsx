@@ -10,6 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import CustomText from './CustomText';
 
 
 
@@ -250,31 +251,31 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-     <Text style={styles.letter_day}>{Lday}</Text>
-  <Text style={styles.letter_day_2}>{'day'}</Text>
-  <Text style={styles.date}>
+     <CustomText style={styles.letter_day}>{Lday}</CustomText>
+  <CustomText style={styles.letter_day_2}>{'day'}</CustomText>
+  <CustomText style={styles.date}>
     {currentDate.toISOString().substring(5, 7) +
       '/' +
       currentDate.toISOString().substring(8, 10)}
-  </Text>
-  <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
+  </CustomText>
+  <CustomText style={styles.day}>{dateArray[currentDate.getDay()]}</CustomText>
   <PeriodTimer />
   <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
-    <Text style={styles.appButtonText2}>
+    <CustomText style={styles.appButtonCustomText2}>
       {scheduled
         ? 'Scheduled: ' + scheduled
         : 'No class scheduled for ' + currentDate.toDateString()}
-    </Text>
+    </CustomText>
   </TouchableOpacity>
-  <Text style = {styles.work}>
+  <CustomText style = {styles.work}>
     Today's Work
-  </Text>
+  </CustomText>
   <>
   
   {!isSignedIn && (
         <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
           <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
-          <Text style = {styles.google1}>Sign in with Google</Text>
+          <CustomText style = {styles.google1}>Sign in with Google</CustomText>
         </TouchableOpacity>
       )}
   <ScrollView style={styles.newStyle}>
@@ -340,7 +341,7 @@ date: {
   backgroundColor: '#fff',
   marginLeft: 158,
   marginTop: -186,
-  fontSize: RFPercentage(8.5), // Adjust the value (5) to your preference
+  fontSize: RFPercentage(8), // Adjust the value (5) to your preference
   borderWidth: 2,
   borderColor: '#ebe8e8',
   borderRadius: 15,
@@ -350,7 +351,7 @@ date: {
   overflow: 'hidden',
 },
 day: {
-  fontSize: RFPercentage(1.8), // Adjust the value (2) to your preference
+  fontSize: 15, // Adjust the value (2) to your preference
   paddingVertical: 0,
   marginHorizontal: 225,
   marginBottom: 0,
@@ -395,7 +396,7 @@ width: '93%',
 borderWidth: 2,
 borderColor: '#ebe8e8',
 },
-appButtonText2: {
+appButtonCustomText2: {
 fontSize: 18,
 color: 'black',
 alignSelf: 'center',
