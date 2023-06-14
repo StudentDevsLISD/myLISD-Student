@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 20.x
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Test
+      run: npm test
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build Android
+      run: npx react-native run-android --variant=release
+
+    - name: Build iOS
+      run: npx react-native run-ios --configuration Release
