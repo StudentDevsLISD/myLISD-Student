@@ -323,6 +323,8 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
+  - react-native-webview (13.2.2):
+    - React-Core
   - React-perflogger (0.71.1)
   - React-RCTActionSheet (0.71.1):
     - React-Core/RCTActionSheetHeaders (= 0.71.1)
@@ -510,6 +512,7 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - "react-native-progress-bar-android (from `../node_modules/@react-native-community/progress-bar-android`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -608,6 +611,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/progress-bar-android"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -703,6 +708,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: fbc23bc2fe217155d85f2f7e0644b1654df8029b
   react-native-progress-bar-android: 092e6a794f158642692f25c8839d9aa8eb779afb
   react-native-safe-area-context: 39c2d8be3328df5d437ac1700f4f3a4f75716acc
+  react-native-webview: b8ec89966713985111a14d6e4bf98d8b54bced0d
   React-perflogger: ec8eef2a8f03ecfa6361c2c5fb9197ef4a29cc85
   React-RCTActionSheet: a0c023b86cf4c862fa9c4eb0f6f91fbe878fb2de
   React-RCTAnimation: 168d53718c74153947c0109f55900faa64d79439
@@ -734,4 +740,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8dc7296555d021e8d5fa3ec70404cdd67dc4193b
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
