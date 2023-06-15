@@ -79,7 +79,7 @@
   "jest": {
     "preset": "react-native",
     "setupFilesAfterEnv": [
-      "./jest.setup.js"
+      "./jest.config.js"
     ]
   }
 }
