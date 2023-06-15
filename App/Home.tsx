@@ -278,7 +278,7 @@ const Home = () => {
         {isSignedIn ? ( // Check if the user is signed in
           <ScrollView style={styles.newStyle}>
             {isLoading ? (
-              <ActivityIndicator size="large" color="#007AFF" />
+              <ActivityIndicator size="large" color="#007AFF" style={styles.indicator} />
             ) : events.length === 0 ? (
               <Text style={styles.noWorkText}>No More Work</Text>
             ) : (
@@ -317,6 +317,9 @@ flex: 1,
 alignItems: 'flex-start',
 justifyContent: 'flex-start',
 backgroundColor: 'ebe8e8',
+},
+indicator: {
+marginBottom: 20,
 },
 letter_day: {
 
