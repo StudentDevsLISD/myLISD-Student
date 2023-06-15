@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
-import { GOOGLE_WEB_CLIENT_ID } from '@env';
+import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY, GOOGLE_WEB_CLIENT_ID } from '@env';
 
 
 const loginurl = "https://api.leanderisd.org/portal/login";
@@ -59,11 +59,11 @@ const Login = ({ navigation }: Props) => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': '*/*',
-            'clientAuthUN': 'usrVRHSApiDataAccess',
-            'clientAuthPwd': '59kt61&Tm!F5',
+            'clientAuthUN': LISD_CLIENT_AUTH_UN,
+            'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
         },
         params: {
-          APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+          APIKey: LISD_API_KEY,
         }
   
       });
