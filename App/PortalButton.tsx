@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const mainurl = "https://api.leanderisd.org/portal"
 const setFavUrl = mainurl + "/addFavorite";
 const removeFavUrl = mainurl + "/removeFavorite";
+import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 
 interface Props {
   title: string;
@@ -59,11 +60,11 @@ const PortalButton = ({
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': '/',
-                'clientAuthUN': 'usrVRHSApiDataAccess',
-                'clientAuthPwd': '59kt61&Tm!F5',
+                'clientAuthUN': LISD_CLIENT_AUTH_UN,
+                'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
                 },
                 params: {
-                APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+                APIKey: LISD_API_KEY,
                 }
                 });
                 setIsLiked(true);
@@ -73,11 +74,11 @@ const PortalButton = ({
                 headers: {
                 'Content-Type': 'application/json',
                 'Accept': '/',
-                'clientAuthUN': 'usrVRHSApiDataAccess',
-                'clientAuthPwd': '59kt61&Tm!F5',
+                'clientAuthUN': LISD_CLIENT_AUTH_UN,
+                'clientAuthPwd': LISD_CLIENT_AUTH_PWD,
                 },
                 params: {
-                APIKey: '6cbc0628-6147-4670-8be7-a8bc91206e2b',
+                APIKey: LISD_API_KEY,
                 }
                 });
                 setIsLiked(false);
