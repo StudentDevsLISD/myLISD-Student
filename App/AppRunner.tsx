@@ -16,6 +16,7 @@ import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 import Grades from './Grades';
+import HAC from './HAC';
 
 // Creating bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -206,7 +207,7 @@ const Tab4Screen = () => {
   return (
     <>
       {isConnected ? (
-        <Grades/>
+        <HAC/>
       ) : (
         <View style={styles.offlineContainer}>
           <Icon name="wifi" size={32} color="#888" />
@@ -310,7 +311,7 @@ const AppRunner = () => {
           }}
         />
         <Tab.Screen
-          name="Grades"
+          name="HAC"
           component={Tab4Screen}
           options={{
             tabBarIcon: ({ color, size }) => <Icon name="pencil" color={color} size={size} />,
