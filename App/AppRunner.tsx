@@ -1,3 +1,4 @@
+// Importing necessary libraries and components
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -16,38 +17,45 @@ import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 import Grades from './Grades';
 
-
-
+// Creating bottom tab navigator
 const Tab = createBottomTabNavigator();
 
+// Logout function, removes user credentials from AsyncStorage and redirects to Login screen
 const handleLogout = async (navigation: NavigationProp<any>) => {
   await AsyncStorage.removeItem('username');
   await AsyncStorage.removeItem('password');
   navigation.navigate('Login');
 };
 
+// Typing for the logout function
 export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
+// First tab screen
+// This screen checks for internet connection and display the Home component if connected
 const Tab1Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
+    // Checking for internet connectivity
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
       }
     });
+    // Subscribing to connectivity changes
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isConnected !== null) {
         setIsConnected(state.isConnected);
       }
     });
+    // Unsubscribing to connectivity changes when the component is unmounted
     return () => {
       unsubscribe();
     };
   }, [navigation]);
 
+  // Displaying Home component if connected, else displaying offline message
   return (
     <>
       {isConnected ? (
@@ -62,6 +70,8 @@ const Tab1Screen = () => {
   );
 };
 
+// Second tab screen
+// This screen allows the user to switch between main and sub campus and checks for internet connection to display the Portal component
 const Tab2Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
@@ -72,34 +82,38 @@ const Tab2Screen = () => {
 
   useEffect(() => {
     const setTheCampuses = async () => {
+      // Retrieving campus and subcampus details from AsyncStorage
       var x = await AsyncStorage.getItem("campus");
       var y = await AsyncStorage.getItem("subcampus");
       setCampus(x ?? "");
       setSubCampus(y ?? x ?? "");
 
-      // Set the initial value of school based on isMainCampusSelected
+      // Setting initial value of school based on selected campus
       setSchool(isMainCampusSelected ? (x ?? "") : (y ?? x ?? ""));
     };
     setTheCampuses();
   }, []);
 
+  // Switching between main and sub campus
   const switchCampus = () => {
     setIsMainCampusSelected(!isMainCampusSelected);
     setSchool(isMainCampusSelected ? subCampus : campus);
   };
 
+  // Adding Switch Campus button to the header
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={switchCampus}>
           <Text style={{ marginRight: 10 }}>
-            {isMainCampusSelected ? "Switch to Sub Campus" : "Switch to Main Campus"}
+            {isMainCampusSelected ? " " : " "}
           </Text>
         </TouchableOpacity>
       ),
     });
   }, [navigation, isMainCampusSelected]);
 
+  // Checking for internet connectivity
   useEffect(() => {
     NetInfo.fetch().then((state) => {
       if (state.isConnected !== null) {
@@ -116,6 +130,7 @@ const Tab2Screen = () => {
     };
   }, [navigation, school]);
 
+  // Displaying ActivityIndicator till campus and school values are retrieved
   if (campus === "" || school === "") {
     return (
       <View style={styles.offlineContainer}>
@@ -123,6 +138,7 @@ const Tab2Screen = () => {
       </View>
     );
   }
+  // Displaying Portal component if connected, else displaying offline message
   return (
     <>
       {isConnected ? (
@@ -137,10 +153,13 @@ const Tab2Screen = () => {
   );
 };
 
+// Third tab screen
+// This screen displays the IDs component
 const Tab3Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
 
+  // Checking for internet connectivity
   useEffect(() => {
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
@@ -160,10 +179,13 @@ const Tab3Screen = () => {
   return <IDs />;
 };
 
+// Fourth tab screen
+// This screen checks for internet connection and display the Grades component if connected
 const Tab4Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
 
+  // Checking for internet connectivity
   useEffect(() => {
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
@@ -180,6 +202,7 @@ const Tab4Screen = () => {
     };
   }, [navigation]);
 
+  // Displaying Grades component if connected, else displaying offline message
   return (
     <>
       {isConnected ? (
@@ -194,10 +217,13 @@ const Tab4Screen = () => {
   );
 };
 
+// Fifth tab screen
+// This screen checks for internet connection and display the Settings component if connected
 const Tab5Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
 
+  // Checking for internet connectivity
   useEffect(() => {
     NetInfo.fetch().then(state => {
       if (state.isConnected !== null) {
@@ -214,6 +240,7 @@ const Tab5Screen = () => {
     };
   }, [navigation]);
 
+  // Displaying SettingsScreen component if connected, else displaying offline message
   return (
     <>
       {isConnected ? (
@@ -228,10 +255,11 @@ const Tab5Screen = () => {
   );
 };
 
+// Styling options for the tab bar
 const tabBarOptions = {
   headerTitle: () => (
     <View style={{ alignItems: 'center' }}>
-      <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 12, marginLeft: -100,}} />
+      <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 12,}} />
     </View>
   ),
   headerStyle: {
@@ -240,19 +268,23 @@ const tabBarOptions = {
   },
 };
 
+// Main component to run the app
 const AppRunner = () => {
   const [isAppReady, setIsAppReady] = useState(false);
 
+  // Simulate loading screen for 1500 milliseconds
   useEffect(() => {
     setTimeout(() => {
       setIsAppReady(true);
     }, 1500);
   }, []);
 
+  // Display splash screen till the app is ready
   if (!isAppReady) {
     return <SplashScreen />;
   }
 
+  // Set the main Navigator with 5 different tabs
   return (
     <AuthProvider>
       <Tab.Navigator screenOptions={tabBarOptions}>
@@ -296,6 +328,7 @@ const AppRunner = () => {
   );
 };
 
+// Styling for offlineContainer and offlineText
 const styles = StyleSheet.create({
   offlineContainer: {
     flex: 1,
@@ -308,6 +341,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Exporting AppRunner as the default component
 export default AppRunner;
- 
-        
