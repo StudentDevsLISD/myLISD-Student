@@ -12,15 +12,20 @@ import Portal from './Portal';
 import IDs from './ID';
 import ClubHub from './ClubHub';
 import Community from './ComOp';
+import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 import Grades from './Grades';
 import HAC from './HAC';
+import GPA from './GPA';
+import Attendance from './Attendance';
+import ClassSchedule from './ClassSchedule';
+import ContactTeachers from './ContactTeachers';
 
 // Creating bottom tab navigator
 const Tab = createBottomTabNavigator();
-
+const Stack = createStackNavigator();
 // Logout function, removes user credentials from AsyncStorage and redirects to Login screen
 const handleLogout = async (navigation: NavigationProp<any>) => {
   await AsyncStorage.removeItem('username');
@@ -268,6 +273,52 @@ const tabBarOptions = {
     height: 125,
   },
 };
+const Tabs = () => {
+  return(
+  <Tab.Navigator /* screenOptions={tabBarOptions} */>
+        <Tab.Screen
+          name="Home"
+          component={Tab1Screen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
+            headerShown: false
+          }}
+        />
+        <Tab.Screen
+          name="Portal"
+          component={Tab2Screen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="map-marker" color={color} size={size} />,
+            headerShown: false
+          }}
+        />
+        <Tab.Screen
+          name="IDs"
+          component={Tab3Screen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="credit-card" color={color} size={size} />,
+            headerShown: false
+          }}
+        />
+        <Tab.Screen
+          name="HAC"
+          component={Tab4Screen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="pencil" color={color} size={size} />,
+            headerShown: false
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Tab5Screen}
+          options={{
+            tabBarIcon: ({ color, size }) => <Icon name="gear" color={color} size={size} />,
+            headerShown: false
+          }}
+        />
+      </Tab.Navigator>
+  )
+}
 
 // Main component to run the app
 const AppRunner = () => {
@@ -287,44 +338,16 @@ const AppRunner = () => {
 
   // Set the main Navigator with 5 different tabs
   return (
-    <AuthProvider>
-      <Tab.Navigator screenOptions={tabBarOptions}>
-        <Tab.Screen
-          name="Home"
-          component={Tab1Screen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Icon name="home" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="Portal"
-          component={Tab2Screen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Icon name="map-marker" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="IDs"
-          component={Tab3Screen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Icon name="credit-card" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="HAC"
-          component={Tab4Screen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Icon name="pencil" color={color} size={size} />,
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={Tab5Screen}
-          options={{
-            tabBarIcon: ({ color, size }) => <Icon name="gear" color={color} size={size} />,
-          }}
-        />
-      </Tab.Navigator>
+  <AuthProvider>
+    <Stack.Navigator screenOptions={tabBarOptions}>
+      <Stack.Screen name ="HomeScreen" component={Tabs} options={{ headerShown: true}}/>
+      <Stack.Screen name ="HAC" component={HAC} options={{ headerShown: true}}/>
+      <Stack.Screen name ="Grades" component={Grades} options={{ headerShown: true}}/>
+      <Stack.Screen name ="GPA" component={GPA} options={{ headerShown: true}}/>
+      <Stack.Screen name ="Attendance" component={Attendance} options={{ headerShown: true}}/>
+      <Stack.Screen name ="ClassSchedule" component={ClassSchedule} options={{ headerShown: true}}/>
+      <Stack.Screen name ="ContactTeachers" component={ContactTeachers} options={{ headerShown: true}}/>
+  </Stack.Navigator>
     </AuthProvider>
   );
 };

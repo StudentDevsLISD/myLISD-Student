@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 // If grades are simply numbers, use this type:
 type GradesType = Record<string, number>;
@@ -10,6 +12,19 @@ type GradesType = Record<string, number>;
 // type GradesType = Record<string, GradeType>;
 
 const Grades = () => {
+  const navigation = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
     const [grades, setGrades] = useState<Record<string, string>>({});
   
     useEffect(() => {

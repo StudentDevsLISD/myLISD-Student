@@ -20,14 +20,13 @@ type RootStackParamList = {
   Attendance: undefined;
   ClassSchedule: undefined;
   ContactTeachers: undefined;
-  Details: { id: number };
-  WebViewScreen: { url: string };
 };
 
 type Props = {
   navigation: NavigationProp<RootStackParamList, 'HAC'>;
 }
 const HAC = () => {
+  
   const [currentDate, setCurrentDate] = useState('');
 
   useEffect(() => {
