@@ -12,8 +12,6 @@ import CalendarEvent from './CalendarEvent';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 
-
-
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
 const getsched = mainurl + '/getScheduledMeeting';
@@ -33,7 +31,7 @@ const Home = () => {
   const [events, setEvents] = useState<{ id: string, summary: string ,start: string, end: string}[]>([]);
   const { isSignedIn, setIsSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [noWork, setNoWork] = useState(false); // State to track if there is no work
     
   const dateArray = [
     'Sunday',
@@ -159,14 +157,19 @@ const Home = () => {
     if (accessToken) {
       setIsSignedIn(true);
       const calendarId = 'primary';
-      setIsLoading(true); // Set isLoading to true before fetching events
+      setIsLoading(true);
       const fetchedEvents = await fetchEvents(calendarId, currentDate, accessToken);
       const uniqueEvents = removeDuplicateEvents(fetchedEvents);
       setEvents(uniqueEvents);
+  
+      // Check if there are no events and update noWork state accordingly
+      setNoWork(uniqueEvents.length === 0);
+  
       await AsyncStorage.setItem('accessToken', accessToken);
-      setIsLoading(false); // Set isLoading to false after fetching events
+      setIsLoading(false);
     }
   }, [currentDate]);
+  
   
 
   const getDate = async () => {
@@ -252,51 +255,54 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-     <Text style={styles.letter_day}>{Lday}</Text>
-  <Text style={styles.letter_day_2}>{'day'}</Text>
-  <Text style={styles.date}>
-    {currentDate.toISOString().substring(5, 7) +
-      '/' +
-      currentDate.toISOString().substring(8, 10)}
-  </Text>
-  <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
-  <PeriodTimer />
-  <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
-    <Text style={styles.appButtonText2}>
-      {scheduled
-        ? 'Scheduled: ' + scheduled
-        : 'No class scheduled for ' + currentDate.toDateString()}
-    </Text>
-  </TouchableOpacity>
-  <Text style = {styles.work}>
-    Today's Work
-  </Text>
-  <>
+      <Text style={styles.letter_day}>{Lday}</Text>
+      <Text style={styles.letter_day_2}>{'day'}</Text>
+      <Text style={styles.date}>
+        {currentDate.toISOString().substring(5, 7) +
+          '/' +
+          currentDate.toISOString().substring(8, 10)}
+      </Text>
+      <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
+      <PeriodTimer />
+      <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
+        <Text style={styles.appButtonText2}>
+          {scheduled
+            ? 'Scheduled: ' + scheduled
+            : 'No class scheduled for ' + currentDate.toDateString()}
+        </Text>
+      </TouchableOpacity>
+      <Text style={styles.work}>
+        Today's Work
+      </Text>
+      <>
+        {isSignedIn ? ( // Check if the user is signed in
+          <ScrollView style={styles.newStyle}>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="#007AFF" />
+            ) : events.length === 0 ? (
+              <Text style={styles.noWorkText}>No More Work</Text>
+            ) : (
+              events.map((event) => (
+                <CalendarEvent
+                  id={event.id}
+                  summary={event.summary}
+                  start={event.start}
+                  end={event.end}
+                />
+              ))
+            )}
+          </ScrollView>
+        ) : (
+          <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
+            <Image source={require('../assets/google.png')} style={{ width: 60, height: 60, marginLeft: 20 }} />
+            <Text style={styles.google1}>Sign in with Google</Text>
+          </TouchableOpacity>
+        )}
+      </>
+    </View>
+  );
   
-  {!isSignedIn && (
-        <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
-          <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
-          <Text style = {styles.google1}>Sign in with Google</Text>
-        </TouchableOpacity>
-      )}
-  <ScrollView style={styles.newStyle}>
-  {isLoading ? (
-    <ActivityIndicator size="large" color="#007AFF" />
-  ) : (
-    events.map((event) => (
-      <CalendarEvent
-        id={event.id}
-        summary={event.summary}
-        start={event.start}
-        end={event.end}
-      />
-    ))
-  )}
-</ScrollView>
-
-</>
-</View>
-);
+  
 };
 
 const styles = StyleSheet.create({
@@ -396,6 +402,12 @@ googlebox:{
   borderColor: '#ebe8e8',
   fontWeight: 'normal',
 
+},
+noWorkText: {
+  fontSize: 18,
+  fontWeight: 'normal',
+  alignSelf: 'center',
+  marginVertical: 8,
 },
 appButtonContainer2: {
 elevation: 8,
