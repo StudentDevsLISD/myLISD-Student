@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   timer: {
     fontSize: 50,
-    fontWeight: "normal",
+    fontWeight: "500",
     marginTop: 10,
     marginBottom: 15,
     textAlign: 'center',
