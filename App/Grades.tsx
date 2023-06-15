@@ -1,17 +1,37 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-
-// If grades are simply numbers, use this type:
-type GradesType = Record<string, number>;
-
-// If grades are complex objects, use a type like this (adjust fields accordingly):
-// type GradeType = { score: number, teacher: string, ... };
-// type GradesType = Record<string, GradeType>;
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Grades = () => {
+  const [grades, setGrades] = useState<Record<string, string>>({});
+
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+    setCurrentDate(formattedDate);
+  }, []);
+
+  useEffect(() => {
+    const dummyData = {
+      Math: "85",
+      English: "92",
+      Science: "78",
+      History: "88",
+      Geography: "90",
+      Art: "95",
+      Music: "80",
+      PE: "88",
+    };
+
+    setGrades(dummyData);
+  }, []);
   const navigation = useNavigation();
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -25,36 +45,25 @@ const Grades = () => {
       ),
     });
   }, [navigation]);
-    const [grades, setGrades] = useState<Record<string, string>>({});
-  
-    useEffect(() => {
-      const fetchGrades = async () => {
-        try {
-          const response = await axios.get('http://10.191.80.73:18080/getGrades');
-          setGrades(response.data);
-        } catch (error) {
-          console.error('Error fetching grades:', error);
-        }
-      };
-  
-      fetchGrades();
-    }, []);
-  
-    return (
-      <View>
-        {Object.entries(grades).map(([subject, grade], index) => (
-          <TouchableOpacity style={styles.gradeContainer} key={index}>
-            <View style={styles.gradeItem}>
-              <Text style={styles.gradeText}>{subject}</Text>
-              <View style={styles.gradeBadge}>
-                <Text style={styles.gradeBadgeText}>{grade + "%"}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+  return (
+    <View>
+      <View style={styles.header}>
+        <Text style={styles.dateText}>{currentDate}</Text>
+        <Text style={styles.headerText}>Grades</Text>
       </View>
-    );
-  };
+      {Object.entries(grades).map(([subject, grade], index) => (
+        <TouchableOpacity style={styles.gradeContainer} key={index}>
+          <View style={styles.gradeItem}>
+            <Text style={styles.gradeText}>{subject}</Text>
+            <View style={styles.gradeBadge}>
+              <Text style={styles.gradeBadgeText}>{grade + "%"}</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   gradeContainer: {
@@ -82,8 +91,30 @@ const styles = StyleSheet.create({
   gradeBadgeText: {
     color: 'black',
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: 'bold',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    paddingLeft: 5,
+  },
+  headerText: {
+    fontSize: 40,
+    marginLeft: -95,
+    marginBottom:10,
+    marginTop: 10,
+    color: "#005987",
+    fontWeight: "600",
+    
+  },
+  dateText: {
+    fontSize: 14,
+    color: 'gray',
+    marginTop:58,
+    marginLeft: 14,
   },
 });
+
 
 export default Grades;
