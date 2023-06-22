@@ -19,7 +19,7 @@ const GPA: React.FC = () => {
   }, [navigation]);
   return (
     <View style={styles.container}>
-      <Text>Hello, React Native!</Text>
+      <Text>test</Text>
     </View>
   );
 };
