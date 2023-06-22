@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest --config ./jest.config.js"
   },
   "dependencies": {
     "@googleapis/classroom": "^1.0.4",
@@ -75,11 +75,5 @@
     "prettier": "^2.4.1",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
-  },
-  "jest": {
-    "preset": "react-native",
-    "setupFilesAfterEnv": [
-      "./jest.config.js"
-    ]
   }
 }

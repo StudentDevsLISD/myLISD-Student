@@ -37,6 +37,7 @@ const Login = ({ navigation }: Props) => {
       await GoogleSignin.signIn();
       const tokens = await GoogleSignin.getTokens();
       await AsyncStorage.setItem('asyncAccessToken', tokens.accessToken);
+      console.log(tokens.idToken);
       return tokens.accessToken;
     } catch (error) {
       console.error('Error signing in:', error);
