@@ -23,7 +23,6 @@ const ClubHub = () => {
   };
 
   const handleSubmit = () => {
-    // Handle form submission here
     console.log(feedbackMessage);
 
     // Send data to Google Forms API
