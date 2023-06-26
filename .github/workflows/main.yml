@@ -34,7 +34,7 @@ jobs:
       run: npm ci
 
     - name: Build Android
-      run: npx react-native run-android --variant=release
+      run: npx react-native build-android --mode release
 
     - name: Build iOS
-      run: npx react-native run-ios --configuration Release
+      run: npx react-native run-ios --mode release
