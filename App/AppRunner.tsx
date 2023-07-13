@@ -86,6 +86,7 @@ const Tab2Screen = () => {
   const [subCampus, setSubCampus] = useState("");
   const [isMainCampusSelected, setIsMainCampusSelected] = useState(true);
 
+  
   useEffect(() => {
     const setTheCampuses = async () => {
       // Retrieving campus and subcampus details from AsyncStorage
