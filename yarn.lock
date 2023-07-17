@@ -5300,7 +5300,7 @@ lodash.throttle@^4.1.1:
   resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
   integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
-lodash@^4.17.15, lodash@^4.17.21:
+lodash@^4.17.13, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -6215,6 +6215,11 @@ path@^0.12.7:
     process "^0.11.1"
     util "^0.10.3"
 
+paths-js@^0.4.10:
+  version "0.4.11"
+  resolved "https://registry.npmjs.org/paths-js/-/paths-js-0.4.11.tgz"
+  integrity sha512-3mqcLomDBXOo7Fo+UlaenG6f71bk1ZezPQy2JCmYHy2W2k5VKpP+Jbin9H0bjXynelTbglCqdFhSEkeIkKTYUA==
+
 picocolors@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.0.tgz"
@@ -6248,6 +6253,11 @@ pkg-dir@^4.2.0:
   integrity sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==
   dependencies:
     find-up "^4.0.0"
+
+point-in-polygon@^1.0.1:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/point-in-polygon/-/point-in-polygon-1.1.0.tgz"
+  integrity sha512-3ojrFwjnnw8Q9242TzgXuTD+eKiutbzyslcq1ydfu82Db2y+Ogbmyrkpv0Hgj31qwT3lbS9+QAAO/pIQM35XRw==
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -6467,6 +6477,15 @@ react-native-calendars@^1.1275.0:
   optionalDependencies:
     moment "^2.24.0"
 
+react-native-chart-kit@^6.12.0:
+  version "6.12.0"
+  resolved "https://registry.npmjs.org/react-native-chart-kit/-/react-native-chart-kit-6.12.0.tgz"
+  integrity sha512-nZLGyCFzZ7zmX0KjYeeSV1HKuPhl1wOMlTAqa0JhlyW62qV/1ZPXHgT8o9s8mkFaGxdqbspOeuaa6I9jUQDgnA==
+  dependencies:
+    lodash "^4.17.13"
+    paths-js "^0.4.10"
+    point-in-polygon "^1.0.1"
+
 react-native-codegen@^0.71.3:
   version "0.71.3"
   resolved "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.71.3.tgz"
@@ -6631,7 +6650,7 @@ react-native-size-matters@^0.3.1:
   dependencies:
     prop-types "^15.5.8"
 
-react-native-svg@*, react-native-svg@^13.8.0, react-native-svg@>=11.0.1:
+react-native-svg@*, react-native-svg@^13.8.0, "react-native-svg@> 6.4.1", react-native-svg@>=11.0.1:
   version "13.8.0"
   resolved "https://registry.npmjs.org/react-native-svg/-/react-native-svg-13.8.0.tgz"
   integrity sha512-G8Mx6W86da+vFimZBJvA93POw8yz0fgDS5biy6oIjMWVJVQSDzCyzwO/zY0yuZmCDhKSZzogl5m0wXXvW2OcTA==
@@ -6674,7 +6693,7 @@ react-native-webview@^13.2.2:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.1, "react-native@>= 0.30.0", react-native@>=0.40, react-native@>=0.42.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.1, "react-native@>= 0.30.0", "react-native@>= 0.50.0", react-native@>=0.40, react-native@>=0.42.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0:
   version "0.71.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.1.tgz"
   integrity sha512-bLP5+IBj2IX6tgF9WnC/UL2ZPYkVUPsU4xqZV1jntTC2TH4xyLrvfKACjGlz5nQ3Mx4BmOFqsnMxithm53+6Aw==
@@ -6736,7 +6755,7 @@ react-test-renderer@18.2.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@>= 15.2.1", "react@>=15.1 || >=16.0.0", react@>=16, react@>=16.0, react@>=16.3.0, react@>=16.8, react@>=16.8.6, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", react@^18.2.0, "react@> 16.7.0", "react@>= 15.2.1", "react@>=15.1 || >=16.0.0", react@>=16, react@>=16.0, react@>=16.3.0, react@>=16.8, react@>=16.8.6, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==

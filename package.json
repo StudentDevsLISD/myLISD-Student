@@ -33,6 +33,7 @@
     "react-native-barcode-svg": "^0.0.15",
     "react-native-calendar-strip": "^2.2.6",
     "react-native-calendars": "^1.1275.0",
+    "react-native-chart-kit": "^6.12.0",
     "react-native-dotenv": "^3.4.8",
     "react-native-dynamic-search-bar": "^2.0.2",
     "react-native-elements": "^3.4.3",
