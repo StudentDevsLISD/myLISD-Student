@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //     name: "John Doe",
 //     class: "AP Calculus BC",
 //     email: "adith.chandraiah@gmail.com",
-//     imageUrl: "https://images.squarespace-cdn.com/content/v1/5b56c01f9f877051fa238ca3/1573759915619-1LGAQ3NCIULHNEZ1OY87/Ray.jpg",
+//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png",
 //   },
 //   {
 //     name: "Jane Smith",
@@ -46,7 +46,7 @@ const ItemView = ({ item, theme }: { item: Teacher; theme: 'light' | 'dark' }) =
 
   return (
     <TouchableOpacity style={styles.ContactTeacherArticleContainer} onPress={handleEmailPress}>
-      <Image source={{ uri: item.imageUrl }} style={styles.ContactTeacherImage} resizeMode="contain" />
+      <Image source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png' }} style={styles.ContactTeacherImage} resizeMode="contain" />
       <View style={styles.ContactTeacherTextContainer}>
         <Text style={styles.ContactTeacherTitle}>{item.name}</Text>
         <Text style={styles.ContactTeacherSource}>{item.class}</Text>
@@ -91,7 +91,7 @@ const ContactTeachersScreen = ({ theme }: ContactTeachersScreenProps) => {
     }
   };
   const fetchTeachers = async (username, password) => {
-    let response ='';
+    let response = '';
     try {
       setIsLoading(true);
       response = await axios.get(`http://${IP_ADDRESS}:8080/teachers?username=${username}&password=${password}`);
@@ -99,12 +99,25 @@ const ContactTeachersScreen = ({ theme }: ContactTeachersScreenProps) => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
-      Alert.alert("Error logging in")
-    }      
-    if(response.data){
-      setTeachers(response.data.teachers);
+      Alert.alert("Error logging in");
+    }
+  
+    if (response.data) {
+      // Process and remove duplicates
+      const uniqueTeachers = [];
+      response.data.teachers.forEach((teacher) => {
+        const existingTeacher = uniqueTeachers.find((t) => t.name === teacher.name);
+        if (existingTeacher) {
+          existingTeacher.class += `, ${teacher.class}`;
+        } else {
+          uniqueTeachers.push(teacher);
+        }
+      });
+  
+      setTeachers(uniqueTeachers);
     }
   };
+  
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
