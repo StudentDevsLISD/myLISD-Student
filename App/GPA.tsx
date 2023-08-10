@@ -45,22 +45,22 @@ const App = () => {
   }, []);
 
   const barData = [
-    {value: 5.5,label: 'MP1',frontColor: '#4ABFF4', topLabelComponent: () => (
+    {value: 5.5,label: 'MP1',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.5</Text>
     ),},
-    {value: 5.8,label: 'MP2',frontColor: '#79C3DB', topLabelComponent: () => (
+    {value: 5.8,label: 'MP2',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.8</Text>
     ),},
-    {value: 5.5,label: 'MP3',frontColor: '#28B2B3', topLabelComponent: () => (
+    {value: 5.5,label: 'MP3',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.5</Text>
     ),},
-    {value: 5.9,label: 'MP4',frontColor: '#4ADDBA', topLabelComponent: () => (
+    {value: 5.9,label: 'MP4',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
     ),},
-    {value: 5.9,label: 'MP5',frontColor: '#91E3E3', topLabelComponent: () => (
+    {value: 5.9,label: 'MP5',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
     ),},
-    {value: 5.9,label: 'MP6',frontColor: '#91E3E3', topLabelComponent: () => (
+    {value: 5.9,label: 'MP6',frontColor: '#005987', topLabelComponent: () => (
       <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
     ),},
 
