@@ -5,7 +5,7 @@ const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/SplashScreen.webp')}
+        source={require('../assets/yellowsplash.png')}
         style={styles.logo}
       />
     </View>
