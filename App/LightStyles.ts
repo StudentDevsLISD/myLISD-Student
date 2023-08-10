@@ -359,6 +359,7 @@ const LightStyles = StyleSheet.create({
       GPAScreenChart: {
         marginVertical: 8,
         marginRight: -5,
+        flex: 1,
       },
       GradesContainer: {
         flex: 1,

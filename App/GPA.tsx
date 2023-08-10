@@ -38,6 +38,12 @@ const App = () => {
       {
         data: [5.6, 5.5, 5.9, 5.8, 5.5, 6.0],
       },
+      {
+      data: [3.0]
+      },
+      {
+        data: [6.0]
+      }
     ],
   };
 
@@ -48,7 +54,7 @@ const App = () => {
         <Text style={styles.GPAScreenHeaderText}>GPA</Text>
       </View>
             <View style={styles.GPAScreenGpaContainer}>
-        <GPAInfo title="Weighted GPA" value="5.79" themeStyle={styles} />
+        <GPAInfo title="Weighted GPA" value="5.793" themeStyle={styles} />
         <GPAInfo title="Unweighted GPA" value="3.85" themeStyle={styles} />
       </View>
       <Text style={styles.GPAScreenChartTitle}>Weighted GPA Progress</Text>
@@ -71,6 +77,7 @@ const App = () => {
           },
         }}
         style={styles.GPAScreenChart}
+        contentInset={{ top: 10, bottom: 10 }} // Adjust content inset to limit grid lines
       />
     </View>
   );
