@@ -300,15 +300,29 @@ const LightStyles = StyleSheet.create({
         fontSize: 14,
         color: 'grey',
       },
+      GPAScreenHeaderText: {
+        color: "#005987",
+        fontSize: 40,
+        fontWeight: 700,
+        marginLeft:-100,
+        marginBottom: 20,
+        paddingTop: 0,
+      },
+      GPAScreenDateText: {
+        fontSize: 14,
+        color: 'gray',
+        marginTop:40,
+        marginLeft: 15,
+      },
       GPAScreenContainer: {
         flex: 1,
-        padding: 20,
+        padding: 5,
         backgroundColor: '#fff',
       },
       GPAScreenGpaContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 20,
+        marginBottom: 10,
       },
       GPAScreenGpaInfo: {
         flex: 1,
@@ -323,7 +337,7 @@ const LightStyles = StyleSheet.create({
         color: '#333',
       },
       GPAScreenGpaValue: {
-        fontSize: 24,
+        fontSize: 40,
         fontWeight: 'bold',
         color: '#333',
       },
@@ -340,6 +354,7 @@ const LightStyles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 10,
+        marginLeft: 15,
       },
       GPAScreenChart: {
         marginVertical: 8,
@@ -426,6 +441,13 @@ const LightStyles = StyleSheet.create({
         color: "#005987",
         fontWeight: "600",
       },  
+      GPAHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 0,
+        paddingLeft: 5,
+        marginTop: 10,
+      },
       GradesGradientTextContainer: {
         flexDirection: 'row',
         maxWidth: '60%',
