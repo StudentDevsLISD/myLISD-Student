@@ -86,6 +86,8 @@ const App = () => {
             showYAxisIndices
             noOfSections={4}
             maxValue={6.0}
+            barBorderRadius={4}
+
             animationDuration={300}
             minValue={3.0}
             data={barData}
