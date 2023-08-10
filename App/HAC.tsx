@@ -104,11 +104,6 @@ const HAC = () => {
         <Text style={styles.HACDateText}>{currentDate}</Text>
         <Text style={styles.HACHeaderText}>HAC</Text>
       </View>
-      <TouchableOpacity disabled={true} style={styles.HACAppButtonContainer2}>
-        <Text style={styles.HACAppButtonText2}>
-          {'No New Grades Have Been Added'}
-        </Text>
-      </TouchableOpacity>
       {options.map((option) => (
         <TouchableOpacity key={option.id} onPress={() => handleOptionPress(option)}>
           <View style={styles.HACBox}>
