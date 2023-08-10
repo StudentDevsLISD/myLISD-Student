@@ -21,6 +21,7 @@ import GPA from './GPA';
 import Attendance from './Attendance';
 import ClassSchedule from './ClassSchedule';
 import ContactTeachers from './ContactTeachers';
+import Assignments from './AssignmentScreen';
 import { ThemeContext, ThemeProvider } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
@@ -397,6 +398,7 @@ const AppRunner = () => {
       <Stack.Screen name ="Attendance" component={Attendance} options={{ headerShown: true}}/>
       <Stack.Screen name ="ClassSchedule" component={ClassSchedule} options={{ headerShown: true}}/>
       <Stack.Screen name ="ContactTeachers" component={ContactTeachers} options={{ headerShown: true}}/>
+      <Stack.Screen name ="AssignmentScreen" component={Assignments} options={{ headerShown: true}}/>
     </Stack.Navigator>
     </AuthProvider>
     </ThemeProvider>

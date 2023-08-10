@@ -1,4 +1,4 @@
-import { Platform, StyleSheet, } from 'react-native';
+import { Dimensions, Platform, StyleSheet, } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const LightStyles = StyleSheet.create({
@@ -10,6 +10,148 @@ const LightStyles = StyleSheet.create({
       AppRunnerOfflineText: {
         marginTop: 8,
         fontSize: 16,
+      },
+      AssignmentScreenContainer: {
+        flex: 1,
+        backgroundColor: '#e8e8e8',
+        paddingTop: 10,
+      },
+      AssignmentScreenCourseTitle: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        padding: 5,
+      },
+      AssignmentScreenTop: {
+        flex: 0.4,
+        flexDirection: 'row',
+        padding: 10,
+      },
+      AssignmentScreenBorderBox: {
+        borderRadius: 15,
+        backgroundColor: '#fff',
+        margin: 5,
+        borderWidth: 0,
+        borderColor: '#ddd',
+      },
+      AssignmentScreenProgressBarContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 13,
+        paddingBottom: 8,
+        paddingHorizontal: 15,
+        borderRadius: 15,
+      },
+      AssignmentScreenGradeText: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: "#005987"
+      },
+      AssignmentScreenOverallText: {
+        fontSize: 16,
+        color: 'grey',
+      },
+      AssignmentScreenBreakdownContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+      },
+      AssignmentScreenBreakdownColumn: {
+        paddingHorizontal: 5,
+      },
+      AssignmentScreenBreakdownBox: {
+        marginBottom: 5,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingTop: 3,
+        paddingBottom: 10,
+        marginTop: 6,
+        width: Dimensions.get('window').width * 0.45,
+        height: 80,
+      },
+      AssignmentScreenBreakdownLabel: {
+        fontSize: 18,
+        fontWeight: 'normal',
+      },
+      AssignmentScreenBreakdownValue: {
+        fontSize: 30,
+        fontWeight: 'bold',
+      },
+      AssignmentScreenBreakdownWeight: {
+        fontSize: 14,
+      },
+
+      AssignmentScreenBottom: {
+        flex: 0.6,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        margin: 10,
+        padding: 10,
+      },
+      AssignmentScreenAssignmentTitle: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        paddingTop: 3,
+        paddingBottom: 3,
+      },
+      AssignmentScreenAssignmentName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        paddingVertical: 3,
+      },
+      AssignmentScreenAssignmentBox: {
+        marginBottom: 10,
+        paddingHorizontal: 10,
+      },
+     AssignmentScreenAssignmentItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      AssignmentScreenAssignmentTextContainer: {
+        flex: 1,
+      },
+      AssignmentScreenAssignmentSubtitle: {
+        fontSize: 14,
+      },
+      AssignmentScreenAssignmentGradeContainer: {
+        flex: 0.2,
+        alignItems: 'flex-end',
+      },
+      AssignmentScreenAssignmentGrade: {
+        fontSize: 14,
+        fontWeight: 'bold',
+      },
+      AssignmentScreenAssignmentMaxGrade: {
+        fontSize: 12,
+        color: 'grey',
+      },
+      AssignmentScreenBreakdownColorIndicator: {
+        width: 10,
+        height: 35,
+        borderRadius: 5,
+        marginRight: 10,
+      },
+      AssignmentScreenCalculateButton: {
+        marginTop: 5,
+        marginBottom: -5,
+        borderRadius: 10,
+        paddingVertical: 9,
+        paddingHorizontal: 32.5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      AssignmentScreenCalculateButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: '800',
+      },
+      AssignmentScreenBreakdownColor: {
+        width: 25,
+        height: 10,
+        borderRadius: 5,
+        position: 'absolute',
+        right: 10,
+        bottom: 5,
       },
       AttendanceLoadingContainer:{
         flex: 1,
@@ -675,6 +817,68 @@ const LightStyles = StyleSheet.create({
             left: 65,
             width: '100%',
             alignSelf: 'center',
+          },
+          LoginContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 20,
+            backgroundColor: '#f0f0f0',
+          },
+          LoginLogo: {
+            width: 320, // Increase the width for a bigger logo
+            height: 105, // Increase the height for a bigger logo
+            marginBottom: 30,
+          },
+          LoginInput: {
+            width: '100%',
+            height: 50, // Decreased the height back to 50
+            backgroundColor: 'white',
+            paddingHorizontal: 15,
+            marginBottom: 10,
+            borderRadius: 5,
+            color: 'darkgray', // Set the text color within the input box
+          },
+          LoginError: {
+            color: 'red',
+            marginBottom: 10,
+          },
+          LoginLoginButton: {
+            width: '100%',
+            height: 50,
+            backgroundColor: '#3495eb',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 5,
+            marginTop: 10,
+          },
+          LoginLoginButtonText: {
+            color: 'white',
+            fontSize: 18,
+            fontWeight: 'bold',
+          },
+          LoginOrText: {
+            fontSize: 18,
+            marginVertical: 20,
+          },
+          LoginGoogleButton: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'white',
+            borderWidth: 1,
+            borderColor: '#ddd',
+            borderRadius: 5,
+            width: '100%',
+            height: 50,
+          },
+          LoginGoogleIcon: {
+            width: 30,
+            height: 30,
+            marginRight: 10,
+          },
+          LoginGoogleButtonText: {
+            fontSize: 18,
           },
           PeriodTimerContainer: {
             backgroundColor: '#ffffff',
