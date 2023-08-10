@@ -559,7 +559,7 @@ const LightStyles = StyleSheet.create({
       },
       HACHeaderText: {
         fontSize: 40,
-        marginLeft: -90,
+        marginLeft: -105,
         marginBottom:10,
         marginTop: -13,
         color: "#005987",

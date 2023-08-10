@@ -87,7 +87,7 @@ const App = () => {
             noOfSections={4}
             maxValue={6.0}
             barBorderRadius={4}
-
+disablePress={true}
             animationDuration={300}
             minValue={3.0}
             data={barData}
