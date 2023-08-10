@@ -31,7 +31,7 @@ const Navigation = () => {
         <Text>Loading...</Text>
       ) : (
         // Include the Login screen in both cases
-        <Stack.Navigator initialRouteName={isAuthenticated ? "Home" : "Login"}>
+        <Stack.Navigator initialRouteName={isAuthenticated ? "Home" : "Home"}>
           <Stack.Screen
             name="Login"
             component={Login}
