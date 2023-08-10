@@ -92,7 +92,9 @@ const ClassSchedule = () => {
         <Text style={styles.GradesLoginButtonText}>Login with HAC</Text>
       </TouchableOpacity>
     ):(
-    <ScrollView contentContainerStyle={styles.HACContainer}>
+    <ScrollView>
+    <Text style={styles.ContactTeacherSectionTitle}>Schedule</Text>
+
     {schedule.map((i) => (
       <TouchableOpacity key={i.period} onPress={() => {}}>
         <View style={styles.HACBox}>
