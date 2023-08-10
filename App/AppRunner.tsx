@@ -1,6 +1,6 @@
 // Importing necessary libraries and components
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity, Dimensions } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -34,6 +34,7 @@ const handleLogout = async (navigation: NavigationProp<any>) => {
   await AsyncStorage.removeItem('password');
   navigation.navigate('Login');
 };
+const screenHeight = Dimensions.get("window").height;
 
 const handleHACLogout = async (navigation: NavigationProp<any>) => {
   await AsyncStorage.removeItem('hacusername');
@@ -294,7 +295,7 @@ const stackOptions = {
   ),
   headerStyle: {
     backgroundColor: '#005a87',
-    height: 125,
+    height: screenHeight*0.16,
   },
 };
 
@@ -310,12 +311,12 @@ const Tabs: React.FC = () => {
     ),
     headerStyle: {
       backgroundColor: '#005a87',
-      height: 125,
+      height: screenHeight * 0.16,
     },
     tabBarStyle: {
       backgroundColor: theme === 'light' ? 'white' : '#111', // Set the background color of the tab bar to black
       paddingTop: 10,
-      height: 85
+      height: screenHeight * 0.1
     },
     tabBarActiveTintColor: theme === 'dark' ? '#ede1d1' : '#007AFF',
     tabBarInactiveTintColor: theme === 'dark' ? '#666666' : '#8E8E93'
