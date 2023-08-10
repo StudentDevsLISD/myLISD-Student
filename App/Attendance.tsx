@@ -9,6 +9,7 @@ import {IP_ADDRESS} from '@env';
 import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 LocaleConfig.locales['en'] = {
@@ -35,7 +36,7 @@ LocaleConfig.defaultLocale = 'en';
 
 const Attendance: React.FC = () => {
 
-
+  
   // Mock data
   // const attendanceData: MarkedDates = {
   //   '2023-06-10': { customStyles: { container: { backgroundColor: 'green', borderRadius: 12 }, text: { color: '#ffffff' } } },
@@ -201,7 +202,18 @@ const Attendance: React.FC = () => {
   const [maxDate, setMaxDate] = useState('');
   const navigation = useNavigation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const onDayPress = (day: any) => {
     setSelectedDate(day.dateString);
     Alert.alert(attendanceData[day.dateString]?.title || 'No information for this date');

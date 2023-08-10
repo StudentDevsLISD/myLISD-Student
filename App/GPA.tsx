@@ -4,6 +4,9 @@ import { BarChart } from 'react-native-chart-kit';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import { CommonActions, NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 const GPAInfo = ({ title, value, themeStyle }) => (
   <TouchableOpacity style={themeStyle.GPAScreenGpaInfo}>
@@ -18,7 +21,19 @@ const GPAInfo = ({ title, value, themeStyle }) => (
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const styles = theme === 'light' ? lightStyles : darkStyles;
-
+  const navigation = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const data = {
     labels: ['MP1', 'MP2', 'MP3', 'MP4', 'MP5', 'MP6'],
     datasets: [

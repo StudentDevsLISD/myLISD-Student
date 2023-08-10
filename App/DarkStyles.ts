@@ -13,6 +13,154 @@ const DarkStyles = StyleSheet.create({
         fontSize: 16,
         color: "white"
         },
+        AssignmentScreenContainer: {
+          flex: 1,
+          backgroundColor: '#111',
+          paddingTop: 10,
+        },
+        AssignmentScreenCourseTitle: {
+          fontSize: 25,
+          fontWeight: 'bold',
+          textAlign: 'center',
+          padding: 5,
+          color: "#ede1d1"
+        },
+        AssignmentScreenTop: {
+          flex: 0.4,
+          flexDirection: 'row',
+          padding: 10,
+        },
+        AssignmentScreenBorderBox: {
+          borderRadius: 15,
+          backgroundColor: '#222',
+          margin: 5,
+          borderWidth: 0,
+          borderColor: '#ddd',
+        },
+        AssignmentScreenProgressBarContainer: {
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: 13,
+          paddingBottom: 8,
+          paddingHorizontal: 15,
+          borderRadius: 15,
+        },
+        AssignmentScreenGradeText: {
+          fontSize: 28,
+          fontWeight: 'bold',
+          color: "#ede1d1"
+        },
+        AssignmentScreenOverallText: {
+          fontSize: 16,
+          color: 'grey',
+        },
+        AssignmentScreenBreakdownContainer: {
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        },
+        AssignmentScreenBreakdownColumn: {
+          paddingHorizontal: 5,
+        },
+        AssignmentScreenBreakdownBox: {
+          marginBottom: 5,
+          backgroundColor: '#222',
+          borderRadius: 10,
+          paddingHorizontal: 10,
+          paddingTop: 3,
+          paddingBottom: 10,
+          marginTop: 6,
+          width: Dimensions.get('window').width * 0.45,
+          height: 80,
+        },
+        AssignmentScreenBreakdownLabel: {
+          fontSize: 18,
+          fontWeight: 'normal',
+          color: "white",
+        },
+        AssignmentScreenBreakdownValue: {
+          fontSize: 30,
+          fontWeight: 'bold',
+          color: "#EDE1D1",
+        },
+        AssignmentScreenBreakdownWeight: {
+          fontSize: 14,
+        },
+        AssignmentScreenBreakdownColor: {
+          width: 25,
+          height: 10,
+          borderRadius: 5,
+          position: 'absolute',
+          right: 10,
+          bottom: 5,
+        },
+        AssignmentScreenBottom: {
+          flex: 0.6,
+          backgroundColor: '#222',
+          borderRadius: 10,
+          margin: 10,
+          padding: 10,
+        },
+        AssignmentScreenAssignmentTitle: {
+          fontSize: 22,
+          fontWeight: 'bold',
+          paddingTop: 3,
+          paddingBottom: 3,
+          color: "#EDE1D1",
+        },
+        AssignmentScreenAssignmentName: {
+          fontSize: 18,
+          fontWeight: 'bold',
+          paddingVertical: 3,
+          color: "white",
+        },
+        AssignmentScreenAssignmentBox: {
+          marginBottom: 10,
+          paddingHorizontal: 10,
+        },
+       AssignmentScreenAssignmentItem: {
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        AssignmentScreenAssignmentTextContainer: {
+          flex: 1,
+        },
+        AssignmentScreenAssignmentSubtitle: {
+          fontSize: 14,
+          color: "#d3d3d3",
+        },
+        AssignmentScreenAssignmentGradeContainer: {
+          flex: 0.2,
+          alignItems: 'flex-end',
+        },
+        AssignmentScreenAssignmentGrade: {
+          fontSize: 14,
+          fontWeight: 'bold',
+          color: "white"
+        },
+        AssignmentScreenAssignmentMaxGrade: {
+          fontSize: 12,
+          color: 'grey',
+        },
+        AssignmentScreenBreakdownColorIndicator: {
+          width: 10,
+          height: 35,
+          borderRadius: 5,
+          marginRight: 10,
+        },
+        AssignmentScreenCalculateButton: {
+          marginTop: 5,
+          marginBottom: -5,
+          borderRadius: 10,
+          paddingVertical: 9,
+          paddingHorizontal: 32.5,
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        AssignmentScreenCalculateButtonText: {
+          color: '#fff',
+          fontSize: 16,
+          fontWeight: '800',
+        },
         AttendanceLoadingContainer:{
             flex: 1,
             justifyContent: 'center', 

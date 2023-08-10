@@ -73,7 +73,6 @@ const PeriodTimer = () => {
 
   const currentPeriodName = currentPeriod.name || 'No Period';
   const remainingTime = currentPeriodName === 'No Period' ? 'No School Right Now' : getRemainingTime(currentPeriod);
-  console.log(currentPeriodName, remainingTime)
   return (
     <View style={styles.PeriodTimerContainer}>
       <Text style={styles.PeriodTimerPeriod}>{currentPeriodName}</Text>

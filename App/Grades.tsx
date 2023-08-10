@@ -64,7 +64,18 @@ const Grades = () => {
   const [newAssignments, setNewAssignments] = useState([]);
   const route = useRoute();
   const headerTitle = isLoggedIn ? "Grades" : "HAC";
-
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
   const formatGradeValue = (gradeValue: number) => {
     if (gradeValue >= 90.0 && gradeValue <= 99.99) {
       return gradeValue.toFixed(2);
