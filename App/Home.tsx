@@ -263,7 +263,7 @@ const Home = () => {
           currentDate.toISOString().substring(8, 10)}
       </Text>
       <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
-      <PeriodTimer />
+      <PeriodTimer/>
       <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
         <Text style={styles.appButtonText2}>
           {scheduled
