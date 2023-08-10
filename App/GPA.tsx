@@ -88,7 +88,7 @@ const App = () => {
             maxValue={6.0}
             barBorderRadius={4}
 disablePress={true}
-            animationDuration={300}
+            animationDuration={400}
             minValue={3.0}
             data={barData}
             isAnimated
