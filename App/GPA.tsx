@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
+import { BarChart } from "react-native-gifted-charts";
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
@@ -44,21 +44,29 @@ const App = () => {
     setCurrentDate(formattedDate);
   }, []);
 
+  const barData = [
+    {value: 5.5,label: 'MP1',frontColor: '#4ABFF4', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.5</Text>
+    ),},
+    {value: 5.8,label: 'MP2',frontColor: '#79C3DB', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.8</Text>
+    ),},
+    {value: 5.5,label: 'MP3',frontColor: '#28B2B3', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.5</Text>
+    ),},
+    {value: 5.9,label: 'MP4',frontColor: '#4ADDBA', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
+    ),},
+    {value: 5.9,label: 'MP5',frontColor: '#91E3E3', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
+    ),},
+    {value: 5.9,label: 'MP6',frontColor: '#91E3E3', topLabelComponent: () => (
+      <Text style={{color: 'black', fontSize: 18, marginBottom: 6}}>5.9</Text>
+    ),},
 
-  const data = {
-    labels: ['MP1', 'MP2', 'MP3', 'MP4', 'MP5', 'MP6'],
-    datasets: [
-      {
-        data: [5.6, 5.5, 5.9, 5.8, 5.5, 6.0],
-      },
-      {
-      data: [3.0]
-      },
-      {
-        data: [6.0]
-      }
-    ],
-  };
+    ];
+
+
 
   return (
     <View style={styles.GPAScreenContainer}>
@@ -71,27 +79,19 @@ const App = () => {
         <GPAInfo title="Unweighted GPA" value="3.85" themeStyle={styles} />
       </View>
       <Text style={styles.GPAScreenChartTitle}>Weighted GPA Progress</Text>
-      <BarChart
-        data={data}
-        width={320}
-        height={220}
-        yAxisInterval={0.5}
-        yAxisSuffix=""
-        yAxisLabel=""
-        chartConfig={{
-          backgroundGradientFrom: '#FFFFFF', // Set the background to white
-          backgroundGradientTo: '#FFFFFF',
-          decimalPlaces: 1,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Set the text color to black
-          style: {
-            borderRadius: 16,
-            paddingTop: 0, // Reduce padding at the top
-            paddingRight: 0, // Reduce padding at the right
-          },
-        }}
-        style={styles.GPAScreenChart}
-        contentInset={{ top: 10, bottom: 10 }} // Adjust content inset to limit grid lines
-      />
+      <View>
+            <BarChart
+            showFractionalValue
+            curved={true}
+            showYAxisIndices
+            noOfSections={4}
+            maxValue={6.0}
+            animationDuration={300}
+            minValue={3.0}
+            data={barData}
+            isAnimated
+            />
+        </View>
     </View>
   );
 };
