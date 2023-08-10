@@ -1,4 +1,4 @@
-  import React, { useState, useEffect } from 'react';
+  import React, { useState, useEffect, useContext } from 'react';
   import { View, StyleSheet, Image, Text } from 'react-native';
   import SwitchSelector from 'react-native-switch-selector';
   import Barcode from 'react-native-barcode-svg';
@@ -9,6 +9,9 @@
   import base64js from 'base64-js';
   const mimeType = 'image/gif';
   import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
+  import { ThemeContext } from './ThemeContext';
+  import lightStyles from './LightStyles';
+  import darkStyles from './DarkStyles';
 
   const getImageUrlAPI = async () => {
     try {
@@ -111,6 +114,9 @@
     const [imageUrl, setImageUrl] = useState<String>("");
     //const [studentIDNum, setStudentIDNum] = useState<number | null>(null);
 
+    const { theme } = useContext(ThemeContext);
+    const styles = theme === 'light' ? lightStyles : darkStyles;
+
     //const imageUrl = 'https://smarttagprodweststorage.blob.core.windows.net/07861/photos/student/942584.jpg';
     const imageName = 'StudentID.gif';
     const imagePath = `${RNFS.DocumentDirectoryPath}/${imageName}`;
@@ -181,46 +187,46 @@
     const FirstScreen = () => (
       <View>
         <Image
-          style={styles.IDCard}
+          style={styles.IDsIDCard}
           source={require('../assets/VRHS_ID_Rounded.png')} //api
         />
-        <Text style={styles.firstName}>{firstName}</Text>
-        <Text style={styles.lastName}>{lastName}</Text>
-        <Text style={styles.grade}>{"Grade: " + grade}</Text>
-        <Text style={styles.IDNum}>{"#" + studentID}</Text>
+        <Text style={styles.IDsFirstName}>{firstName}</Text>
+        <Text style={styles.IDsLastName}>{lastName}</Text>
+        <Text style={styles.IDsGrade}>{"Grade: " + grade}</Text>
+        <Text style={styles.IDsIDNum}>{"#" + studentID}</Text>
         {localImagePath && (
           <Image
-          style={styles.IDPic}
+          style={styles.IDsIDPic}
           source={{ uri: localImagePath }}
         />
         )}
-        <View style={styles.barcodeContainer}>
+        <View style={styles.IDsBarcodeContainer}>
           <Barcode value={studentID.toString()} format="CODE39" height={50} />
         </View>
       </View>
     );
 
     const SecondScreen = () => (
-      <View style={styles.secondScreenContainer}>
+      <View style={styles.IDsSecondScreenContainer}>
         <Image
-          style={styles.smartTag}
+          style={styles.IDsSmartTag}
           source={require('../assets/SmartTagID.png')}
         />
-        <Text style={styles.firstName2}>{firstName}</Text>
-        <Text style={styles.lastName2}>{lastName}</Text>
-        <View style={styles.barcodeContainer2}>
-          <Barcode value={"944197"} format="CODE39" height={60} />
+        <Text style={styles.IDsFirstName2}>{firstName}</Text>
+        <Text style={styles.IDsLastName2}>{lastName}</Text>
+        <View style={styles.IDsBarcodeContainer2}>
+          <Barcode value={studentID.toString()} format="CODE39" height={60} />
         </View>
       </View>
     );
 
     return (
-      <View style={styles.container}>
+      <View style={styles.IDsContainer}>
         <SwitchSelector
           options={options}
           initial={0}
           onPress={(value: React.SetStateAction<number>) => setSelectedScreen(value)}
-          style={styles.switchSelector}
+          style={styles.IDsSwitchSelector}
           buttonColor={'#3495eb'}
           animationDuration={200}
         />
@@ -229,122 +235,6 @@
     );
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    IDCard: {
-      height: 600,
-      width: 550,
-      resizeMode: 'contain',
-      transform: [{ rotate: '90deg' }],
-      alignSelf: 'center',
-    },
-    secondScreenContainer: {
-      position: 'relative',
-    },
-    smartTag: {
-      height: 575,
-      width: 525,
-      resizeMode: 'contain',
-      alignSelf: 'center',
-    },
-    switchSelector: {
-      marginTop: 30,
-      marginBottom: 20,
-      marginHorizontal: 50,
-    },
-    firstName: {
-      position: 'absolute',
-      top: '65%',
-      left: 50,
-      width: '100%',
-      color: 'black',
-      fontSize: 30,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      transform: [{ rotate: '90deg' }],
-    },
-    lastName: {
-      position: 'absolute',
-      top: '65%',
-      left: 0,
-      width: '100%',
-      color: 'black',
-      fontSize: 30,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      transform: [{ rotate: '90deg' }],
-    },
-    barcodeContainer: {
-      position: 'absolute',
-      top: '42%',
-      right: 128,
-      width: '100%',
-      alignSelf: 'center',
-      transform: [{ rotate: '90deg' }],
-    },
-    grade: {
-      position: 'absolute',
-      top: '65%',
-      right: 50,
-      width: '100%',
-      color: 'black',
-      fontSize: 30,
-      fontWeight: 'bold',
-      textAlign: 'left',
-      transform: [{ rotate: '90deg' }],
-    },
-    IDNum: {
-      position: 'absolute',
-      top: '100%',
-      right: 115,
-      width: '100%',
-      color: 'black',
-      fontSize: 20,
-      fontWeight: '900',
-      textAlign: 'left',
-      transform: [{ rotate: '90deg' }],
-    },
-    IDPic: {
-      position: 'absolute',
-      transform: [{rotate: '90deg'}], 
-      height: 200,
-      width: 160,
-      left: 120,
-      top: '4%',
-    },
-    firstName2: {
-      position: 'absolute',
-      top: '55%',
-      left: 0,
-      width: '100%',
-      transform: [{ translateY: -50 }],
-      color: 'black',
-      fontSize: 30,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      textTransform: 'uppercase',
-    },
-    lastName2: {
-      position: 'absolute',
-      top: '65%',
-      left: 0,
-      width: '100%',
-      transform: [{ translateY: -50 }],
-      color: 'black',
-      fontSize: 23,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      textTransform: 'uppercase',
-    },
-    barcodeContainer2: {
-      position: 'absolute',
-      top: '75%',
-      left: 65,
-      width: '100%',
-      alignSelf: 'center',
-    },
-  });
+  
 
   export default ID;

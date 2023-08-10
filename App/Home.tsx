@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,9 @@ import { useAuth } from './AuthContext';
 import CalendarEvent from './CalendarEvent';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -32,6 +35,9 @@ const Home = () => {
   const { isSignedIn, setIsSignedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [noWork, setNoWork] = useState(false); // State to track if there is no work
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
     
   const dateArray = [
     'Sunday',
@@ -254,33 +260,33 @@ const Home = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.letter_day}>{Lday}</Text>
-      <Text style={styles.letter_day_2}>{'day'}</Text>
-      <Text style={styles.date}>
+    <View style={styles.HomeContainer}>
+      <Text style={styles.HomeLetter_day}>{Lday}</Text>
+      <Text style={styles.HomeLetter_day_2}>{'day'}</Text>
+      <Text style={styles.HomeDate}>
         {currentDate.toISOString().substring(5, 7) +
           '/' +
           currentDate.toISOString().substring(8, 10)}
       </Text>
-      <Text style={styles.day}>{dateArray[currentDate.getDay()]}</Text>
+      <Text style={styles.HomeDay}>{dateArray[currentDate.getDay()]}</Text>
       <PeriodTimer />
-      <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
-        <Text style={styles.appButtonText2}>
+      <TouchableOpacity disabled={true} style={styles.HomeAppButtonContainer2}>
+        <Text style={styles.HomeAppButtonText2}>
           {scheduled
             ? 'Scheduled: ' + scheduled
             : 'No class scheduled for ' + currentDate.toDateString()}
         </Text>
       </TouchableOpacity>
-      <Text style={styles.work}>
+      <Text style={styles.HomeWork}>
         Today's Work
       </Text>
       <>
         {isSignedIn ? ( // Check if the user is signed in
-          <ScrollView style={styles.newStyle}>
+          <ScrollView style={styles.HomeNewStyle}>
             {isLoading ? (
-              <ActivityIndicator size="large" color="#007AFF" style={styles.indicator} />
+              <ActivityIndicator size="large" color="#007AFF" style={styles.HomeIndicator} />
             ) : events.length === 0 ? (
-              <Text style={styles.noWorkText}>No More Work</Text>
+              <Text style={styles.HomeNoWorkText}>No More Work</Text>
             ) : (
               events.map((event) => (
                 <CalendarEvent
@@ -293,9 +299,9 @@ const Home = () => {
             )}
           </ScrollView>
         ) : (
-          <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
+          <TouchableOpacity onPress={handleSignIn} style={styles.HomeGooglebox}>
             <Image source={require('../assets/google.png')} style={{ width: 60, height: 60, marginLeft: 20 }} />
-            <Text style={styles.google1}>Sign in with Google</Text>
+            <Text style={styles.HomeGoogle1}>Sign in with Google</Text>
           </TouchableOpacity>
         )}
       </>
@@ -304,136 +310,5 @@ const Home = () => {
   
   
 };
-
-const styles = StyleSheet.create({
-work:{
-  fontSize: 24,
-  alignSelf: "center",
-  marginVertical: 8,
-  marginBottom: 12,
-},
-container: {
-flex: 1,
-alignItems: 'flex-start',
-justifyContent: 'flex-start',
-backgroundColor: 'ebe8e8',
-},
-indicator: {
-marginBottom: 20,
-},
-letter_day: {
-
-backgroundColor: 'white',
-paddingVertical: 0,
-paddingHorizontal: 44,
-marginHorizontal: 20,
-marginBottom: 7,
-marginTop: 16,
-fontSize: RFPercentage(10),
-borderWidth: 2,
-borderColor: '#ebe8e8',
-borderRadius: 15,
-paddingBottom: 14,
-paddingTop: -20,
-overflow: 'hidden',
-fontWeight: 'normal',
-
-},
-letter_day_2: {
-fontSize: 16,
-paddingVertical: 0,
-paddingRight: 35,
-
-paddingHorizontal: 25,
-marginHorizontal: 45,
-marginBottom: 0,
-marginTop: -37,
-height: 100,
-width: 250,
-fontWeight: 'normal',
-
-},
-date: {
-  backgroundColor: '#fff',
-  marginLeft: 158,
-  marginTop: -182,
-  fontSize: RFPercentage(8), // Adjust the value (5) to your preference
-  borderWidth: 2,
-  borderColor: '#ebe8e8',
-  borderRadius: 15,
-  paddingBottom: 34,
-  paddingTop: 2,
-  paddingHorizontal: 28,
-  overflow: 'hidden',
-  fontWeight: 'normal',
-},
-day: {
-  fontSize: 15, // Adjust the value (2) to your preference
-  paddingVertical: 0,
-  marginHorizontal: 237,
-  marginBottom: 0,
-  marginTop: -30,
-  height: 100,
-  width: 250,
-  fontWeight: "normal",
-},
-newStyle: {
-  flex: 2,
-  width: "100%"
-  // marginTop: -200,
-  
-  //padding: "1.2%"
-  
-},
-google1:{
-  marginLeft:85,
-  marginTop: -45,
-  fontSize: 25,
-  marginRight: 29,
-  fontWeight: 'normal',
-
-},
-googlebox:{
-  backgroundColor: '#ffffff',
-  borderRadius: 15,
-  paddingHorizontal: 20,
-  paddingRight: 20,
-  marginHorizontal: 10,
-  paddingBottom: 15,
-  width: '95%',
-  borderWidth: 2,
-  borderColor: '#ebe8e8',
-  fontWeight: 'normal',
-
-},
-noWorkText: {
-  fontSize: 18,
-  fontWeight: 'normal',
-  alignSelf: 'center',
-  marginVertical: 8,
-},
-appButtonContainer2: {
-elevation: 8,
-backgroundColor: 'white',
-borderRadius: 15,
-paddingVertical: 13,
-paddingHorizontal: 12,
-marginHorizontal: 12,
-marginBottom: 7,
-marginTop: -1,
-width: '93%',
-borderWidth: 2,
-borderColor: '#ebe8e8',
-fontWeight: 'bold',
-
-},
-appButtonText2: {
-fontSize: 18,
-color: 'black',
-alignSelf: 'center',
-fontWeight: 'normal',
-
-},
-});
 
 export default Home;

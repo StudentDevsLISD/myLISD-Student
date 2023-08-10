@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
-import { MarkedDates } from 'react-native-calendars/src/types';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
+import axios from 'axios';
+import {IP_ADDRESS} from '@env';
+import { ActivityIndicator } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 LocaleConfig.locales['en'] = {
   monthNames: [
@@ -26,66 +34,305 @@ LocaleConfig.locales['en'] = {
 LocaleConfig.defaultLocale = 'en';
 
 const Attendance: React.FC = () => {
-  const attendanceCodes = {
-    'Present': {
-      color: 'green',
-      label: 'Present',
-    },
-    'Absent': {
-      color: 'red',
-      label: 'Absent',
-    },
-    'Late': {
-      color: 'orange',
-      label: 'Late',
-    },
-    'Excused': {
-      color: 'blue',
-      label: 'Excused',
-    },
-  };
+
 
   // Mock data
-  const attendanceData: MarkedDates = {
-    '2023-06-10': { customStyles: { container: { backgroundColor: 'green', borderRadius: 12 }, text: { color: '#ffffff' } } },
-    '2023-06-12': { customStyles: { container: { backgroundColor: 'red', borderRadius: 12 }, text: { color: '#ffffff' } } },
-    '2023-06-14': { customStyles: { container: { backgroundColor: 'orange', borderRadius: 12 }, text: { color: '#ffffff' } } },
-    '2023-06-16': { customStyles: { container: { backgroundColor: 'blue', borderRadius: 12 }, text: { color: '#ffffff' } } },
-    // Add more dates here with their respective custom styles
-  };
+  // const attendanceData: MarkedDates = {
+  //   '2023-06-10': { customStyles: { container: { backgroundColor: 'green', borderRadius: 12 }, text: { color: '#ffffff' } } },
+  //   '2023-06-12': { customStyles: { container: { backgroundColor: 'red', borderRadius: 12 }, text: { color: '#ffffff' } } },
+  //   '2023-06-14': { customStyles: { container: { backgroundColor: 'orange', borderRadius: 12 }, text: { color: '#ffffff' } } },
+  //   '2023-06-16': { customStyles: { container: { backgroundColor: 'blue', borderRadius: 12 }, text: { color: '#ffffff' } } },
+  //   // Add more dates here with their respective custom styles
+  // };
 
+  const [attendanceData, setAttendanceData] = useState({});
+  const [attendanceCodes, setAttendanceCodes] = useState({
+    "Absence-Excused": {
+      label: "Absence-Excused",
+      color: "#ff0000"
+    },
+    "Absent from Sub-Campus": {
+      label: "Absent from Sub-Campus",
+      color: "#ff0000"
+    },
+    "Absent w/Doctor Notice": {
+      label: "Absent w/Doctor Notice",
+      color: "#ff0000"
+    },
+    "Co-Curricular School Rel Absence (Non UIL)": {
+      label: "Co-Curricular School Rel Absence (Non UIL)",
+      color: "#0033ff"
+    },
+    "College Visit (11th or 12th Grade)": {
+      label: "College Visit (11th or 12th Grade)",
+      color: "#00cc00"
+    },
+    "District Approved Absence": {
+      label: "District Approved Absence",
+      color: "#000000"
+    },
+    "Driver’s License/Permit": {
+      label: "Driver’s License/Permit",
+      color: "#00cc00"
+    },
+    "Extra-Curricular School Related Absence": {
+      label: "Extra-Curricular School Related Absence",
+      color: "#0033ff"
+    },
+    "Funeral/Memorial": {
+      label: "Funeral/Memorial",
+      color: "#ff0000"
+    },
+    "Homebound": {
+      label: "Homebound",
+      color: "#0033ff"
+    },
+    "Homebound Non-Serviced Day": {
+      label: "Homebound Non-Serviced Day",
+      color: "#ff0000"
+    },
+    "Homebound w/CEHI": {
+      label: "Homebound w/CEHI",
+      color: "#0033ff"
+    },
+    "Homebound?CEHI": {
+      label: "Homebound?CEHI",
+      color: "#0033ff"
+    },
+    "ISS Placement": {
+      label: "ISS Placement",
+      color: "#0033ff"
+    },
+    "Late Excused Absence": {
+      label: "Late Excused Absence",
+      color: "#ff0000"
+    },
+    "Late to Class but Present": {
+      label: "Late to Class but Present",
+      color: "#00cc00"
+    },
+    "Late Unexcused Absence": {
+      label: "Late Unexcused Absence",
+      color: "#ff0000"
+    },
+    "Leave Early": {
+      label: "Leave Early",
+      color: "#FFCC99"
+    },
+    "LEO": {
+      label: "LEO",
+      color: "#000000"
+    },
+    "Life Threatening Illness/Treatment": {
+      label: "Life Threatening Illness/Treatment",
+      color: "#00cc00"
+    },
+    "Medical Appointment-Doctor Note": {
+      label: "Medical Appointment-Doctor Note",
+      color: "#00cc00"
+    },
+    "Military Deployment": {
+      label: "Military Deployment",
+      color: "#00cc00"
+    },
+    "Military Recruitment Visit": {
+      label: "Military Recruitment Visit",
+      color: "#00cc00"
+    },
+    "Nurse Sent Home": {
+      label: "Nurse Sent Home",
+      color: "#ff0000"
+    },
+    "Other Instruction On/Off Campus": {
+      label: "Other Instruction On/Off Campus",
+      color: "#0033ff"
+    },
+    "Present": {
+      label: "Present",
+      color: "#00cc00"
+    },
+    "Prevention Measures": {
+      label: "Prevention Measures",
+      color: "#6600cc"
+    },
+    "State Approved Non Absence": {
+      label: "State Approved Non Absence",
+      color: "#00cc00"
+    },
+    "Suspended": {
+      label: "Suspended",
+      color: "#ff0000"
+    },
+    "Technical Connectivity Issue": {
+      label: "Technical Connectivity Issue",
+      color: "#ff0000"
+    },
+    "Testing": {
+      label: "Testing",
+      color: "#0033ff"
+    },
+    "Unexcused": {
+      label: "Unexcused",
+      color: "#ff0000"
+    },
+    "Unverified-Unexcused": {
+      label: "Unverified-Unexcused",
+      color: "#ff0000"
+    },
+    "Virtual Schedule Present": {
+      label: "Virtual Schedule Present",
+      color: "#00cc00"
+    },
+    "Voting Clerk/Election": {
+      label: "Voting Clerk/Election",
+      color: "#00cc00"
+    },
+    "Multiple Attendance Codes": {
+      label: "Multiple Attendance Codes",
+      color: "#FFCC99"
+    },
+  }); // initialize as empty object
   const [selectedDate, setSelectedDate] = useState('');
-
+  const [calendarKey, setCalendarKey] = useState(Date.now().toString()); // Add this state for the key prop
+  const [currentMonth, setCurrentMonth] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [prevMonth, setPrevMonth] = useState('');
+  const [minDate, setMinDate] = useState('');
+  const [maxDate, setMaxDate] = useState('');
+  const navigation = useNavigation();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   const onDayPress = (day: any) => {
     setSelectedDate(day.dateString);
+    Alert.alert(attendanceData[day.dateString]?.title || 'No information for this date');
   };
+
+  useEffect(() => {
+    loadCredentials();
+  }, []);
+
+  const loadCredentials = async () => {
+    try {
+      const loadedUsername = await AsyncStorage.getItem('hacusername');
+      const loadedPassword = await AsyncStorage.getItem('hacpassword');
+
+      if (loadedUsername !== null && loadedPassword !== null) {
+        setIsLoggedIn(true);
+        console.log("x")
+        fetchDates(loadedUsername, loadedPassword)
+      } else {
+        setIsLoggedIn(false);
+        console.log("y")
+        navigation.navigate("Grades")
+      }
+    } catch (error) {
+      console.log("bad")
+    }
+  };
+
+    const fetchDates = async (username, password) => {
+      let response ='';
+      try {
+        setIsLoading(true);
+        response = await axios.get(`http://${IP_ADDRESS}:8080/attendance?username=${username}&password=${password}`);
+        setIsLoading(false);
+      } catch (error) {
+        setIsLoading(false);
+        setIsLoggedIn(false);
+        Alert.alert("Error logging in")
+      }      
+      if (response.data) {
+        const currentMonthData = formatData(response.data.data, response.data.monthNow);
+        let prevMonthData = {};
+  
+        if(response.data.prevData && response.data.prevMonth){
+          prevMonthData = formatData(response.data.prevData, response.data.prevMonth);
+        }
+  
+        const combinedData = {...prevMonthData, ...currentMonthData};
+        setAttendanceData(combinedData);
+  
+        const currentMonthString = formatMonth(response.data.monthNow);
+        setCurrentMonth(currentMonthString);
+        const prevMonthString = formatMonth(response.data.prevMonth);
+        setPrevMonth(prevMonthString);
+        setMinDate(prevMonthString);
+        setMaxDate(currentMonthString.substring(0, currentMonthString.lastIndexOf("-")+1) + "31");
+      }
+    };
+
+  
+  
+
+  const formatData = (data, monthNow) => {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthNumber = monthNames.indexOf(monthNow.split(" ")[0]) + 1;
+    const monthString = monthNumber < 10 ? `0${monthNumber}` : `${monthNumber}`;
+    const year = monthNow.split(" ")[1];
+    const newData = {};
+    data.forEach(item => {
+      const dateString = `${year}-${monthString}-${item.day.length == 1 ? "0" + item.day : item.day}`;
+      const attendance = item.attendance;
+      const BGcolor = item.color;
+      let realBGcolor;
+      if(BGcolor.indexOf("#")!=-1){
+        realBGcolor = BGcolor.substring(BGcolor.indexOf("#"), BGcolor.indexOf("#") + 7);
+      } else {
+        realBGcolor = "";
+      }
+      if(attendance !== ""){
+        newData[dateString] = {
+          title: attendance,
+          customStyles: {
+            container: {
+              backgroundColor:  realBGcolor != "#CCCCCC" ? realBGcolor : "transparent",
+              borderRadius: 12
+            },
+            text: {
+              color: theme == "dark" ? "#ffffff" : realBGcolor != "#ffffff" ? "#ffffff" : "#000000"
+            }
+          }
+        };
+      }
+    });
+    return newData;
+  };
+  
+  
+  const formatMonth = (monthNow) => {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthNumber = monthNames.indexOf(monthNow.split(" ")[0]) + 1;
+    const monthString = monthNumber < 10 ? `0${monthNumber}` : `${monthNumber}`;
+    const year = monthNow.split(" ")[1];
+    return `${year}-${monthString}-01`;
+  }
 
   const renderDay = (day: any, item: any) => {
     if (item && item.customStyles) {
       const { backgroundColor, color } = item.customStyles.container;
       return (
-        <View style={styles.dayContainer}>
-          <View style={[styles.emptyBox, { backgroundColor }]} />
-          <Text style={[styles.dayText, { color }]}>{day.day}</Text>
+        <View style={styles.AttendanceDayContainer}>
+          <View style={[styles.AttendanceEmptyBox, { backgroundColor }]} />
+          <Text style={[styles.AttendanceDayText, { color }]}>{day.day}</Text>
         </View>
       );
     }
+    
     return (
-      <View style={styles.dayContainer}>
-        <Text style={styles.dayText}>{day.day}</Text>
+      <View style={styles.AttendanceDayContainer}>
+        <Text style={styles.AttendanceDayText}>{day.day}</Text>
       </View>
     );
   };
-  
-  return (
-    <View style={styles.container}>
-      <View style={styles.calendarContainer}>
-        <Calendar
-          markingType='custom'
-          onDayPress={onDayPress}
-          markedDates={attendanceData}
-          theme={{
-            backgroundColor: '#ffffff',
+
+  const { theme } = useContext(ThemeContext);
+  useEffect(() => {
+    // Update the key whenever the theme changes
+    setCalendarKey(Date.now().toString());
+  }, [theme]);
+  const styles = theme == 'light' ? lightStyles : darkStyles;
+  const lightTheme = {
+    backgroundColor: '#ffffff',
             calendarBackground: '#ffffff',
             textSectionTitleColor: '#000000',
             selectedDayBackgroundColor: '#e8e8e8',
@@ -107,79 +354,88 @@ const Attendance: React.FC = () => {
             textDayFontWeight: 'bold',
             textMonthFontWeight: 'bold',
             textDayHeaderFontWeight: 'bold',
-          }}
-          renderDay={renderDay}
-          enableSwipeMonths={true}
+  }
+  const darkTheme = {
+    backgroundColor: '#222',
+    calendarBackground: '#222',
+    textSectionTitleColor: '#ffffff',
+    selectedDayBackgroundColor: '#e8e8e8',
+    selectedDayTextColor: '#000000',
+    todayTextColor: '#1da4f2',
+    dayTextColor: '#fff',
+    textDisabledColor: '#444',
+    dotColor: '#0089d9',
+    selectedDotColor: '#0089d9',
+    arrowColor: 'white',
+    monthTextColor: '#ffffff',
+    indicatorColor: '#ffffff',
+    textDayFontFamily: 'Avenir',
+    textMonthFontFamily: 'Avenir',
+    textDayHeaderFontFamily: 'Avenir',
+    textDayFontSize: 16,
+    textMonthFontSize: 18,
+    textDayHeaderFontSize: 13,
+    textDayFontWeight: 'bold',
+    textMonthFontWeight: 'bold',
+    textDayHeaderFontWeight: 'bold',
+  };
+  if (isLoading) {
+    return (
+      <View style={styles.AttendanceLoadingContainer}>
+        <ActivityIndicator
+          animating={true}
+          size={'large'}
+          color={theme === 'light' ? '#005a87' : '#ede1d1'}
         />
       </View>
-      <View style={styles.legendContainer}>
-        <View style={styles.legendBox}>
-          <Text style={styles.legendTitle}>Color Legend</Text>
+    );
+  }
+  const handleMonthChange = (month) => {
+    if (month.dateString < minDate || month.dateString > maxDate) {
+      setCurrentMonth(month.dateString);
+    }
+  };
+  return (
+    <View style={styles.AttendanceContainer}>
+      {!isLoggedIn ? (
+        <TouchableOpacity 
+          style={styles.GradesLoginButton} 
+          onPress={() => loadCredentials()}
+        >
+          <Text style={styles.GradesLoginButtonText}>Login with HAC</Text>
+        </TouchableOpacity>
+      ):(
+      
+      <ScrollView>
+      <View style={styles.AttendanceCalendarContainer}>
+        <Calendar
+          key={calendarKey}
+          markingType='custom'
+          onDayPress={onDayPress}
+          onMonthChange={handleMonthChange}
+          markedDates={attendanceData}
+          theme={theme == 'light' ? lightTheme : darkTheme}
+          renderDay={renderDay}
+          enableSwipeMonths={true}
+          initialDate = {currentMonth}
+          minDate={minDate}
+          maxDate = {maxDate}
+        />
+      </View>
+      <View style={styles.AttendanceLegendContainer}>
+        <View style={styles.AttendanceLegendBox}>
+          <Text style={styles.AttendanceLegendTitle}>Color Legend</Text>
           {Object.entries(attendanceCodes).map(([code, data]) => (
-            <View key={code} style={styles.legendItem}>
-              <View style={[styles.legendColorBox, { backgroundColor: data.color }]} />
-              <Text style={styles.legendText}>{data.label}</Text>
+            <View key={code} style={styles.AttendanceLegendItem}>
+              <View style={[styles.AttendanceLegendColorBox, { backgroundColor: data.color }]} />
+              <Text style={styles.AttendanceLegendText}>{data.label}</Text>
             </View>
           ))}
         </View>
       </View>
+      </ScrollView>
+      )}
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f2f2f7',
-  },
-  calendarContainer: {
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
-  legendContainer: {
-    marginTop: 16,
-  },
-  legendBox: {
-    backgroundColor: '#ffffff',
-    borderRadius: 10,
-    padding: 16,
-  },
-  legendTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  legendColorBox: {
-    width: 18,
-    height: 18,
-    borderRadius: 4,
-    marginRight: 8,
-  },
-  legendText: {
-    fontSize: 16,
-    fontFamily: 'Avenir',
-  },
-  dayContainer: {
-    alignItems: 'center',
-  },
-  dayText: {
-    fontSize: 16,
-    fontFamily: 'Avenir',
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  emptyBox: {
-    width: 20,
-    height: 20,
-    marginRight: 8,
-  },
-});
-
 export default Attendance;

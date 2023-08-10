@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
-const MyComponent: React.FC = () => {
+const ClassSchedule: React.FC = () => {
   const navigation = useNavigation();
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -18,18 +25,11 @@ const MyComponent: React.FC = () => {
     });
   }, [navigation]);
   return (
-    <View style={styles.container}>
+    <View style={styles.ClassScheduleContainer}>
       <Text>Jay u suck</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
-export default MyComponent;
+export default ClassSchedule;

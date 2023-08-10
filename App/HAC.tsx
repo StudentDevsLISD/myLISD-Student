@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Linking, Text, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 const options = [
   { id: '1', title: 'Grades', description: 'Check your grades', iconName: 'chart-line', route: 'NewsScreen' },
@@ -28,6 +31,9 @@ type Props = {
 const HAC = () => {
   
   const [currentDate, setCurrentDate] = useState('');
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
     const date = new Date();
@@ -93,26 +99,26 @@ const HAC = () => {
   
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.dateText}>{currentDate}</Text>
-        <Text style={styles.headerText}>HAC</Text>
+    <ScrollView contentContainerStyle={styles.HACContainer}>
+      <View style={styles.HACHeader}>
+        <Text style={styles.HACDateText}>{currentDate}</Text>
+        <Text style={styles.HACHeaderText}>HAC</Text>
       </View>
-      <TouchableOpacity disabled={true} style={styles.appButtonContainer2}>
-        <Text style={styles.appButtonText2}>
+      <TouchableOpacity disabled={true} style={styles.HACAppButtonContainer2}>
+        <Text style={styles.HACAppButtonText2}>
           {'No New Grades Have Been Added'}
         </Text>
       </TouchableOpacity>
       {options.map((option) => (
         <TouchableOpacity key={option.id} onPress={() => handleOptionPress(option)}>
-          <View style={styles.box}>
+          <View style={styles.HACBox}>
             <ListItem>
               <Icon name={option.iconName} size={20} color="#005987" />
               <ListItem.Content>
                 <ListItem.Title>{option.title}</ListItem.Title>
-                <ListItem.Subtitle style={styles.descriptionText}>{option.description}</ListItem.Subtitle>
+                <ListItem.Subtitle style={styles.HACDescriptionText}>{option.description}</ListItem.Subtitle>
               </ListItem.Content>
-              <Icon name="chevron-right" size={20} color="gray" style={styles.chevronIcon} />
+              <Icon name="chevron-right" size={20} color="gray" style={styles.HACChevronIcon} />
             </ListItem>
           </View>
         </TouchableOpacity>
@@ -120,71 +126,5 @@ const HAC = () => {
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    paddingHorizontal: 10,
-    paddingTop: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    paddingLeft: 5,
-  },
-  headerText: {
-    fontSize: 40,
-    marginLeft: -90,
-    marginBottom:10,
-    marginTop: -13,
-    color: "#005987",
-    fontWeight: "600",
-    
-  },
-  dateText: {
-    fontSize: 14,
-    color: 'gray',
-    marginTop:40,
-    marginLeft: 5,
-  },
-  box: {
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: '#dcdcdc',
-    marginVertical: 5,
-    overflow: 'hidden', // Needed to apply border radius to ListItem
-  },
-  descriptionText: {
-    color: 'gray',
-  },
-  chevronIcon: {
-    marginLeft: 'auto',
-    paddingLeft: 10,
-  },
-  appButtonContainer2: {
-    elevation: 8,
-    backgroundColor: 'white',
-    borderRadius: 15,
-    paddingVertical: 13,
-    marginHorizontal: 2.05,
-    marginBottom: 7,
-    marginTop: -1,
-    width: '99%',
-    borderWidth: 2,
-    borderColor: '#ebe8e8',
-    fontWeight: 'bold',
-    justifyContent: 'center',
-    alignItems: 'center',
-    
-    },
-    appButtonText2: {
-    fontSize: 18,
-    color: 'black',
-    alignSelf: 'center',
-    fontWeight: 'normal',
-    
-    },
-});
 
 export default HAC;

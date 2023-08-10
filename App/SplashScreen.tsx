@@ -1,28 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 const SplashScreen = () => {
+  
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
+  
   return (
-    <View style={styles.container}>
+    <View style={styles.SplashScreenContainer}>
       <Image
         source={require('../assets/SplashScreen.webp')}
-        style={styles.logo}
+        style={styles.SplashScreenLogo}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  logo: {
-    width: 400,
-    height: 400,
-  },
-});
 
 export default SplashScreen;

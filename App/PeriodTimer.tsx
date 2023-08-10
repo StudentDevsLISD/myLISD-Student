@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, StyleSheet, Platform, ProgressBarAndroid, ProgressViewIOS} from 'react-native';
 import * as Progress from 'react-native-progress';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 const PeriodTimer = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
     const intervalId = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -68,10 +74,10 @@ const PeriodTimer = () => {
   const currentPeriodName = currentPeriod.name || 'No Period';
   const remainingTime = currentPeriodName === 'No Period' ? 'No School Right Now' : getRemainingTime(currentPeriod);
   return (
-    <View style={styles.container}>
-      <Text style={styles.period}>{currentPeriodName}</Text>
-      <Text style={styles.timer}>{remainingTime}</Text>
-      <View style={styles.progressBarContainer}>
+    <View style={styles.PeriodTimerContainer}>
+      <Text style={styles.PeriodTimerPeriod}>{currentPeriodName}</Text>
+      <Text style={styles.PeriodTimerTimer}>{remainingTime}</Text>
+      <View style={styles.PeriodTimerProgressBarContainer}>
         {/* <Progress.Bar
           // indeterminate={false}
           progress={getProgress(currentPeriod)}
@@ -79,50 +85,13 @@ const PeriodTimer = () => {
           //style={styles.progressBar}
         /> */}
 {Platform.OS === 'android' ?
-  <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.progressBar} />
+  <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
   :
-  <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.progressBar} />
+  <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.PeriodTimerProgressBar} />
 }
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    paddingRight: 20,
-    paddingVertical: 10,
-    marginHorizontal: 10,
-    marginBottom: 10,
-    width: '94%',
-    marginVertical: -60,
-    borderWidth: 2,
-    borderColor: '#ebe8e8',
-  },
-  period: {
-    fontSize: 24,
-    textAlign: 'center',
-  },
-  timer: {
-    fontSize: 50,
-    fontWeight: "500",
-    marginTop: 10,
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  progressBarContainer: {
-    overflow: 'hidden',
-    paddingHorizontal: 0,
-  },
-  progressBar: {
-    width: '100%',
-    height: 30,
-    overflow: 'hidden',
-    borderRadius: 11,
-  },
-});
 
 export default PeriodTimer;

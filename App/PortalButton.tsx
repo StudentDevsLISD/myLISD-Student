@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, StyleProp, ViewStyle, Text, Platform } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import { TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 const mainurl = "https://api.leanderisd.org/portal"
 const setFavUrl = mainurl + "/addFavorite";
 const removeFavUrl = mainurl + "/removeFavorite";
 import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 interface Props {
   title: string;
@@ -35,6 +37,9 @@ const PortalButton = ({
 }: Props) => {
   const [isLiked, setIsLiked] = useState(initiallyLiked);
   const [isDisabled, setIsDisabled] = useState(disabled);
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
     setIsLiked(initiallyLiked);
@@ -93,20 +98,20 @@ const PortalButton = ({
                 <TouchableOpacity
                 disabled={isDisabled}
                 onPress={onPress}
-                style={[styles.container, styleCont]}
+                style={[styles.PortalButtonContainer, styleCont]}
                 >
-                <Text style={[styles.title, styleText]}>{title}</Text>
+                <Text style={[styles.PortalButtonTitle, styleText]}>{title}</Text>
                 <TouchableOpacity
                 onPress={() =>
                 isDisabled ? handleLike(isLiked, true, schedule_id) : handleLike(isLiked, false, schedule_id)
                 }
-                style={styles.likeButton}
+                style={styles.PortalButtonLikeButton}
                 activeOpacity={0.7}
                 >
                 <FontAwesome
                 name={isLiked ? 'star' : 'star-o'}
                 size={20}
-                style={styles.likeIcon}
+                style={styles.PortalButtonLikeIcon}
                 />
                 </TouchableOpacity>
                 </TouchableOpacity>

@@ -1,5 +1,5 @@
 // Importing necessary libraries and components
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
@@ -10,8 +10,6 @@ import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
 import Portal from './Portal';
 import IDs from './ID';
-import ClubHub from './ClubHub';
-import Community from './ComOp';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
@@ -22,6 +20,9 @@ import GPA from './GPA';
 import Attendance from './Attendance';
 import ClassSchedule from './ClassSchedule';
 import ContactTeachers from './ContactTeachers';
+import { ThemeContext, ThemeProvider } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 // Creating bottom tab navigator
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,13 @@ const handleLogout = async (navigation: NavigationProp<any>) => {
   navigation.navigate('Login');
 };
 
+const handleHACLogout = async (navigation: NavigationProp<any>) => {
+  await AsyncStorage.removeItem('hacusername');
+  await AsyncStorage.removeItem('hacpassword');
+  navigation.navigate('Grades', { justLoggedOut: true });
+};
+
+
 // Typing for the logout function
 export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 
@@ -41,6 +49,9 @@ export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
 const Tab1Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
     // Checking for internet connectivity
@@ -67,9 +78,9 @@ const Tab1Screen = () => {
       {isConnected ? (
         <Home />
       ) : (
-        <View style={styles.offlineContainer}>
+        <View style={styles.AppRunnerOfflineContainer}>
           <Icon name="wifi" size={32} color="#888" />
-          <Text style={styles.offlineText}>No Internet Connection</Text>
+          <Text style={styles.AppRunnerOfflineText}>No Internet Connection</Text>
         </View>
       )}
     </>
@@ -86,6 +97,8 @@ const Tab2Screen = () => {
   const [subCampus, setSubCampus] = useState("");
   const [isMainCampusSelected, setIsMainCampusSelected] = useState(true);
 
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
   
   useEffect(() => {
     const setTheCampuses = async () => {
@@ -140,7 +153,7 @@ const Tab2Screen = () => {
   // Displaying ActivityIndicator till campus and school values are retrieved
   if (campus === "" || school === "") {
     return (
-      <View style={styles.offlineContainer}>
+      <View style={styles.AppRunnerOfflineContainer}>
         <ActivityIndicator size="large" color="#005a87" />
       </View>
     );
@@ -151,9 +164,9 @@ const Tab2Screen = () => {
       {isConnected ? (
         <Portal campus={school} />
       ) : (
-        <View style={styles.offlineContainer}>
+        <View style={styles.AppRunnerOfflineContainer}>
           <Icon name="wifi" size={32} color="#888" />
-          <Text style={styles.offlineText}>No Internet Connection</Text>
+          <Text style={styles.AppRunnerOfflineText}>No Internet Connection</Text>
         </View>
       )}
     </>
@@ -165,6 +178,9 @@ const Tab2Screen = () => {
 const Tab3Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   // Checking for internet connectivity
   useEffect(() => {
@@ -192,6 +208,9 @@ const Tab4Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
 
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
+
   // Checking for internet connectivity
   useEffect(() => {
     NetInfo.fetch().then(state => {
@@ -215,9 +234,9 @@ const Tab4Screen = () => {
       {isConnected ? (
         <HAC/>
       ) : (
-        <View style={styles.offlineContainer}>
+        <View style={styles.AppRunnerOfflineContainer}>
           <Icon name="wifi" size={32} color="#888" />
-          <Text style={styles.offlineText}>No Internet Connection</Text>
+          <Text style={styles.AppRunnerOfflineText}>No Internet Connection</Text>
         </View>
       )}
     </>
@@ -229,6 +248,9 @@ const Tab4Screen = () => {
 const Tab5Screen = () => {
   const navigation = useNavigation();
   const [isConnected, setIsConnected] = useState(false);
+
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   // Checking for internet connectivity
   useEffect(() => {
@@ -251,11 +273,11 @@ const Tab5Screen = () => {
   return (
     <>
       {isConnected ? (
-        <SettingsScreen handleLogout={handleLogout}/>
+        <SettingsScreen handleLogout={handleLogout} handleHACLogout={handleHACLogout}/>
       ) : (
-        <View style={styles.offlineContainer}>
+        <View style={styles.AppRunnerOfflineContainer}>
           <Icon name="wifi" size={32} color="#888" />
-          <Text style={styles.offlineText}>No Internet Connection</Text>
+          <Text style={styles.AppRunnerOfflineText}>No Internet Connection</Text>
         </View>
       )}
     </>
@@ -263,7 +285,7 @@ const Tab5Screen = () => {
 };
 
 // Styling options for the tab bar
-const tabBarOptions = {
+const stackOptions = {
   headerTitle: () => (
     <View style={{ alignItems: 'center' }}>
       <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 12,}} />
@@ -274,9 +296,33 @@ const tabBarOptions = {
     height: 125,
   },
 };
-const Tabs = () => {
+
+const Tabs: React.FC = () => {
+
+  const { theme } = useContext(ThemeContext);
+
+  const tabBarOptions = {
+    headerTitle: () => (
+      <View style={{ alignItems: 'center' }}>
+        <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 11, alignSelf: 'center' }} />
+      </View>
+    ),
+    headerStyle: {
+      backgroundColor: '#005a87',
+      height: 125,
+    },
+    tabBarStyle: {
+      backgroundColor: theme === 'light' ? 'white' : '#111', // Set the background color of the tab bar to black
+      paddingTop: 10,
+      height: 85
+    },
+    tabBarActiveTintColor: theme === 'dark' ? '#ede1d1' : '#007AFF',
+    tabBarInactiveTintColor: theme === 'dark' ? '#666666' : '#8E8E93'
+    // ... other options ...
+  };
+
   return(
-  <Tab.Navigator /* screenOptions={tabBarOptions} */>
+  <Tab.Navigator screenOptions={tabBarOptions}>
         <Tab.Screen
           name="Home"
           component={Tab1Screen}
@@ -339,8 +385,9 @@ const AppRunner = () => {
 
   // Set the main Navigator with 5 different tabs
   return (
-  <AuthProvider>
-    <Stack.Navigator screenOptions={tabBarOptions}>
+    <ThemeProvider>
+    <AuthProvider>
+    <Stack.Navigator screenOptions={stackOptions}>
       <Stack.Screen name ="HomeScreen" component={Tabs} options={{ headerShown: true}}/>
       <Stack.Screen name ="HAC" component={HAC} options={{ headerShown: true}}/>
       <Stack.Screen name ="Grades" component={Grades} options={{ headerShown: true}}/>
@@ -348,23 +395,10 @@ const AppRunner = () => {
       <Stack.Screen name ="Attendance" component={Attendance} options={{ headerShown: true}}/>
       <Stack.Screen name ="ClassSchedule" component={ClassSchedule} options={{ headerShown: true}}/>
       <Stack.Screen name ="ContactTeachers" component={ContactTeachers} options={{ headerShown: true}}/>
-  </Stack.Navigator>
+    </Stack.Navigator>
     </AuthProvider>
+    </ThemeProvider>
   );
 };
 
-// Styling for offlineContainer and offlineText
-const styles = StyleSheet.create({
-  offlineContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  offlineText: {
-    marginTop: 8,
-    fontSize: 16,
-  },
-});
-
-// Exporting AppRunner as the default component
 export default AppRunner;

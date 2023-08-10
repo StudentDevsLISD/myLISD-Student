@@ -1,80 +1,54 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { HandleLogout } from './AppRunner';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 type Props = {
   handleLogout: HandleLogout;
+  handleHACLogout: any;
 };
 
-const SettingsScreen: React.FC<Props> = ({ handleLogout }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+const SettingsScreen: React.FC<Props> = ({ handleLogout, handleHACLogout }) => {
   const navigation = useNavigation();
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
 
   const handleLogoutPress = async () => {
     await handleLogout(navigation);
   };
 
+  const handleHACLogoutPress = async () => {
+    await handleHACLogout(navigation);
+  };
+
   return (
-    <View style={[styles.container, isDarkMode && styles.darkModeContainer]}>
-      <View style={styles.settingRow}>
-        <Text style={[styles.settingText, isDarkMode && styles.darkModeText]}>
-          Dark Mode
-        </Text>
+    <View style={[styles.SettingsContainer]}>
+      <View style={styles.SettingsSettingRow}>
+        <Text style={[styles.SettingsSettingText]}>Dark Mode</Text>
         <Switch
-          trackColor={{ false: '#767577', true: '#81b0ff' }}
-          thumbColor={isDarkMode ? '#f5dd4b' : '#f4f3f4'}
-          onValueChange={toggleDarkMode}
-          value={isDarkMode}
+          trackColor={{ false: '#767577', true: '#767577' }}
+          thumbColor={theme === 'dark' ? '#fff' : '#fff'}
+          onValueChange={toggleTheme}
+          value={theme === 'dark'}
         />
       </View>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogoutPress}>
+      <TouchableOpacity
+        style={styles.SettingsHACLogoutButton}
+        onPress={handleHACLogoutPress}
+      >
         <Icon name="sign-out" size={24} color="#fff" />
-        <Text style={styles.logoutButtonText}>Log Out</Text>
+        <Text style={styles.SettingsLogoutButtonText}>Log Out of HAC</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.SettingsLogoutButton} onPress={handleLogoutPress}>
+        <Icon name="sign-out" size={24} color="#fff" />
+        <Text style={styles.SettingsLogoutButtonText}>Log Out of App</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 20,
-  },
-  darkModeContainer: {
-    backgroundColor: '#222',
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  settingText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  darkModeText: {
-    color: '#fff',
-  },
-  logoutButton: {
-    backgroundColor: '#ff6347',
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  logoutButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    marginLeft: 10,
-  },
-});
 
 export default SettingsScreen;

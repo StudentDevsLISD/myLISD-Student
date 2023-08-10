@@ -1,18 +1,24 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
-const GPAInfo = ({ title, value }) => (
-  <TouchableOpacity style={styles.gpaInfo}>
-    <Text style={styles.gpaTitle}>{title}</Text>
-    <Text style={styles.gpaValue}>{value}</Text>
-    <TouchableOpacity style={styles.viewMoreButton}>
-      <Text style={styles.viewMoreText}>View More</Text>
+const GPAInfo = ({ title, value, themeStyle }) => (
+  <TouchableOpacity style={themeStyle.GPAScreenGpaInfo}>
+    <Text style={themeStyle.GPAScreenGpaTitle}>{title}</Text>
+    <Text style={themeStyle.GPAScreenGpaValue}>{value}</Text>
+    <TouchableOpacity style={themeStyle.GPAScreenViewMoreButton}>
+      <Text style={themeStyle.GPAScreenViewMoreText}>View More</Text>
     </TouchableOpacity>
   </TouchableOpacity>
 );
 
 const App = () => {
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? lightStyles : darkStyles;
+
   const data = {
     labels: ['MP1', 'MP2', 'MP3', 'MP4', 'MP5', 'MP6'],
     datasets: [
@@ -23,12 +29,12 @@ const App = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.gpaContainer}>
-        <GPAInfo title="Weighted GPA" value="5.793" />
-        <GPAInfo title="College GPA" value="3.846" />
+    <View style={styles.GPAScreenContainer}>
+      <View style={styles.GPAScreenGpaContainer}>
+        <GPAInfo title="Weighted GPA" value="5.793" themeStyle={styles} />
+        <GPAInfo title="College GPA" value="3.846" themeStyle={styles} />
       </View>
-      <Text style={styles.chartTitle}>Weighted GPA by MP</Text>
+      <Text style={styles.GPAScreenChartTitle}>Weighted GPA by MP</Text>
       <BarChart
         data={data}
         width={320}
@@ -46,57 +52,10 @@ const App = () => {
             borderRadius: 16,
           },
         }}
-        style={styles.chart}
+        style={styles.GPAScreenChart}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  gpaContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  gpaInfo: {
-    flex: 1,
-    padding: 20,
-    margin: 10,
-    borderRadius: 10,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-  },
-  gpaTitle: {
-    fontSize: 16,
-    color: '#333',
-  },
-  gpaValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  viewMoreButton: {
-    marginTop: 10,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: '#007BFF',
-  },
-  viewMoreText: {
-    color: '#fff',
-  },
-  chartTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  chart: {
-    marginVertical: 8,
-  },
-});
 
 export default App;

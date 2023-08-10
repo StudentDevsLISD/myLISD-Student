@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { ScrollView, View, StyleSheet, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import CalendarStrip from 'react-native-calendar-strip';
 import axios from 'axios';
@@ -10,6 +10,9 @@ const schedurl = mainurl + "/portalClass";
 const getsched = mainurl + "/getScheduledMeeting"
 const getFavUrl = mainurl + "/getFavorites";
 import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
+import { ThemeContext } from './ThemeContext';
+import lightStyles from './LightStyles';
+import darkStyles from './DarkStyles';
 
 interface Props {
   campus: string;
@@ -41,6 +44,10 @@ const Portal = ({campus}:Props) => {
     const [RestrictedDict, setRestrictedDict] = useState<StringBoolDictionary>({});
     const [FullDict, setFullDict] = useState<StringBoolDictionary>({});
     const [MandDict, setMandDict] = useState<StringBoolDictionary>({});
+
+    const { theme } = useContext(ThemeContext);
+    const styles = theme === 'light' ? lightStyles : darkStyles;
+
     const filteredButtonTitles = buttonTitles.filter((title) =>
     title.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -201,12 +208,12 @@ const Portal = ({campus}:Props) => {
       };
 
       const renderItem = ({ item, index }: RenderItemProps) => (
-        <PortalButton /* onLikeButtonPressed={onLikeButtonPressed} */ schedule_id ={MeetingDict?.[item]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[item] || FullDict?.[item] || MandDict?.[item]} initiallyLiked = {buttonLikes.includes(item)} theDate = {startDate} key = {index} title = {item.toString()} onPress={() => handleSchedule(item)} styleCont ={styles.appButtonContainer} styleText = {styles.appButtonText}/> 
+        <PortalButton /* onLikeButtonPressed={onLikeButtonPressed} */ schedule_id ={MeetingDict?.[item]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[item] || FullDict?.[item] || MandDict?.[item]} initiallyLiked = {buttonLikes.includes(item)} theDate = {startDate} key = {index} title = {item.toString()} onPress={() => handleSchedule(item)} styleCont ={styles.PortalAppButtonContainer} styleText = {styles.PortalAppButtonText}/> 
       );
 
       return (
         <>
-        <View style={styles.container}>
+        <View style={styles.PortalContainer}>
         <CalendarStrip
         //if there is an error on the daySelectionAnimation do npm install react-native-calendar-strip@latest
           daySelectionAnimation={{
@@ -228,9 +235,9 @@ const Portal = ({campus}:Props) => {
           scrollable = {true}
         />
           </View>
-          <View style={styles.container}>
-          <TouchableOpacity disabled = {true} style = {styles.appButtonContainer2}>
-          <Text style={styles.appButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
+          <View style={styles.PortalContainer}>
+          <TouchableOpacity disabled = {true} style = {styles.PortalAppButtonContainer2}>
+          <Text style={styles.PortalAppButtonText2}>{scheduled ? 'Scheduled: ' + scheduled : 'No class scheduled for ' + datePortal}</Text>
           </TouchableOpacity> 
           <TextInput
             placeholder="Search"
@@ -262,7 +269,7 @@ const Portal = ({campus}:Props) => {
           />
            </View>
            <FlatList
-            style={styles.newStyle}
+            style={styles.PortalNewStyle}
             data={filteredButtonTitles}
             renderItem={renderItem}
             keyExtractor={(item, index) => index.toString()}
@@ -270,58 +277,5 @@ const Portal = ({campus}:Props) => {
             </>
       );
     };
-    const styles = StyleSheet.create({
-      container: {
-        backgroundColor: "#ebe8e8",
-        // marginBottom: -200,
-      },
-      newStyle: {
-        flex: 2,
-        backgroundColor: "#ebe8e8",
-        // marginTop: -200,
-        //padding: "1.2%"
-        
-      },
-      appButtonContainer: {
-        elevation: 8,
-        backgroundColor: "white",
-        borderRadius: 10,
-        paddingVertical: "3.5%",
-        //13
-        paddingLeft: "3.23%",
-        //12
-        paddingRight: 0,
-        marginHorizontal: "3.5%",
-        //13,
-        marginVertical: "1.88%",
-        //7
-        flexDirection: "row",
-        justifyContent: "space-between",
-      },
-      appButtonContainer2: {
-        elevation: 8,
-        backgroundColor: "white",
-        borderRadius: 10,
-        paddingVertical: "3.5%",
-        paddingHorizontal: "3.23%",
-        marginHorizontal: "3.23%",
-        marginBottom: "1.88%",
-        marginTop: 16/* "4.30%" */,
-        //16
-      },
-      appButtonText: {
-        fontSize: 18,
-        color: "#2e2d2d",
-        alignSelf: "center",
-        width: "80%"
-        //marginRight: "10%",
-      },
-      appButtonText2: {
-        fontSize: 18,
-        color: "black",
-        fontWeight: "bold",
-        alignSelf: "center",
-      },
-    });
     
     export default Portal;
