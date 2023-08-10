@@ -1,6 +1,6 @@
 // Importing necessary libraries and components
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -10,6 +10,9 @@ import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
 import Portal from './Portal';
 import IDs from './ID';
+import ClubHub from './ClubHub';
+import { ActivityIndicator } from 'react-native-paper';
+import Community from './ComOp';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './SplashScreen';
 import { AuthProvider } from './AuthContext';
@@ -154,7 +157,7 @@ const Tab2Screen = () => {
   if (campus === "" || school === "") {
     return (
       <View style={styles.AppRunnerOfflineContainer}>
-        <ActivityIndicator size="large" color="#005a87" />
+        <ActivityIndicator animating={true} size="large" color="#005a87" />
       </View>
     );
   }

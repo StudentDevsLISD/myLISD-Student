@@ -95,94 +95,109 @@ const Login = ({ navigation }: Props) => {
       setErrorMessage('An error occurred while logging in');
     }
   };
-
-  return (
-    <View style={styles.container}>
-      <Image
+    return (
+      <View style={styles.container}>
+        <Image
           style={styles.logo}
           source={require('../assets/lisd.png')}
-        />  
-      <Text style ={styles.work}>
-        Please use your LISD username and password
-        </Text>   
-      <TextInput
-        label="Username"
-        value={ username}
-        onChangeText={setUsername}
-        style={styles.input} 
-        secureTextEntry={false}
-      />
-      <TextInput
-        label="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={styles.input}
-      />
-      {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
-      <Button mode="contained" onPress={handleLogin} style={styles.button}>
-        Login
-      </Button>
-      <TouchableOpacity onPress={handleSignIn} style={styles.googlebox}>
-          <Image source={require('../assets/google.png')} style={{ width: 60, height: 60,marginLeft: 20,}} />
-          <Text style = {styles.google1}>Sign in with Google</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    marginTop: 60,
-    alignItems: 'center',
-    padding: 16,
-  },
-  input: {
-    marginBottom: 16,
-    minWidth: 200,
-    backgroundColor: '#bfe1ff'
-  },
-  button: {
-    marginTop: 16,
-    backgroundColor:'#3495eb',
-  },
-  error: {
-    color: 'red',
-    marginBottom: 16,
-  },
-  logo: {
-    height: 100,
-    width: 250,
-    marginTop: 5,
-    alignSelf: "center",
-    marginBottom: 30,
-  },
-  work: {
-  fontSize: 18,
-  alignSelf: "center",
-  textAlign: "center",
-  marginTop: -16,
-  marginBottom: 18,
-  },
-  google1:{
-    marginLeft:85,
-    marginTop: -45,
-    fontSize: 25,
-    marginRight: 29,
-  },
-  googlebox:{
-    backgroundColor: '#ffffff',
-    borderRadius: 15,
-    paddingHorizontal: 20,
-    paddingRight: 20,
-    marginHorizontal: 10,
-    paddingBottom: 15,
-    width: '95%',
-    borderWidth: 2,
-    borderColor: '#ebe8e8',
-  },
-});
-
-export default Login;
+        />
+        <TextInput
+          label="Username"
+          value={username}
+          onChangeText={setUsername}
+          style={styles.input}
+          placeholder="ex: smith_959876"
+          placeholderTextColor="gray"
+          selectionColor="#005987" // Change the selection color
+          underlineColorAndroid="transparent" // Hide the default underline
+        />
+        <TextInput
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          placeholderTextColor="gray"
+          selectionColor="#005987" // Change the selection color
+          underlineColorAndroid="transparent" // Hide the default underline
+        />
+        {errorMessage ? <Text style={styles.error}>{errorMessage}</Text> : null}
+        <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+        <Text style={styles.orText}>OR</Text>
+        <TouchableOpacity onPress={handleSignIn} style={styles.googleButton}>
+          <Image source={require('../assets/google.png')} style={styles.googleIcon} />
+          <Text style={styles.googleButtonText}>Sign in with Google</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+      backgroundColor: '#f0f0f0',
+    },
+    logo: {
+      width: 320, // Increase the width for a bigger logo
+      height: 105, // Increase the height for a bigger logo
+      marginBottom: 30,
+    },
+    input: {
+      width: '100%',
+      height: 50, // Decreased the height back to 50
+      backgroundColor: 'white',
+      paddingHorizontal: 15,
+      marginBottom: 10,
+      borderRadius: 5,
+      color: 'darkgray', // Set the text color within the input box
+    },
+    error: {
+      color: 'red',
+      marginBottom: 10,
+    },
+    loginButton: {
+      width: '100%',
+      height: 50,
+      backgroundColor: '#3495eb',
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 5,
+      marginTop: 10,
+    },
+    loginButtonText: {
+      color: 'white',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    orText: {
+      fontSize: 18,
+      marginVertical: 20,
+    },
+    googleButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'white',
+      borderWidth: 1,
+      borderColor: '#ddd',
+      borderRadius: 5,
+      width: '100%',
+      height: 50,
+    },
+    googleIcon: {
+      width: 30,
+      height: 30,
+      marginRight: 10,
+    },
+    googleButtonText: {
+      fontSize: 18,
+    },
+  });
+  
+  export default Login;

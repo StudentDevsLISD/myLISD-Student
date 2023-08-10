@@ -73,23 +73,22 @@ const PeriodTimer = () => {
 
   const currentPeriodName = currentPeriod.name || 'No Period';
   const remainingTime = currentPeriodName === 'No Period' ? 'No School Right Now' : getRemainingTime(currentPeriod);
+  console.log(currentPeriodName, remainingTime)
   return (
     <View style={styles.PeriodTimerContainer}>
       <Text style={styles.PeriodTimerPeriod}>{currentPeriodName}</Text>
-      <Text style={styles.PeriodTimerTimer}>{remainingTime}</Text>
-      <View style={styles.PeriodTimerProgressBarContainer}>
-        {/* <Progress.Bar
-          // indeterminate={false}
-          progress={getProgress(currentPeriod)}
-          // color="#0066cc"
-          //style={styles.progressBar}
-        /> */}
-{Platform.OS === 'android' ?
-  <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
-  :
-  <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.PeriodTimerProgressBar} />
-}
-      </View>
+      {remainingTime != '_ _ _ _ _ _ _ _' ? (
+        <>
+          <Text style={styles.PeriodTimerTimer}>{remainingTime}</Text>
+          <View style={styles.PeriodTimerProgressBarContainer}>
+            {Platform.OS === 'android' ?
+              <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
+              :
+              <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.PeriodTimerProgressBar} />
+            }
+          </View>
+        </>
+      ) : null}
     </View>
   );
 };
