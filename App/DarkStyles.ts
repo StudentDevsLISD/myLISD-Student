@@ -707,6 +707,68 @@ const DarkStyles = StyleSheet.create({
                 width: '100%',
                 alignSelf: 'center',
               },
+              LoginContainer: {
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 20,
+                backgroundColor: '#f0f0f0',
+              },
+              LoginLogo: {
+                width: 320, // Increase the width for a bigger logo
+                height: 105, // Increase the height for a bigger logo
+                marginBottom: 30,
+              },
+              LoginInput: {
+                width: '100%',
+                height: 50, // Decreased the height back to 50
+                backgroundColor: 'white',
+                paddingHorizontal: 15,
+                marginBottom: 10,
+                borderRadius: 5,
+                color: 'darkgray', // Set the text color within the input box
+              },
+              LoginError: {
+                color: 'red',
+                marginBottom: 10,
+              },
+              LoginLoginButton: {
+                width: '100%',
+                height: 50,
+                backgroundColor: '#3495eb',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 5,
+                marginTop: 10,
+              },
+              LoginLoginButtonText: {
+                color: 'white',
+                fontSize: 18,
+                fontWeight: 'bold',
+              },
+              LoginOrText: {
+                fontSize: 18,
+                marginVertical: 20,
+              },
+              LoginGoogleButton: {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white',
+                borderWidth: 1,
+                borderColor: '#ddd',
+                borderRadius: 5,
+                width: '100%',
+                height: 50,
+              },
+              LoginGoogleIcon: {
+                width: 30,
+                height: 30,
+                marginRight: 10,
+              },
+              LoginGoogleButtonText: {
+                fontSize: 18,
+              },
               PeriodTimerContainer: {
                 backgroundColor: '#ffffff',
                 borderRadius: 15,
