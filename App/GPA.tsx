@@ -10,7 +10,7 @@ const GPAInfo = ({ title, value, themeStyle }) => (
     <Text style={themeStyle.GPAScreenGpaTitle}>{title}</Text>
     <Text style={themeStyle.GPAScreenGpaValue}>{value}</Text>
     <TouchableOpacity style={themeStyle.GPAScreenViewMoreButton}>
-      <Text style={themeStyle.GPAScreenViewMoreText}>View More</Text>
+      <Text style={themeStyle.GPAScreenViewMoreText}>Learn More</Text>
     </TouchableOpacity>
   </TouchableOpacity>
 );
@@ -30,11 +30,12 @@ const App = () => {
 
   return (
     <View style={styles.GPAScreenContainer}>
+      <Text style={styles.GPAScreenHeader}>GPA</Text>
       <View style={styles.GPAScreenGpaContainer}>
-        <GPAInfo title="Weighted GPA" value="5.793" themeStyle={styles} />
-        <GPAInfo title="College GPA" value="3.846" themeStyle={styles} />
+        <GPAInfo title="Weighted GPA" value="5.79" themeStyle={styles} />
+        <GPAInfo title="College GPA" value="3.85" themeStyle={styles} />
       </View>
-      <Text style={styles.GPAScreenChartTitle}>Weighted GPA by MP</Text>
+      <Text style={styles.GPAScreenChartTitle}>Weighted GPA Progress</Text>
       <BarChart
         data={data}
         width={320}
@@ -43,11 +44,10 @@ const App = () => {
         yAxisSuffix=""
         yAxisLabel=""
         chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
-          decimalPlaces: 2,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          backgroundGradientFrom: '#FFFFFF', // Set the background to white
+          backgroundGradientTo: '#FFFFFF',
+          decimalPlaces: 1,
+          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Set the text color to black
           style: {
             borderRadius: 16,
           },
