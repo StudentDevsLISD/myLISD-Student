@@ -4,14 +4,9 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 
-interface Props {
-  id: React.Key,
-  summary: string,
-  start: string,
-  end: string,
-}
 
-const CalendarEvent = ({ id, summary, start, end }: Props) => {
+
+const CalendarEvent = ({ id, summary, start, end }) => {
     
   const { theme } = useContext(ThemeContext);
   const styles = theme === 'light' ? lightStyles : darkStyles;

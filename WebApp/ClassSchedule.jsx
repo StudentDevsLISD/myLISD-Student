@@ -47,7 +47,7 @@ const ClassSchedule = () => {
     let response ='';
     try {
       setIsLoading(true);
-      response = await axios.get(`http://${IP_ADDRESS}:8080/schedule?username=${username}&password=${password}`);
+      response = await axios.get(`http://${IP_ADDRESS}:8082/schedule?username=${username}&password=${password}`);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

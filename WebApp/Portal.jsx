@@ -14,36 +14,22 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 
-interface Props {
-  campus: string;
-}
-interface MeetingDictionary {
-  [key: string]: number;
-}
 
-interface StringBoolDictionary {
-  [key: string]: boolean;
-}
 
-interface RenderItemProps {
-  item: string;
-  index: number;
-}
-
-const Portal = ({campus}:Props) => {
+const Portal = ({campus}) => {
     const [startDate, setStartDate] = useState(new Date());
     const datePortal = startDate.toDateString();
-    const [markedDates, setMarkedDates] = useState<{ [date: string]: { marked?: boolean, selected?: boolean } }>({});
-    const [buttonTitles, setButtonTitles] = useState<string[]>([]);  // state variable to store button titles
-    const [buttonLikes, setButtonLikes] = useState<string[]>([]);
-    const [scheduled, setScheduled] = useState<string>();
+    const [markedDates, setMarkedDates] = useState({});
+    const [buttonTitles, setButtonTitles] = useState([]);  // state variable to store button titles
+    const [buttonLikes, setButtonLikes] = useState([]);
+    const [scheduled, setScheduled] = useState();
     const theDate = startDate ? new Date() : null;
     const [isMandatory, setIsMandatory] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [MeetingDict, setMeetingDict] = useState<MeetingDictionary>({});
-    const [RestrictedDict, setRestrictedDict] = useState<StringBoolDictionary>({});
-    const [FullDict, setFullDict] = useState<StringBoolDictionary>({});
-    const [MandDict, setMandDict] = useState<StringBoolDictionary>({});
+    const [MeetingDict, setMeetingDict] = useState({});
+    const [RestrictedDict, setRestrictedDict] = useState({});
+    const [FullDict, setFullDict] = useState({});
+    const [MandDict, setMandDict] = useState({});
 
     const { theme } = useContext(ThemeContext);
     const styles = theme === 'light' ? lightStyles : darkStyles;
@@ -52,9 +38,9 @@ const Portal = ({campus}:Props) => {
     title.toLowerCase().includes(searchQuery.toLowerCase())
     );
     //let likeIndex = 0;
-    const handleDayPress = (day: any) => {
+    const handleDayPress = (day) => {
       const selectedDate = new Date(day).toDateString();
-      const newMarkedDates: { [date: string]: {} } = {};
+      const newMarkedDates = {};
       newMarkedDates[selectedDate] = { selected: true };
       setMarkedDates(newMarkedDates);
       setStartDate(new Date(day));
@@ -86,10 +72,10 @@ const Portal = ({campus}:Props) => {
         });
         var meetingLikes = [];
         var meetingNames = [];
-        const meetingDict: MeetingDictionary = {};
-        const meetingRestricted: StringBoolDictionary = {};
-        const meetingFull: StringBoolDictionary = {};
-        const meetingMand: StringBoolDictionary = {};
+        const meetingDict = {};
+        const meetingRestricted = {};
+        const meetingFull = {};
+        const meetingMand = {};
         for(var i = 0; i<response.data.meetings.length; i++){
             if(response.data.meetings[i].restricted){
               meetingNames.push("RESTRICTED - " + response.data.meetings[i].name);
@@ -120,7 +106,7 @@ const Portal = ({campus}:Props) => {
         setMandDict(meetingMand);
         setButtonLikes(meetingLikes);
         const sortedMeetings = Object.keys(meetingDict).sort(
-          (a: string, b: string) => {
+          (a, b) => {
             const aIsLiked = buttonLikes.includes(a);
             const bIsLiked = buttonLikes.includes(b);
         
@@ -180,7 +166,7 @@ const Portal = ({campus}:Props) => {
       const isMarked = dateString in markedDates;
       markedDates[dateString] = { marked: isMarked };
       }
-      const handleSchedule = async (title: string) => {
+      const handleSchedule = async (title) => {
         try {
           const idNum = await AsyncStorage.getItem('studentID');
           console.log(title);
@@ -207,7 +193,7 @@ const Portal = ({campus}:Props) => {
         }
       };
 
-      const renderItem = ({ item, index }: RenderItemProps) => (
+      const renderItem = ({ item, index }) => (
         <PortalButton /* onLikeButtonPressed={onLikeButtonPressed} */ schedule_id ={MeetingDict?.[item]} /*doOne = {setUnscheduled}*/ disabled = {isMandatory || RestrictedDict?.[item] || FullDict?.[item] || MandDict?.[item]} initiallyLiked = {buttonLikes.includes(item)} theDate = {startDate} key = {index} title = {item.toString()} onPress={() => handleSchedule(item)} styleCont ={styles.PortalAppButtonContainer} styleText = {styles.PortalAppButtonText}/> 
       );
 

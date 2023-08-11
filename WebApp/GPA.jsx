@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { BarChart } from "react-native-gifted-charts";
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
@@ -80,19 +79,7 @@ const App = () => {
       </View>
       <Text style={styles.GPAScreenChartTitle}>Weighted GPA Progress</Text>
       <View>
-            <BarChart
-            showFractionalValue
-            curved={true}
-            showYAxisIndices
-            noOfSections={4}
-            maxValue={6.0}
-            barBorderRadius={4}
-disablePress={true}
-            animationDuration={400}
-            minValue={3.0}
-            data={barData}
-            isAnimated
-            />
+            
         </View>
     </View>
   );

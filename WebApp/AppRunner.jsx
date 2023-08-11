@@ -9,11 +9,9 @@ import SettingsDropdown from './SettingsDropdown';
 import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
 import Portal from './Portal';
-import IDs from './ID';
 import { ActivityIndicator } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './SplashScreen';
-import { AuthProvider } from './AuthContext';
 import SettingsScreen from './SettingsDropdown';
 import Grades from './Grades';
 import HAC from './HAC';
@@ -30,14 +28,14 @@ import darkStyles from './DarkStyles';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 // Logout function, removes user credentials from AsyncStorage and redirects to Login screen
-const handleLogout = async (navigation: NavigationProp<any>) => {
+const handleLogout = async (navigation) => {
   await AsyncStorage.removeItem('username');
   await AsyncStorage.removeItem('password');
   navigation.navigate('Login');
 };
 const screenHeight = Dimensions.get("window").height;
 
-const handleHACLogout = async (navigation: NavigationProp<any>) => {
+const handleHACLogout = async (navigation) => {
   await AsyncStorage.removeItem('hacusername');
   await AsyncStorage.removeItem('hacpassword');
   navigation.navigate('Grades', { justLoggedOut: true });
@@ -45,7 +43,7 @@ const handleHACLogout = async (navigation: NavigationProp<any>) => {
 
 
 // Typing for the logout function
-export type HandleLogout = (navigation: NavigationProp<any>) => Promise<void>;
+export const HandleLogout = (navigation) => {};
 
 // First tab screen
 // This screen checks for internet connection and display the Home component if connected
@@ -202,7 +200,7 @@ const Tab3Screen = () => {
     };
   }, [navigation]);
  
-  return <IDs />;
+  return <Home />;
 };
 
 // Fourth tab screen
@@ -300,7 +298,7 @@ const stackOptions = {
   },
 };
 
-const Tabs: React.FC = () => {
+const Tabs = () => {
 
   const { theme } = useContext(ThemeContext);
 
@@ -389,7 +387,6 @@ const AppRunner = () => {
   // Set the main Navigator with 5 different tabs
   return (
     <ThemeProvider>
-    <AuthProvider>
     <Stack.Navigator screenOptions={stackOptions}>
       <Stack.Screen name ="HomeScreen" component={Tabs} options={{ headerShown: true}}/>
       <Stack.Screen name ="HAC" component={HAC} options={{ headerShown: true}}/>
@@ -400,7 +397,6 @@ const AppRunner = () => {
       <Stack.Screen name ="ContactTeachers" component={ContactTeachers} options={{ headerShown: true}}/>
       <Stack.Screen name ="AssignmentScreen" component={Assignments} options={{ headerShown: true}}/>
     </Stack.Navigator>
-    </AuthProvider>
     </ThemeProvider>
   );
 };

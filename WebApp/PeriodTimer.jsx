@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, StyleSheet, Platform, ProgressBarAndroid, ProgressViewIOS} from 'react-native';
+import { Text, View, StyleSheet, Platform, ProgressBar} from 'react-native';
 import * as Progress from 'react-native-progress';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -16,13 +16,9 @@ const PeriodTimer = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  interface Period {
-    name: string;
-    startTime: string;
-    endTime: string;
-  }
+
     
-  const periods: Period[] = [
+  const periods = [
     { name: 'No school right now', startTime: '00:00', endTime: '08:15' },
     { name: '1st Period ends in', startTime: '08:15', endTime: '09:45' },
     { name: 'Passing Period ends in', startTime: '09:45', endTime: '09:50' },
@@ -35,7 +31,7 @@ const PeriodTimer = () => {
     { name: 'No school right now', startTime: '15:35', endTime: '23:59' },
   ];
 
-  const getRemainingTime = (period: Period) => {
+  const getRemainingTime = (period) => {
     if (period.name === 'No school right now') {
       return '_ _ _ _ _ _ _ _';
     }
@@ -49,7 +45,7 @@ const PeriodTimer = () => {
     return `${remainingHours} hrs ${remainingMinutes} mins`;
   };
 
-  const getProgress = (period: Period) => {
+  const getProgress = (period) => {
     if (!currentPeriod) {
       return 0; // return default value of 0 when currentPeriod is undefined
     }
@@ -80,14 +76,10 @@ const PeriodTimer = () => {
         <>
           <Text style={styles.PeriodTimerTimer}>{remainingTime}</Text>
           <View style={styles.PeriodTimerProgressBarContainer}>
-            {Platform.OS === 'android' ?
-              <ProgressBarAndroid styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
-              :
-              <ProgressViewIOS progress={getProgress(currentPeriod)} progressTintColor="#0066cc" style={styles.PeriodTimerProgressBar} />
-            }
+              <ProgressBar styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
           </View>
         </>
-      ) : null}
+      ) : <View></View>}
     </View>
   );
 };

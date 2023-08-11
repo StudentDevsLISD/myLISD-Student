@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Linking, Text, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp, CommonActions } from '@react-navigation/native';
+import { NavigationProp, CommonActions, useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
@@ -16,18 +15,8 @@ const options = [
   { id: '5', title: 'Contact Teachers', description: 'Keep in touch', iconName: 'user-friends', route: 'ContactTeachers' },
 ];
 
-type RootStackParamList = {
-  HAC: undefined;
-  Grades: undefined;
-  GPA: undefined;
-  Attendance: undefined;
-  ClassSchedule: undefined;
-  ContactTeachers: undefined;
-};
 
-type Props = {
-  navigation: NavigationProp<RootStackParamList, 'HAC'>;
-}
+
 const HAC = () => {
   
   const [currentDate, setCurrentDate] = useState('');
@@ -47,7 +36,7 @@ const HAC = () => {
 
   const navigation = useNavigation();
 
-  const handleOptionPress = (option: { id: string; title: string; description: string; iconName: string; route?: string; webLink?: string;}) => {
+  const handleOptionPress = (option) => {
     if (option.webLink) {
       Linking.openURL(option.webLink);
     } else if(option.title == "GPA"){

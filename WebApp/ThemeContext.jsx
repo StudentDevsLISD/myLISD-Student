@@ -2,25 +2,19 @@ import React, { createContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export type ThemeType = 'light' | 'dark';
 
-interface ThemeContextType {
-  theme: ThemeType;
-  toggleTheme: () => void;
-}
-
-export const ThemeContext = createContext<ThemeContextType>({
+export const ThemeContext = createContext({
   theme: 'light',
   toggleTheme: () => {},
 });
 
-export const ThemeProvider: React.FC = ({ children }) => {
+export const ThemeProvider = ({ children }) => {
   const colorScheme = useColorScheme();
 
-  const [theme, setTheme] = useState<ThemeType>('light');
+  const [theme, setTheme] = useState('light');
 
   // Function to set the user's theme preference in AsyncStorage
-  const saveThemePreference = async (value: ThemeType) => {
+  const saveThemePreference = async (value) => {
     try {
       await AsyncStorage.setItem('@theme_preference', value);
     } catch (error) {

@@ -7,12 +7,9 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 
-type Props = {
-  handleLogout: HandleLogout;
-  handleHACLogout: any;
-};
 
-const SettingsScreen: React.FC<Props> = ({ handleLogout, handleHACLogout }) => {
+
+const SettingsScreen = ({ handleLogout, handleHACLogout }) => {
   const navigation = useNavigation();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const styles = theme === 'light' ? lightStyles : darkStyles;

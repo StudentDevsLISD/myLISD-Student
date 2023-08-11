@@ -1,3 +1,4 @@
+import React from 'react';
 import { Dimensions, Platform, StyleSheet, } from 'react-native';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 

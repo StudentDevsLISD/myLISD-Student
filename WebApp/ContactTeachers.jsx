@@ -33,11 +33,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //   // Add more teachers here
 // ];
 
-interface ContactTeachersScreenProps {
-  theme: 'light' | 'dark'; // Specify the theme type here based on your ThemeContext
-}
 
-const ItemView = ({ item, theme }: { item: Teacher; theme: 'light' | 'dark' }) => {
+
+const ItemView = ({ item, theme }) => {
   const handleEmailPress = () => {
     Linking.openURL(`${item.email}`);
   };
@@ -56,13 +54,13 @@ const ItemView = ({ item, theme }: { item: Teacher; theme: 'light' | 'dark' }) =
   );
 };
 
-const ItemSeparatorView = ({ theme }: { theme: 'light' | 'dark' }) => {
+const ItemSeparatorView = ({ theme }) => {
   return (
     <View style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }} />
   );
 };
 
-const ContactTeachersScreen = ({ theme }: ContactTeachersScreenProps) => {
+const ContactTeachersScreen = ({ theme }) => {
   const navigation = useNavigation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,7 +92,7 @@ const ContactTeachersScreen = ({ theme }: ContactTeachersScreenProps) => {
     let response = '';
     try {
       setIsLoading(true);
-      response = await axios.get(`http://${IP_ADDRESS}:8080/teachers?username=${username}&password=${password}`);
+      response = await axios.get(`http://${IP_ADDRESS}:8082/teachers?username=${username}&password=${password}`);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

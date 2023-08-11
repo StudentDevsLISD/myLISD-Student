@@ -34,7 +34,7 @@ LocaleConfig.locales['en'] = {
 };
 LocaleConfig.defaultLocale = 'en';
 
-const Attendance: React.FC = () => {
+const Attendance = () => {
 
   
   // Mock data
@@ -214,7 +214,7 @@ const Attendance: React.FC = () => {
       ),
     });
   }, [navigation]);
-  const onDayPress = (day: any) => {
+  const onDayPress = (day) => {
     setSelectedDate(day.dateString);
     Alert.alert(attendanceData[day.dateString]?.title || 'No information for this date');
   };
@@ -246,7 +246,7 @@ const Attendance: React.FC = () => {
       let response ='';
       try {
         setIsLoading(true);
-        response = await axios.get(`http://${IP_ADDRESS}:8080/attendance?username=${username}&password=${password}`);
+        response = await axios.get(`http://${IP_ADDRESS}:8082/attendance?username=${username}&password=${password}`);
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
@@ -319,7 +319,7 @@ const Attendance: React.FC = () => {
     return `${year}-${monthString}-01`;
   }
 
-  const renderDay = (day: any, item: any) => {
+  const renderDay = (day,  item) => {
     if (item && item.customStyles) {
       const { backgroundColor, color } = item.customStyles.container;
       return (

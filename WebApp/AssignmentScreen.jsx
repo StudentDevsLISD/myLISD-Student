@@ -10,26 +10,7 @@ import DarkStyles from './DarkStyles';
 // ...
 
 
-type RootStackParamList = {
-  Home: undefined;
-  NewsScreen: undefined;
-  ContactTeachers: undefined;
-  BusTracking: undefined;
-  GoogleFeedback: undefined;
-  ContactUs: undefined;
-  VirtualAssistant: undefined;
-  QuickLinks: undefined
-  Details: { id: number };
-  WebViewScreen: { url: string };
-  AssignmentScreen: {data: undefined};
-  Grades: {};
-};
-
-type Props = {
-  navigation: RouteProp<RootStackParamList>;
-}
-
-const AssignmentScreen: React.FC<Props> = ({ route }) => {
+const AssignmentScreen = ({ route }) => {
   const navigation = useNavigation();
   const { data } = route.params;
   const [categories, setCategories] = useState([]);
@@ -75,7 +56,7 @@ const AssignmentScreen: React.FC<Props> = ({ route }) => {
     }, 100);
     return () => clearTimeout(timer);
   }, [activeScreenIndex]);
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  const handleScroll = (event) => {
     const screenWidth = Dimensions.get('window').width*0.9;
     let newActiveIndex = Math.floor(event.nativeEvent.contentOffset.x / screenWidth);
   
@@ -181,7 +162,7 @@ const FadedText = ({ text }) => {
     setBreakdowns(y); 
     }, [assignments]);// It will only rerun this effect if 'assignments' change
   
-    const average = ((num: number) => {
+    const average = ((num) => {
       let sum = 0;
       let total = 0;
       let weight = 0.00;
@@ -223,7 +204,7 @@ const FadedText = ({ text }) => {
     })
 
 
-  const getColor = ((idx:number) => {
+  const getColor = ((idx) => {
     return colors[categories.indexOf(assignments[idx].category)];
   })
 

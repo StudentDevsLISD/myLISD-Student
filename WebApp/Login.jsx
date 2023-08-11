@@ -4,7 +4,7 @@ import { TextInput, Button } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
 import axios from 'axios';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
+// import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY, GOOGLE_WEB_CLIENT_ID } from '@env';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -13,22 +13,14 @@ import darkStyles from './DarkStyles';
 
 const loginurl = "https://api.leanderisd.org/portal/login";
 
-type RootStackParamList = {
-  Home: undefined;
-  Details: { id: number };
-};
-
-type Props = {
-  navigation: NavigationProp<RootStackParamList, 'Home'>;
-};
 // type Props = StackScreenProps<RootStackParamList, 'Home'>;
-GoogleSignin.configure({
-  iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
-  webClientId: GOOGLE_WEB_CLIENT_ID,
-  offlineAccess: true,
-  scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
-});
-const Login = ({ navigation }: Props) => {
+// GoogleSignin.configure({
+//   iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
+//   webClientId: GOOGLE_WEB_CLIENT_ID,
+//   offlineAccess: true,
+//   scopes: ['https://www.googleapis.com/auth/calendar.readonly'],
+// });
+const Login = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,27 +30,27 @@ const Login = ({ navigation }: Props) => {
   const { theme } = useContext(ThemeContext);
   const styles = theme === 'light' ? lightStyles : darkStyles;
 
-  const signIn = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      await GoogleSignin.signIn();
-      const tokens = await GoogleSignin.getTokens();
-      await AsyncStorage.setItem('asyncAccessToken', tokens.accessToken);
-      console.log(tokens.idToken);
-      return tokens.accessToken;
-    } catch (error) {
-      console.error('Error signing in:', error);
-    }
-  };
-  const handleSignIn = useCallback(async () => {
-    const accessToken = await signIn();
-    if (accessToken) {
-      setIsSignedIn(true);
-      const calendarId = 'primary';
-      // setIsLoading(true); // Set isLoading to true before fetching events
-      handleLogin();
-    }
-  }, [currentDate]);
+  // const signIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     await GoogleSignin.signIn();
+  //     const tokens = await GoogleSignin.getTokens();
+  //     await AsyncStorage.setItem('asyncAccessToken', tokens.accessToken);
+  //     console.log(tokens.idToken);
+  //     return tokens.accessToken;
+  //   } catch (error) {
+  //     console.error('Error signing in:', error);
+  //   }
+  // };
+  // const handleSignIn = useCallback(async () => {
+  //   const accessToken = await signIn();
+  //   if (accessToken) {
+  //     setIsSignedIn(true);
+  //     const calendarId = 'primary';
+  //     // setIsLoading(true); // Set isLoading to true before fetching events
+  //     handleLogin();
+  //   }
+  // }, [currentDate]);
 
   const handleLogin = async () => {
     try {
@@ -134,12 +126,11 @@ const Login = ({ navigation }: Props) => {
           <Text style={styles.LoginLoginButtonText}>Login</Text>
         </TouchableOpacity>
         <Text style={styles.LoginOrText}>OR</Text>
-        <TouchableOpacity onPress={handleSignIn} style={styles.LoginGoogleButton}>
+        {/* <TouchableOpacity onPress={handleSignIn} style={styles.LoginGoogleButton}>
           <Image source={require('../assets/google.png')} style={styles.LoginGoogleIcon} />
           <Text style={styles.LoginGoogleButtonText}>Sign in with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
-  };
-  
+    };
   export default Login;

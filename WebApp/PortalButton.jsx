@@ -12,17 +12,7 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 
-interface Props {
-  title: string;
-  onPress: () => void;
-  styleCont?: StyleProp<ViewStyle>;
-  styleText?: StyleProp<ViewStyle>;
-  theDate: Date;
-  initiallyLiked: boolean;
-  disabled: boolean;
-  schedule_id: number;
-  //onLikeButtonPressed: any;
-} 
+
 
 const PortalButton = ({
   schedule_id,
@@ -34,7 +24,7 @@ const PortalButton = ({
   styleCont,
   styleText,
   //onLikeButtonPressed
-}: Props) => {
+}) => {
   const [isLiked, setIsLiked] = useState(initiallyLiked);
   const [isDisabled, setIsDisabled] = useState(disabled);
 
@@ -49,7 +39,7 @@ const PortalButton = ({
     setIsDisabled(disabled);
   }, [disabled]);
 
-  const handleLike = async (isLiked: boolean, yes: boolean, schedID: number) => {
+  const handleLike = async (isLiked, yes, schedID) => {
     if (yes) {
       return;
     }
