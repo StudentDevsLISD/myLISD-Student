@@ -63,15 +63,15 @@ const svgLoaderConfiguration = {
 };
 
 const imageLoaderConfiguration = {
-  test: /\.(gif|jpe?g|png)$/,
+  test: /\.(gif|jpe?g|png|svg)$/,
   use: {
-    loader: 'url-loader',
+    loader: "url-loader",
     options: {
-      name: '[name].[ext]',
-    },
-  },
+      name: "[name].[ext]",
+      esModule: false,
+    }
+  }
 };
-
 const fontLoaderConfiguration = {
   test: /\.ttf$/,
   loader: "url-loader", // or directly file-loader
