@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 export const ThemeContext = createContext({
@@ -16,7 +17,7 @@ export const ThemeProvider = ({ children }) => {
   // Function to set the user's theme preference in AsyncStorage
   const saveThemePreference = async (value) => {
     try {
-      await AsyncStorage.setItem('@theme_preference', value);
+      await storeData('@theme_preference', value);
     } catch (error) {
       console.error('Error saving theme preference:', error);
     }
@@ -25,7 +26,7 @@ export const ThemeProvider = ({ children }) => {
   // Function to check if it's the first time the app is opened
   const isFirstTimeOpen = async () => {
     try {
-      const value = await AsyncStorage.getItem('@first_time_open');
+      const value = await retrieveData('@first_time_open');
       return value === null;
     } catch (error) {
       console.error('Error checking first time open:', error);
@@ -42,12 +43,12 @@ export const ThemeProvider = ({ children }) => {
         // Save the user's dark mode preference in AsyncStorage
         saveThemePreference(colorScheme === 'dark' ? 'dark' : 'light');
         // Mark that the app has been opened for the first time
-        AsyncStorage.setItem('@first_time_open', 'false').catch((error) => {
+        storedData('@first_time_open', 'false').catch((error) => {
           console.error('Error setting first time open:', error);
         });
       } else {
         // Retrieve the user's dark mode preference from AsyncStorage
-        AsyncStorage.getItem('@theme_preference').then((value) => {
+        retrieveData('@theme_preference').then((value) => {
           if (value === 'dark' || value === 'light') {
             setTheme(value);
           }

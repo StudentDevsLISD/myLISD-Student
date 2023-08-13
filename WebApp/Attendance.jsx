@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -9,7 +9,9 @@ import {IP_ADDRESS} from '@env';
 import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import alert from './alert.js'
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 LocaleConfig.locales['en'] = {
@@ -216,7 +218,7 @@ const Attendance = () => {
   }, [navigation]);
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
-    Alert.alert(attendanceData[day.dateString]?.title || 'No information for this date');
+    alert(attendanceData[day.dateString]?.title || 'No information for this date');
   };
 
   useEffect(() => {
@@ -225,8 +227,8 @@ const Attendance = () => {
 
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await AsyncStorage.getItem('hacusername');
-      const loadedPassword = await AsyncStorage.getItem('hacpassword');
+      const loadedUsername = await retrieveData('hacusername');
+      const loadedPassword = await retrieveData('hacpassword');
 
       if (loadedUsername !== null && loadedPassword !== null) {
         setIsLoggedIn(true);
@@ -251,7 +253,7 @@ const Attendance = () => {
       } catch (error) {
         setIsLoading(false);
         setIsLoggedIn(false);
-        Alert.alert("Error logging in")
+        alert("Error logging in")
       }      
       if (response.data) {
         const currentMonthData = formatData(response.data.data, response.data.monthNow);

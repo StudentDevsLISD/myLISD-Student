@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, FlatList, Text, StyleSheet, TouchableOpacity, Image, Linking, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -9,6 +9,9 @@ import axios from 'axios';
 import {IP_ADDRESS} from '@env';
 import { ActivityIndicator } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import alert from './alert.js'
+import { storeData, retrieveData, removeItem } from './storage.js';
+
 
 // interface Teacher {
 //   name: string;
@@ -72,8 +75,8 @@ const ContactTeachersScreen = ({ theme }) => {
   
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await AsyncStorage.getItem('hacusername');
-      const loadedPassword = await AsyncStorage.getItem('hacpassword');
+      const loadedUsername = await retrieveData('hacusername');
+      const loadedPassword = await retrieveData('hacpassword');
 
       if (loadedUsername !== null && loadedPassword !== null) {
         setIsLoggedIn(true);
@@ -97,7 +100,7 @@ const ContactTeachersScreen = ({ theme }) => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
-      Alert.alert("Error logging in");
+      alert("Error logging in");
     }
   
     if (response.data) {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, Dimensions, TouchableOpacity, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import { NavigationProp, useFocusEffect, useNavigation } from '@react-navigation/native';
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { RouteProp } from '@react-navigation/native';
 import {ThemeContext} from './ThemeContext';
 import LightStyles from './LightStyles';
@@ -47,7 +47,7 @@ const AssignmentScreen = ({ route }) => {
     );
   };
   
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef(null);
 
 
   useEffect(() => {
@@ -88,7 +88,7 @@ const AssignmentScreen = ({ route }) => {
     });
   }, [navigation]);
   const grade = data.grade;
-  const courseName = data.course.substring(12);
+  // const courseName = data.course.substring(12);
   
 
 const numofscreens = Math.ceil((categories.length + 2)/ 4)
@@ -216,7 +216,7 @@ const FadedText = ({ text }) => {
   // console.log(splitBreakdowns);
 
   // Add a ref for the AnimatedCircularProgress
-  const progressRef = useRef<AnimatedCircularProgress>(null);
+  const progressRef = useRef(null);
   const getBackgroundColor = (theme) => {
     return theme === 'dark' ? '#333' : '#e9eef1';
   };

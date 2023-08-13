@@ -5,12 +5,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Alert,
   TextInput,
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { CommonActions, NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,7 +17,9 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 import { IP_ADDRESS } from '@env';
-
+import alert from './alert.js'
+import Assignments from './AssignmentScreen';
+import { storeData, retrieveData } from './storage.js';
 
 
 const getGrade = (score) => {
@@ -64,6 +65,7 @@ const Grades = () => {
   };
 
   const fetchGrades = async (username, password) => {
+    console.log("f", username, password)
     try {
       const response = await axios.get(
         'http://' + IP_ADDRESS + ':8082/grades?username=' + username + '&password=' + password
@@ -71,7 +73,7 @@ const Grades = () => {
       const currentClasses = response.data.currentClasses;
 
       if (currentClasses.length === 0) {
-        Alert.alert('Error', 'Error logging in. Please try again.');
+        alert('Error', 'Error logging in. Please try again.');
         setIsLoggedIn(false);
         setIsLoading(false);
         return;
@@ -90,7 +92,7 @@ const Grades = () => {
         }
       }
 
-      const storedGradesJson = await AsyncStorage.getItem('grades');
+      const storedGradesJson = await retrieveData('grades');
       const storedGrades = JSON.parse(storedGradesJson);
       const isGradesEqual = JSON.stringify(grades) === JSON.stringify(storedGrades);
 
@@ -98,7 +100,7 @@ const Grades = () => {
         console.log('No new grades found');
         setShowNoNewGrades(true);
       } else {
-        await AsyncStorage.setItem('grades', JSON.stringify(grades));
+        await storeData('grades', JSON.stringify(grades));
         console.log('Changes found');
         setShowNoNewGrades(false);
       }
@@ -128,7 +130,7 @@ const Grades = () => {
       if (error.response) {
         console.error('Response:', error.response.data);
       }
-      Alert.alert('Error', 'An error occurred while fetching grades.');
+      alert('Error', 'An error occurred while fetching grades.');
       setIsLoggedIn(false);
     }
     setIsLoading(false);
@@ -136,8 +138,8 @@ const Grades = () => {
 
   const saveCredentials = async () => {
     try {
-      await AsyncStorage.setItem('hacusername', username);
-      await AsyncStorage.setItem('hacpassword', password);
+      await storeData('hacusername', username);
+      await storeData('hacpassword', password);
       setIsLoggedIn(true);
       setIsLoading(true);
       fetchGrades(username, password);
@@ -148,9 +150,9 @@ const Grades = () => {
 
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await AsyncStorage.getItem('hacusername');
-      const loadedPassword = await AsyncStorage.getItem('hacpassword');
-
+      const loadedUsername = await retrieveData('hacusername');
+      const loadedPassword = await retrieveData('hacpassword');
+      console.log(loadedUsername, loadedPassword)
       if (loadedUsername !== null && loadedPassword !== null) {
         setUsername(loadedUsername);
         setPassword(loadedPassword);
@@ -172,8 +174,8 @@ const Grades = () => {
       setClasses([]);
       setGrades({});
       setNewAssignments([]);
-      AsyncStorage.removeItem('hacusername');
-      AsyncStorage.removeItem('hacpassword');
+      retrieveData('hacusername');
+      retrieveData('hacpassword');
       navigation.setParams({ justLoggedOut: undefined });
     }
   }, [route.params]);
@@ -354,7 +356,7 @@ const Grades = () => {
                   onPress={() => {
                     navigation.dispatch(
                       CommonActions.navigate({
-                        name: 'AssignmentScreen',
+                        name: "AssignmentScreen",
                         params: {
                           data: {
                             course: name,
@@ -364,6 +366,8 @@ const Grades = () => {
                         },
                       })
                     );
+                    
+                    
                   }}
                   disabled={assignments.length === 0}
                 >

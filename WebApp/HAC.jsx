@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Linking, Text, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationProp, CommonActions, useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 
 const options = [
-  { id: '1', title: 'Grades', description: 'Check your grades', iconName: 'chart-line', route: 'NewsScreen' },
+  { id: '1', title: 'Grades', description: 'Check your grades', iconName: 'bar-chart', route: 'NewsScreen' },
   { id: '2', title: 'GPA', description: 'Calculate your GPA', iconName: 'calculator', route: 'QuickLinksScreen.tsx' },
-  { id: '3', title: 'Attendance', description: 'Check your attendance', iconName: 'clipboard-check', route: 'News'},
-  { id: '4', title: 'Class Schedule', description: 'Look at your class schedule', iconName: 'calendar-alt', route: 'ContactTeachers' },
-  { id: '5', title: 'Contact Teachers', description: 'Keep in touch', iconName: 'user-friends', route: 'ContactTeachers' },
+  { id: '3', title: 'Attendance', description: 'Check your attendance', iconName: 'clipboard', route: 'News'},
+  { id: '4', title: 'Class Schedule', description: 'Look at your class schedule', iconName: 'calendar', route: 'ContactTeachers' },
+  { id: '5', title: 'Contact Teachers', description: 'Keep in touch', iconName: 'users', route: 'ContactTeachers' },
 ];
 
 

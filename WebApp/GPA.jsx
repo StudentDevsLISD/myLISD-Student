@@ -4,7 +4,7 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const GPAInfo = ({ title, value, themeStyle }) => (
   <TouchableOpacity style={themeStyle.GPAScreenGpaInfo}>

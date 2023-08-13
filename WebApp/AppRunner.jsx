@@ -23,21 +23,22 @@ import Assignments from './AssignmentScreen';
 import { ThemeContext, ThemeProvider } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 // Creating bottom tab navigator
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 // Logout function, removes user credentials from AsyncStorage and redirects to Login screen
 const handleLogout = async (navigation) => {
-  await AsyncStorage.removeItem('username');
-  await AsyncStorage.removeItem('password');
+  await removeItem('username');
+  await removeItem('password');
   navigation.navigate('Login');
 };
 const screenHeight = Dimensions.get("window").height;
 
 const handleHACLogout = async (navigation) => {
-  await AsyncStorage.removeItem('hacusername');
-  await AsyncStorage.removeItem('hacpassword');
+  await removeItem('hacusername');
+  await removeItem('hacpassword');
   navigation.navigate('Grades', { justLoggedOut: true });
 };
 
@@ -104,8 +105,8 @@ const Tab2Screen = () => {
   useEffect(() => {
     const setTheCampuses = async () => {
       // Retrieving campus and subcampus details from AsyncStorage
-      var x = await AsyncStorage.getItem("campus");
-      var y = await AsyncStorage.getItem("subcampus");
+      var x = await retrieveData("campus");
+      var y = await retrieveData("subcampus");
       setCampus(x ?? "");
       setSubCampus(y ?? x ?? "");
 

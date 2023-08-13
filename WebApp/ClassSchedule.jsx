@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -10,6 +10,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { ActivityIndicator } from 'react-native-paper';
 import {IP_ADDRESS} from '@env';
+import alert from './alert.js'
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 const ClassSchedule = () => {
@@ -27,9 +29,9 @@ const ClassSchedule = () => {
   
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await AsyncStorage.getItem('hacusername');
-      const loadedPassword = await AsyncStorage.getItem('hacpassword');
-
+      const loadedUsername = await retrieveData('hacusername');
+      const loadedPassword = await retrieveData('hacpassword');
+      console.log("sched", loadedUsername, loadedPassword)
       if (loadedUsername !== null && loadedPassword !== null) {
         setIsLoggedIn(true);
         console.log("x")
@@ -52,7 +54,7 @@ const ClassSchedule = () => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
-      Alert.alert("Error logging in")
+      alert("Error logging in")
     }      
     if(response.data){
       console.log(response.data)

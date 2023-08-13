@@ -47,6 +47,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-gradle-plugin": "^0.71.19",
+    "react-native-mmkv": "^2.10.1",
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-navigation": "^7.36.0",
     "react-native-paper": "^5.2.0",

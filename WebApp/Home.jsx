@@ -12,6 +12,7 @@ import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -178,7 +179,7 @@ const Home = () => {
 
   const getDate = async () => {
     try {
-      const campus = await AsyncStorage.getItem('campus');
+      const campus = await retrieveData('campus');
       const data = {
         campus: campus?.toString(),
         date:
@@ -208,8 +209,8 @@ const Home = () => {
 
   const getScheduled = async () => {
     try {
-      const idNum = await AsyncStorage.getItem('studentID');
-      const campus = await AsyncStorage.getItem("campus");
+      const idNum = await retrieveData('studentID');
+      const campus = await retrieveData("campus");
       const data = {
         campus: campus?.toString,
         student: idNum,

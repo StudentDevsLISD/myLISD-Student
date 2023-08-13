@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
 import Home from './AppRunner';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 const Stack = createStackNavigator();
 
@@ -13,8 +14,8 @@ const Navigation = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
     const checkAuthentication = async () => {
-      const username = await AsyncStorage.getItem('username');
-      const password = await AsyncStorage.getItem('password');
+      const username = await retrieveData('username');
+      const password = await retrieveData('password');
   
       if (username && password) {
         setIsAuthenticated(true);

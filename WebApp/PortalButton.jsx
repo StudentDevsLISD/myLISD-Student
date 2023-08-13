@@ -11,6 +11,7 @@ import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY } from '@env';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 
@@ -44,7 +45,7 @@ const PortalButton = ({
       return;
     }
     try {
-      const idNum = await AsyncStorage.getItem('studentID');
+      const idNum = await retrieveData('studentID');
       console.log(title);
       const data = {
         student: idNum,

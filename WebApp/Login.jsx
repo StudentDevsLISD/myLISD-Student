@@ -9,6 +9,7 @@ import { LISD_CLIENT_AUTH_UN, LISD_CLIENT_AUTH_PWD, LISD_API_KEY, GOOGLE_WEB_CLI
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 const loginurl = "https://api.leanderisd.org/portal/login";
@@ -69,14 +70,14 @@ const Login = ({ navigation }) => {
       });
       if (response.data.status === "success") {
         console.log(response.data);
-        await AsyncStorage.setItem('username', username);
-        await AsyncStorage.setItem('password', password);
-        await AsyncStorage.setItem('studentID', response.data.id)
-        await AsyncStorage.setItem('firstName', response.data.first)
-        await AsyncStorage.setItem('lastName', response.data.last)
-        await AsyncStorage.setItem('grade', response.data.grade)
-        await AsyncStorage.setItem('campus', response.data.campus);
-        await AsyncStorage.setItem('subcampus', response.data.subcampus ? response.data.subcampus : "");
+        await storeData('username', username);
+        await storeData('password', password);
+        await storeData('studentID', response.data.id)
+        await storeData('firstName', response.data.first)
+        await storeData('lastName', response.data.last)
+        await storeData('grade', response.data.grade)
+        await storeData('campus', response.data.campus);
+        await storeData('subcampus', response.data.subcampus ? response.data.subcampus : "");
         console.log("done")
         // Reset the navigation stack and navigate to the Home screen
         navigation.dispatch(
