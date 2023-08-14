@@ -95,7 +95,10 @@ const ContactTeachersScreen = ({ theme }) => {
     let response = '';
     try {
       setIsLoading(true);
-      response = await axios.get(`http://${IP_ADDRESS}:8082/teachers?username=${username}&password=${password}`);
+      response = await axios.post(`http://${IP_ADDRESS}:8082/teachers`, {
+        username: username,
+        password: password
+      });
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

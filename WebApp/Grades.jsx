@@ -67,9 +67,10 @@ const Grades = () => {
   const fetchGrades = async (username, password) => {
     console.log("f", username, password)
     try {
-      const response = await axios.get(
-        'http://' + IP_ADDRESS + ':8082/grades?username=' + username + '&password=' + password
-      );
+      const response = await axios.post(`http://${IP_ADDRESS}:8082/grades`, {
+        username: username,
+        password: password
+      });
       const currentClasses = response.data.currentClasses;
 
       if (currentClasses.length === 0) {
