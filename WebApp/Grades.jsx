@@ -20,6 +20,7 @@ import { IP_ADDRESS } from '@env';
 import alert from './alert.js'
 import Assignments from './AssignmentScreen';
 import { storeData, retrieveData } from './storage.js';
+import encryptAES from './encrypt.js'
 
 
 const getGrade = (score) => {
@@ -67,9 +68,11 @@ const Grades = () => {
   const fetchGrades = async (username, password) => {
     console.log("f", username, password)
     try {
-      const response = await axios.post(`http://${IP_ADDRESS}:8082/grades`, {
+      const encrypted = encryptAES(password);
+      const response = await axios.post(`http://${IP_ADDRESS}:8082/teachers`, {
         username: username,
-        password: password
+        password: encrypted.ciphertext,
+        iv: encrypted.iv,
       });
       const currentClasses = response.data.currentClasses;
 

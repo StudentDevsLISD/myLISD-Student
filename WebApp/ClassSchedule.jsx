@@ -12,7 +12,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import {IP_ADDRESS} from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-
+import encryptAES from './encrypt.js'
 
 const ClassSchedule = () => {
   const navigation = useNavigation();
@@ -49,9 +49,11 @@ const ClassSchedule = () => {
     let response ='';
     try {
       setIsLoading(true);
+      const encrypted = encryptAES(password);
       response = await axios.post(`http://${IP_ADDRESS}:8082/schedule`, {
         username: username,
-        password: password
+        password: encrypted.ciphertext,
+        iv: encrypted.iv,
       });
       setIsLoading(false);
     } catch (error) {
