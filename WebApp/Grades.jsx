@@ -69,7 +69,7 @@ const Grades = () => {
     console.log("f", username, password)
     try {
       const encrypted = encryptAES(password);
-      const response = await axios.post(`http://${IP_ADDRESS}:8082/teachers`, {
+      const response = await axios.post(`http://${IP_ADDRESS}:8082/grades`, {
         username: username,
         password: encrypted.ciphertext,
         iv: encrypted.iv,
