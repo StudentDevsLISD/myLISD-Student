@@ -619,7 +619,7 @@ const LightStyles = StyleSheet.create({
             flexDirection: 'column',
             paddingHorizontal: 25,
             paddingBottom: 6,
-            marginVertical: 14,
+            marginVertical: 2,
           },
   
           HomeContainer: {
@@ -642,9 +642,9 @@ const LightStyles = StyleSheet.create({
             paddingTop: -20,
             overflow: 'hidden',
             backgroundColor: '#fff',
-            marginVertical: 15,
-            marginHorizontal: 15,
-            width: '80%',
+            marginVertical:9,
+            marginHorizontal: 5,
+            width: '53%',
             justifyContent: 'center', 
             alignItems: 'center',
           },

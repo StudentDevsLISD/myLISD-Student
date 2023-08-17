@@ -289,7 +289,7 @@ const Tab5Screen = () => {
 // Styling options for the tab bar
 const stackOptions = {
   headerTitle: () => (
-    <View style={{ alignItems: 'center' }}>
+    <View style={{ alignItems: 'center',       headerTitleAlign: 'center', marginLeft: 25, marginBottom: -22,  }}>
       <Image source={require('../assets/lisd_white_2.jpg')} style={{ width: 258, height: 68, marginBottom: 12,}} />
     </View>
   ),
