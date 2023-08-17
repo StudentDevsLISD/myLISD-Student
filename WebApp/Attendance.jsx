@@ -249,11 +249,13 @@ const Attendance = () => {
       let response ='';
       try {
         setIsLoading(true);
-        const encrypted = encryptAES(password);
+        const encryptedPassword = encryptAES(password);
+        const encryptedUsername = encryptAES(username)
       response = await axios.post(`http://${IP_ADDRESS}:8082/attendance`, {
-        username: username,
-        password: encrypted.ciphertext,
-        iv: encrypted.iv,
+        username: encryptedUsername.ciphertext,
+        uiv: encryptedUsername.iv,
+        password: encryptedPassword.ciphertext,
+        piv: encryptedPassword.iv,
       });
         setIsLoading(false);
       } catch (error) {
