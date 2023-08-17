@@ -38,7 +38,7 @@ const PeriodTimer = () => {
     const now = currentTime.getTime();
     const [hours, minutes] = period.endTime.split(':').map((time) => parseInt(time));
     const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), hours, minutes).getTime();
-    const remaining = end - now;
+    const remaining = end - now + 54000;
     if (remaining < 0) return '00 hrs 00 mins';
     const remainingHours = Math.floor(remaining / 3600000);
     const remainingMinutes = Math.floor((remaining % 3600000) / 60000);

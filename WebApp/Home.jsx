@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, Touchable } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -260,51 +260,33 @@ const Home = () => {
 
   return (
     <View style={styles.HomeContainer}>
-      <Text style={styles.HomeLetter_day}>{Lday}</Text>
-      <Text style={styles.HomeLetter_day_2}>{'day'}</Text>
-      <Text style={styles.HomeDate}>
+      <View style={{flexDirection: 'row',justifyContent: 'center',}}>
+      <TouchableOpacity style={styles.HomeLetterContainer}>
+        <View style={styles.HomeLetterView}>
+          <Text style={styles.HomeLetter_day}>{'B'/*{Lday}*/}</Text>
+          <Text style={styles.HomeLetter_day_2}>{'day'}</Text>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.HomeLetterContainer}>
+        <View style={styles.HomeLetterView}>
+        <Text style={styles.HomeLetter_day}>
         {currentDate.toISOString().substring(5, 7) +
           '/' +
           currentDate.toISOString().substring(8, 10)}
       </Text>
-      <Text style={styles.HomeDay}>{dateArray[currentDate.getDay()]}</Text>
-      <PeriodTimer/>
-      <TouchableOpacity disabled={true} style={styles.HomeAppButtonContainer2}>
-        <Text style={styles.HomeAppButtonText2}>
-          {scheduled
-            ? 'Scheduled: ' + scheduled
-            : 'No class scheduled for ' + currentDate.toDateString()}
-        </Text>
+      <Text style={styles.HomeLetter_day_2}>{dateArray[currentDate.getDay()]}</Text>
+      </View>
       </TouchableOpacity>
-      <Text style={styles.HomeWork}>
-        Today's Work
+      </View>
+      {/* <Text style={styles.HomeLetter_day}>{Lday}</Text>
+      <Text style={styles.HomeLetter_day_2}>{'day'}</Text> */}
+      {/* <Text style={styles.HomeDate}>
+        {currentDate.toISOString().substring(5, 7) +
+          '/' +
+          currentDate.toISOString().substring(8, 10)}
       </Text>
-      <>
-        {/* {isSignedIn ? ( // Check if the user is signed in
-          <ScrollView style={styles.HomeNewStyle}>
-            {isLoading ? (
-              <ActivityIndicator size="large" color="#007AFF" style={styles.HomeIndicator} />
-            ) : events.length === 0 ? (
-              <Text style={styles.HomeNoWorkText}>No More Work</Text>
-            ) : (
-              events.map((event) => (
-                <CalendarEvent
-                  id={event.id}
-                  summary={event.summary}
-                  start={event.start}
-                  end={event.end}
-                />
-              ))
-            )}
-          </ScrollView>
-        ) : (
-          // <TouchableOpacity onPress={handleSignIn} style={styles.HomeGooglebox}>
-          //   <Image source={require('../assets/google.png')} style={{ width: 60, height: 60, marginLeft: 20 }} />
-          //   <Text style={styles.HomeGoogle1}>Sign in with Google</Text>
-          // </TouchableOpacity>
-          <Text>testing</Text>
-        )} */}
-      </>
+      <Text style={styles.HomeDay}>{dateArray[currentDate.getDay()]}</Text> */}
+      <PeriodTimer/>
     </View>
   );
   
