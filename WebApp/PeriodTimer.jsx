@@ -12,10 +12,9 @@ const PeriodTimer = () => {
   const styles = theme === 'light' ? lightStyles : darkStyles;
 
   useEffect(() => {
-    const intervalId = setInterval(() => setCurrentTime(new Date()), 60000);
+    const intervalId = setInterval(() => setCurrentTime(new Date()), 1000); 
     return () => clearInterval(intervalId);
   }, []);
-
 
     
   const periods = [
@@ -38,12 +37,16 @@ const PeriodTimer = () => {
     const now = currentTime.getTime();
     const [hours, minutes] = period.endTime.split(':').map((time) => parseInt(time));
     const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), hours, minutes).getTime();
-    const remaining = end - now + 54000;
+    const remaining = end - now ;
     if (remaining < 0) return '00 hrs 00 mins';
-    const remainingHours = Math.floor(remaining / 3600000);
-    const remainingMinutes = Math.floor((remaining % 3600000) / 60000);
-    return `${remainingHours} hrs ${remainingMinutes} mins`;
-  };
+    const remainingMs = end - now;
+  
+  const totalMinutes = Math.floor(remainingMs / 1000 / 60);
+  const remainingSeconds = Math.floor((remainingMs / 1000) % 60);
+  const minutesStr = totalMinutes.toString().padStart(2, '0');
+  const secondsStr = remainingSeconds.toString().padStart(2, '0');
+
+  return `${minutesStr}:${secondsStr}`;  };
 
   const getProgress = (period) => {
     if (!currentPeriod) {
