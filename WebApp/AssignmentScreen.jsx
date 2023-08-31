@@ -10,6 +10,9 @@ import DarkStyles from './DarkStyles';
 // ...
 
 
+
+
+
 const AssignmentScreen = ({ route }) => {
   const navigation = useNavigation();
   const { data } = route.params;
@@ -88,7 +91,7 @@ const AssignmentScreen = ({ route }) => {
     });
   }, [navigation]);
   const grade = data.grade;
-  // const courseName = data.course.substring(12);
+  const courseName = data.course.substring(12);
   
 
 const numofscreens = Math.ceil((categories.length + 2)/ 4)
@@ -126,17 +129,7 @@ const FadedText = ({ text }) => {
     </Text>
   );
 };
-  // const assignments = [
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Science Project', subtitle: '02/03/2023', grade: '86.00', maxGrade: '100.00', breakdownColor: '#ff0000' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   { title: 'Math Assignment', subtitle: '01/02/2023', grade: '94.00', maxGrade: '100.00', breakdownColor: '#00ff00' },
-  //   // Other assignments...
-  // ];
+
   const assignments = data.assignments;
   React.useEffect(() => {
     // let y = [];
@@ -149,18 +142,10 @@ const FadedText = ({ text }) => {
     y = y.filter(function(item, pos) {
       return y.indexOf(item) === pos;
     });
-    
-    // Assuming that you have predefined weights and colors, let's create new breakdowns
-    // y.forEach((category, index) => {
-    //   updatedBreakdowns.push({
-    //     label: category, // update this value accordingly
-    //     weight: '1.0', // update this value accordingly // update this value accordingly
-    //   });
-    // });
-    // console.log(y);
+
     setCategories(y);
-    setBreakdowns(y); 
-    }, [assignments]);// It will only rerun this effect if 'assignments' change
+    setBreakdowns(data.categories); 
+    }, [assignments]);
   
     const average = ((num) => {
       let sum = 0;
@@ -168,11 +153,8 @@ const FadedText = ({ text }) => {
       let weight = 0.00;
       for(let i =0; i<assignments.length; i++){
         if(categories[num] == assignments[i].category){
-          // console.log(assignments[i])
           
           if(assignments[i].weight == "N/A"){
-            // console.log(assignments[i].name + ":" + assignments[i].score)
-            // console.log((Number(assignments[i].totalPoints) ? Number(assignments[i].totalPoints) : 0))
            
             weight = 1;
           }  else {
@@ -207,6 +189,18 @@ const FadedText = ({ text }) => {
   const getColor = ((idx) => {
     return colors[categories.indexOf(assignments[idx].category)];
   })
+  const getFloatFromPercentage = (percentageString) => {
+    // Remove the '%' and convert to float.
+    return parseFloat(percentageString.replace('%', ''))/ 100;
+  };
+  
+  const formatWeight = (weight) => {
+    // Convert weight to float.
+    const weightAsFloat = parseFloat(weight);
+    
+    // If weight is below 1, multiply by 100.
+    return weightAsFloat < 1 ? weightAsFloat * 100 : weightAsFloat;
+  };
 
   const splitBreakdowns = [];
   // console.log(breakdowns)
@@ -245,6 +239,7 @@ const FadedText = ({ text }) => {
 
 
 return (
+  
   <ScrollView style={styles.AssignmentScreenContainer}>
     {/* Rest of your existing JSX */}
     <View style={styles.AssignmentScreenTop}>
@@ -278,10 +273,10 @@ return (
       
       {breakdownPair.map((category) => (
         
-        <TouchableOpacity key={category} activeOpacity={1} style={styles.AssignmentScreenBreakdownBox}>
-          <Text style={styles.AssignmentScreenBreakdownLabel}>{category}</Text>
+        <TouchableOpacity key={category.weight} activeOpacity={1} style={styles.AssignmentScreenBreakdownBox}>
+          <Text style={styles.AssignmentScreenBreakdownLabel}>{category.name}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
-          <Text style={styles.AssignmentScreenBreakdownValue}>{average(breakdowns.findIndex(c => c === category))}</Text>
+          <Text style={styles.AssignmentScreenBreakdownValue}>{(getFloatFromPercentage(category.categoryPercent)  * formatWeight(category.weight)).toFixed(2)}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
           <View style={[styles.AssignmentScreenBreakdownColor, { backgroundColor: colors[breakdowns.findIndex(c => c === category) % colors.length]}]} />
         </TouchableOpacity>

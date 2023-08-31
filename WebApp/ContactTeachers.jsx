@@ -8,36 +8,17 @@ import darkStyles from './DarkStyles';
 import axios from 'axios';
 import {IP_ADDRESS} from '@env';
 import { ActivityIndicator } from 'react-native-paper';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-import encryptAES from './encrypt.js'
+// import https from 'https';
 
 
-// interface Teacher {
-//   name: string;
-//   class: string;
-//   email: string;
-//   imageUrl: string;
-// }
 
-// const teachers: Teacher[] = [
-//   {
-//     name: "John Doe",
-//     class: "AP Calculus BC",
-//     email: "adith.chandraiah@gmail.com",
-//     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png",
-//   },
-//   {
-//     name: "Jane Smith",
-//     class: "AP English Language and Composition",
-//     email: "janesmith@example.com",
-//     imageUrl: "https://media.istockphoto.com/id/1151796047/photo/laughing-mature-businesswoman-wearing-glasses-posing-on-grey-studio-background.jpg?s=612x612&w=0&k=20&c=Nkb3aDxmf2g_-zFqq0j97x8J_V9asEq5XUpPJU4wxLc=",
-//   },
-//   // Add more teachers here
-// ];
-
-
+// const instance = axios.create({
+//   httpsAgent: new https.Agent({
+//     rejectUnauthorized: false // Only use this during development!
+//   })
+// });
 
 const ItemView = ({ item, theme }) => {
   const handleEmailPress = () => {
@@ -75,41 +56,40 @@ const ContactTeachersScreen = ({ theme }) => {
   }, []);
   
   const loadCredentials = async () => {
-    try {
-      const loadedUsername = await retrieveData('hacusername');
-      const loadedPassword = await retrieveData('hacpassword');
+    // try {
+    //   const loadedUsername = await retrieveData('hacusername');
+    //   const loadedPassword = await retrieveData('hacpassword');
 
-      if (loadedUsername !== null && loadedPassword !== null) {
-        setIsLoggedIn(true);
-        console.log("x")
-        fetchTeachers(loadedUsername, loadedPassword)
-      } else {
-        setIsLoggedIn(false);
-        console.log("y")
-        navigation.navigate("Grades")
-      }
-    } catch (error) {
-      console.log("bad")
-    }
+    //   if (loadedUsername !== null && loadedPassword !== null) {
+    setIsLoggedIn(true);
+    //     console.log("x")
+    //     fetchTeachers(loadedUsername, loadedPassword)
+    //   } else {
+    //     setIsLoggedIn(false);
+    //     console.log("y")
+    //     navigation.navigate("Grades")
+    //   }
+    // } catch (error) {
+    //   console.log("bad")
+    // }
+    fetchTeachers()
   };
   const fetchTeachers = async (username, password) => {
     let response = '';
     try {
       setIsLoading(true);
-      const encryptedPassword = encryptAES(password);
-        const encryptedUsername = encryptAES(username)
-      response = await axios.post(`http://${IP_ADDRESS}:8082/teachers`, {
-        username: encryptedUsername.ciphertext,
-        uiv: encryptedUsername.iv,
-        password: encryptedPassword.ciphertext,
-        piv: encryptedPassword.iv,
-      });
+
+        response = await axios.get('http://' + IP_ADDRESS + ':8082/teachers', {
+          withCredentials: true
+        })
+      // You can now access the response data using response.data
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
       alert("Error logging in");
     }
+  
   
     if (response.data) {
       // Process and remove duplicates

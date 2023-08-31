@@ -28,35 +28,16 @@ const ClassSchedule = () => {
   }, []);
   
   const loadCredentials = async () => {
-    try {
-      const loadedUsername = await retrieveData('hacusername');
-      const loadedPassword = await retrieveData('hacpassword');
-      console.log("sched", loadedUsername, loadedPassword)
-      if (loadedUsername !== null && loadedPassword !== null) {
-        setIsLoggedIn(true);
-        console.log("x")
-        fetchSchedule(loadedUsername, loadedPassword)
-      } else {
-        setIsLoggedIn(false);
-        console.log("y")
-        navigation.navigate("Grades")
-      }
-    } catch (error) {
-      console.log("bad")
-    }
+    setIsLoggedIn(true);
+    fetchSchedule()
   };
   const fetchSchedule = async (username, password) => {
     let response ='';
     try {
       setIsLoading(true);
-      const encryptedPassword = encryptAES(password);
-        const encryptedUsername = encryptAES(username)
-      response = await axios.post(`http://${IP_ADDRESS}:8082/schedule`, {
-        username: encryptedUsername.ciphertext,
-        uiv: encryptedUsername.iv,
-        password: encryptedPassword.ciphertext,
-        piv: encryptedPassword.iv,
-      });
+      response = await axios.get('http://' + IP_ADDRESS + ':8082/schedule', {
+          withCredentials: true
+        })
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
