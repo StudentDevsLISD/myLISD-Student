@@ -11,7 +11,6 @@ import { ActivityIndicator } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-import encryptAES from './encrypt.js'
 
 
 // interface Teacher {

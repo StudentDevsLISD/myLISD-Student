@@ -12,7 +12,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-import encryptAES from './encrypt.js'
 
 
 LocaleConfig.locales['en'] = {

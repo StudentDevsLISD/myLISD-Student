@@ -20,7 +20,6 @@ import { IP_ADDRESS } from '@env';
 import alert from './alert.js'
 import Assignments from './AssignmentScreen';
 import { storeData, retrieveData } from './storage.js';
-import encryptAES from './encrypt.js'
 
 
 const getGrade = (score) => {

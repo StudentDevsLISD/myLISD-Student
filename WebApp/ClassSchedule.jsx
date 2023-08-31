@@ -12,7 +12,6 @@ import { ActivityIndicator } from 'react-native-paper';
 import {IP_ADDRESS} from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-import encryptAES from './encrypt.js'
 
 const ClassSchedule = () => {
   const navigation = useNavigation();
