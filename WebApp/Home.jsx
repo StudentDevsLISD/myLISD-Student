@@ -339,13 +339,13 @@ const Home = () => {
     <ScrollView>
     <View style={styles.HomeContainer}>
       <View style={{flexDirection: 'row',justifyContent: 'center',}}>
-      <TouchableOpacity style={styles.HomeLetterContainer}>
+      <TouchableOpacity style={styles.HomeLetterContainer} disabled={true}>
         <View style={styles.HomeLetterView}>
           <Text style={styles.HomeLetter_day}>{'B'/*{Lday}*/}</Text>
           <Text style={styles.HomeLetter_day_2}>{'day'}</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.HomeLetterContainer}>
+      <TouchableOpacity style={styles.HomeLetterContainer}disabled={true}>
         <View style={styles.HomeLetterView}>
         <Text style={styles.HomeLetter_day}>
         {currentDate.toISOString().substring(5, 7) +
