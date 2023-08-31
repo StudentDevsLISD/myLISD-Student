@@ -18,10 +18,10 @@ const CalendarEvent = ({ id, summary, start, end }) => {
         </View>
         <View style={styles.CalendarEventContent}>
           <Text style={styles.CalendarEventTitle}>{summary}</Text>
-          <Text style={styles.CalendarEventTime}>
+          {/* <Text style={styles.CalendarEventTime}>
             {new Date(start).toLocaleTimeString()} -{' '}
             {new Date(end).toLocaleTimeString()}
-          </Text>
+          </Text> */}
         </View>
       </View>
     );

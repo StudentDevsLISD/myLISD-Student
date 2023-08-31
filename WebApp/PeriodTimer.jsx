@@ -79,7 +79,7 @@ const PeriodTimer = () => {
         <>
           <Text style={styles.PeriodTimerTimer}>{remainingTime}</Text>
           <View style={styles.PeriodTimerProgressBarContainer}>
-              <ProgressBar styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color="#0066cc" style={styles.PeriodTimerProgressBar} />
+              <ProgressBar styleAttr="Horizontal" indeterminate={false} progress={getProgress(currentPeriod)} color={theme === 'light' ? '#0066cc' : '#ede1d1'} style={styles.PeriodTimerProgressBar} />
           </View>
         </>
       ) : <View></View>}

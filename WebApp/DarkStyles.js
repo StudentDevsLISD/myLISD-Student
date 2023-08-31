@@ -623,124 +623,192 @@ const DarkStyles = StyleSheet.create({
             fontWeight: 'normal',
             },
             HomeWork:{
-                fontSize: 24,
-                alignSelf: "center",
-                marginVertical: 8,
-                marginBottom: 12,
-              },
-              HomeContainer: {
-              flex: 1,
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              backgroundColor: 'ebe8e8',
-              },
-              HomeIndicator: {
-              marginBottom: 20,
-              },
-              HomeLetter_day: {
-              backgroundColor: 'white',
-              paddingVertical: 0,
-              paddingHorizontal: 44,
-              marginHorizontal: 20,
-              marginBottom: 7,
-              marginTop: 16,
-              fontSize: RFPercentage(10),
+              fontSize: 24,
+              color: "#fff",
+
+              alignSelf: "center",
+              marginVertical: 8,
+              marginBottom: 12,
+            },
+            HomeLetterView:{
+              flexDirection: 'column',
+              paddingHorizontal: 25,
+              paddingBottom: 6,
+              marginVertical: 2,
+            },
+    
+            HomeContainer: {
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            backgroundColor: '#111',
+            },
+            HomeIndicator: {
+            marginBottom: 20,
+            },
+            HomeOptions5: {
+              backgroundColor: "ebe8e8",
+              width: Dimensions.get('window').width * 0.935,
+            },
+            HomeBox5: {
+              borderRadius: 15,
+              borderWidth: 1,
+              borderColor: '#444',
+              marginVertical: 5,
+              overflow: 'hidden', // Needed to apply border radius to ListItem
+            },
+            HomeScreenIcon5:{
+              fontSize: 20,
+              color: "#005987"
+  
+            },
+            HomeDescriptionText5: {
+              color: 'gray',
+            },
+            HomeParentView5:{
+              flexDirection: 'column',
+            },
+            
+            HomeLetterContainer: {
               borderWidth: 2,
-              borderColor: '#ebe8e8',
+              borderColor: '#444',
               borderRadius: 15,
               paddingBottom: 14,
               paddingTop: -20,
               overflow: 'hidden',
+              backgroundColor: '#222',
+              marginVertical:9,
+              marginHorizontal: 5,
+              width: Dimensions.get('window').width * 0.467,
+              justifyContent: 'center', 
+              alignItems: 'center',
+            },
+            HomeLetter_day: {
+            fontSize: RFPercentage(9),
+            color: "#ede1d1",
+
+            fontWeight: 'normal',
+            },
+            HomeLetter_day_2: {
+            textAlign: 'center',
+            alignItems: 'center',
+            color: "#ede1d1",
+
+            fontSize: 24,
+            fontWeight: 'normal',
+  paddingTop: 10,
+  paddingBottom: -5,
+            
+            },
+            HomeDate: {
+              backgroundColor: '#fff',
+              marginLeft: 158,
+              marginTop: -182,
+              fontSize: RFPercentage(8), // Adjust the value (5) to your preference
+              color: "#ede1d1",
+              borderWidth: 2,
+              borderColor: '#444',
+              borderRadius: 15,
+              paddingBottom: 34,
+              paddingTop: 2,
+              paddingHorizontal: 28,
+              overflow: 'hidden',
               fontWeight: 'normal',
-              },
-              HomeLetter_day_2: {
-              fontSize: 16,
+            },
+            HomeTitleText5: {
+              color: "white",
+              fontWeight: "600",
+
+            },
+            HomeBox5: {
+              backgroundColor: "#444",
+              borderRadius: 15,
+              borderWidth: 1,
+              borderColor: '#444',
+              marginVertical: 5,
+              overflow: 'hidden', // Needed to apply border radius to ListItem
+            },
+            HomeScreenIcon5:{
+              fontSize: 20,
+              color: "white",
+  
+            },
+            HomeChevronIcon: {
+              marginLeft: 'auto',
+              paddingLeft: 10,
+              color: "#ede1d1"
+            },
+            HomeDescriptionText5: {
+              color: "#ede1d1",
+            },
+            HomeDay: {
+              fontSize: 15, // Adjust the value (2) to your preference
               paddingVertical: 0,
-              paddingRight: 35,
-              paddingHorizontal: 25,
-              marginHorizontal: 45,
+              marginHorizontal: 237,
               marginBottom: 0,
-              marginTop: -37,
+              marginTop: -30,
               height: 100,
               width: 250,
-              fontWeight: 'normal',
+              fontWeight: "normal",
+            color: "#ede1d1",
+
+            },
+            HomeNewStyle: {
+              flex: 2,
+              width: "100%"
               
-              },
-              HomeDate: {
-                backgroundColor: '#fff',
-                marginLeft: 158,
-                marginTop: -182,
-                fontSize: RFPercentage(8), // Adjust the value (5) to your preference
-                borderWidth: 2,
-                borderColor: '#ebe8e8',
-                borderRadius: 15,
-                paddingBottom: 34,
-                paddingTop: 2,
-                paddingHorizontal: 28,
-                overflow: 'hidden',
-                fontWeight: 'normal',
-              },
-              HomeDay: {
-                fontSize: 15, // Adjust the value (2) to your preference
-                paddingVertical: 0,
-                marginHorizontal: 237,
-                marginBottom: 0,
-                marginTop: -30,
-                height: 100,
-                width: 250,
-                fontWeight: "normal",
-              },
-              HomeNewStyle: {
-                flex: 2,
-                width: "100%"
-                // marginTop: -200,
-                //padding: "1.2%"
-              },
-              HomeGoogle1:{
-                marginLeft:85,
-                marginTop: -45,
-                fontSize: 25,
-                marginRight: 29,
-                fontWeight: 'normal',
-              },
-              HomeGooglebox:{
-                backgroundColor: '#ffffff',
-                borderRadius: 15,
-                paddingHorizontal: 20,
-                paddingRight: 20,
-                marginHorizontal: 10,
-                paddingBottom: 15,
-                width: '95%',
-                borderWidth: 2,
-                borderColor: '#ebe8e8',
-                fontWeight: 'normal',
-              },
-              HomeNoWorkText: {
-                fontSize: 18,
-                fontWeight: 'normal',
-                alignSelf: 'center',
-                marginVertical: 8,
-              },
-              HomeAppButtonContainer2: {
-              elevation: 8,
-              backgroundColor: 'white',
-              borderRadius: 15,
-              paddingVertical: 13,
-              paddingHorizontal: 12,
-              marginHorizontal: 12,
-              marginBottom: 7,
-              marginTop: -1,
-              width: '93%',
-              borderWidth: 2,
-              borderColor: '#ebe8e8',
-              fontWeight: 'bold',
-              },
-              HomeAppButtonText2: {
-              fontSize: 18,
-              color: 'black',
-              alignSelf: 'center',
+              // marginTop: -200,
+              //padding: "1.2%"
+            },
+            HomeGoogle1:{
+              marginLeft:85,
+              marginTop: -45,
+              fontSize: 25,
+              marginRight: 29,
               fontWeight: 'normal',
-              },
+            },
+            HomeGooglebox:{
+              backgroundColor: '#ffffff',
+              borderRadius: 15,
+              paddingHorizontal: 20,
+              paddingRight: 20,
+              marginHorizontal: 10,
+              paddingBottom: 15,
+              width: '95%',
+              borderWidth: 2,
+              borderColor: '#444',
+              fontWeight: 'normal',
+            },
+            HomeNoWorkText: {
+              fontSize: 18,
+              fontWeight: 'normal',
+              alignSelf: 'center',
+              marginVertical: 8,
+            },
+            HomeAppButtonContainer2: {
+            elevation: 8,
+            backgroundColor: 'white',
+            borderRadius: 15,
+            paddingVertical: 13,
+            paddingHorizontal: 12,
+            marginHorizontal: 12,
+            marginBottom: 7,
+            marginTop: -1,
+            width: '93%',
+            borderWidth: 2,
+            borderColor: '#444',
+            fontWeight: 'bold',
+            },
+            HomeAppButtonText2: {
+            fontSize: 18,
+            color: 'black',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontWeight: 'normal',
+            },
               IDsContainer: {
                 flex: 1,
               },
@@ -905,7 +973,7 @@ const DarkStyles = StyleSheet.create({
                 justifyContent: 'center',
                 backgroundColor: 'white',
                 borderWidth: 1,
-                borderColor: '#ddd',
+                borderColor: '#444',
                 borderRadius: 5,
                 width: '100%',
                 height: 50,
@@ -917,26 +985,25 @@ const DarkStyles = StyleSheet.create({
               },
               LoginGoogleButtonText: {
                 fontSize: 18,
-              },
-              PeriodTimerContainer: {
-                backgroundColor: '#ffffff',
+              },PeriodTimerContainer: {
+                backgroundColor: '#222',
                 borderRadius: 15,
                 paddingHorizontal: 20,
                 paddingRight: 20,
                 paddingVertical: 10,
                 marginHorizontal: 10,
-                marginBottom: 10,
                 width: '94%',
-                marginVertical: -60,
                 borderWidth: 2,
-                borderColor: '#ebe8e8',
+                borderColor: '#444',
               },
               PeriodTimerPeriod: {
                 fontSize: 24,
                 textAlign: 'center',
+                color: "#ede1d1"
               },
               PeriodTimerTimer: {
                 fontSize: 50,
+                color: "#ede1d1",
                 fontWeight: "500",
                 marginTop: 10,
                 marginBottom: 15,
@@ -945,12 +1012,15 @@ const DarkStyles = StyleSheet.create({
               PeriodTimerProgressBarContainer: {
                 overflow: 'hidden',
                 paddingHorizontal: 0,
+                borderColor: "#444"
               },
               PeriodTimerProgressBar: {
                 width: '100%',
                 height: 30,
-                overflow: 'hidden',
                 borderRadius: 11,
+                borderWidth: 1,
+                borderColor: '#ede1d1',
+    
               },
               PortalContainer: {
                 backgroundColor: "#ebe8e8",

@@ -375,7 +375,7 @@ const Home = () => {
                 <ListItem.Title style={styles.HomeTitleText5}>{option.title} </ListItem.Title>
                 <ListItem.Subtitle style={styles.HomeDescriptionText5}>{option.description}</ListItem.Subtitle>
               </ListItem.Content>
-              <Icon name="chevron-right" size={20} style={styles.HomeChevronIcon5} />
+              <Icon name="chevron-right" size={20} style={styles.HomeChevronIcon} />
             </ListItem>
           </View>
         </TouchableOpacity>
