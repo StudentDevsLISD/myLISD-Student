@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, Touchable } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, ScrollView, Touchable, Linking } from 'react-native';
 import PeriodTimer from './PeriodTimer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -13,10 +13,28 @@ import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 import { storeData, retrieveData, removeItem } from './storage.js';
+import { ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { NavigationProp, CommonActions } from '@react-navigation/native';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
 const getsched = mainurl + '/getScheduledMeeting';
+
+
+const options = [
+  { id: '1', title: 'News', description: 'Popular Stories', iconName: 'newspaper-o', route: 'NewsScreen' },
+  { id: '2', title: 'Quick Links', description: 'Important shortcuts', iconName: 'link', route: 'QuickLinksScreen.tsx' },
+  { id: '3', title: 'Bus Tracking', description: 'Track your journey', iconName: 'bus', route: 'News'},
+  { id: '4', title: 'Contact Teachers', description: 'Keep in touch', iconName: 'users', route: 'ContactTeachers' },
+  { id: '5', title: 'LISD Homepage', description: 'Leander ISD Homepage', iconName: 'laptop', route: 'VirtualAssistant' },
+
+  { id: '6', title: 'LISD Support Page', description: 'Leander ISD Support', iconName: 'comments', route: 'SupportPage' },
+  //{ id: '5', title: 'Virtual Assistant', description: 'Talk to our Virtual Chatbot', iconName: 'comments', route: 'VirtualAssistant'},
+  { id: '7', title: 'Contact Us', description: 'We are here to help', iconName: 'phone', route: 'News'},
+  { id: '8', title: 'Feedback', description: 'We value your opinion', iconName: 'thumbs-up', route: 'GoogleFeedback'},
+];
+
 
 // GoogleSignin.configure({
 //   iosClientId: '809923761821-5lio914f08csk2hgkufapgh19l0418n0.apps.googleusercontent.com',
@@ -26,7 +44,6 @@ const getsched = mainurl + '/getScheduledMeeting';
 // });
 
 const Home = () => {
-  const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [scheduled, setScheduled] = useState();
   const [Lday, setLday] = useState('-');
@@ -206,6 +223,66 @@ const Home = () => {
     }
   };
   
+  const navigation = useNavigation();
+
+  const handleOptionPress = (option) => {
+    if (option.webLink) {
+      Linking.openURL(option.webLink);
+    } else if(option.title == "News"){
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: "NewsScreen",
+        }
+        )
+        
+      );
+      
+    } 
+    else if(option.title == "Quick Links"){
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: "QuickLinks",
+        }
+        )
+        
+      );
+      
+    } 
+    else if(option.title == "Contact Teachers"){
+      navigation.dispatch(
+        CommonActions.navigate({
+          name: "ContactTeachers",
+        }
+        )
+        
+      );
+      
+    } 
+    else if(option.title == "Bus Tracking"){
+      Linking.openURL("https://parent.smart-tag.net/%40leanderisd");
+      
+    } 
+    else if(option.title == "Virtual Assistant"){
+      Linking.openURL("https://www.leanderisd.org")
+      
+    } 
+    else if(option.title == "LISD Support Page"){
+      Linking.openURL("https://www.leanderisd.org/support/")
+      
+    } 
+    else if(option.title == "LISD Homepage"){
+      Linking.openURL("https://www.leanderisd.org")
+
+    }
+    else if(option.title == "Feedback"){
+      Linking.openURL("https://forms.gle/5sm5X6vhA9zLLFFC6")
+      
+    } 
+    else if(option.title == "Contact Us"){
+      Linking.openURL("https://www.k12insight.com/Lets-Talk/LetsTalkTabCustom.aspx?k=WKXY9FLT&rnd=1686678916022")
+      
+    } 
+  };
 
   const getScheduled = async () => {
     try {
@@ -259,6 +336,7 @@ const Home = () => {
   );
 
   return (
+    <ScrollView>
     <View style={styles.HomeContainer}>
       <View style={{flexDirection: 'row',justifyContent: 'center',}}>
       <TouchableOpacity style={styles.HomeLetterContainer}>
@@ -287,7 +365,23 @@ const Home = () => {
       </Text>
       <Text style={styles.HomeDay}>{dateArray[currentDate.getDay()]}</Text> */}
       <PeriodTimer/>
+      <View style={styles.HomeParentView5}>
+        {options.map((option) => (
+        <TouchableOpacity style={styles.HomeOptions5} key={option.id} onPress={() => handleOptionPress(option)}>
+          <View style={styles.HomeBox5}>
+            <ListItem containerStyle={theme === 'light' ? {backgroundColor: "white"} : {backgroundColor: "#333"}}>
+              <Icon name={option.iconName} style={styles.HomeScreenIcon5} />
+              <ListItem.Content>
+                <ListItem.Title style={styles.HomeTitleText5}>{option.title} </ListItem.Title>
+                <ListItem.Subtitle style={styles.HomeDescriptionText5}>{option.description}</ListItem.Subtitle>
+              </ListItem.Content>
+              <Icon name="chevron-right" size={20} style={styles.HomeChevronIcon5} />
+            </ListItem>
+          </View>
+        </TouchableOpacity>
+      ))}</View>
     </View>
+    </ScrollView>
   );
   
   

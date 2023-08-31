@@ -619,7 +619,7 @@ const LightStyles = StyleSheet.create({
             flexDirection: 'column',
             paddingHorizontal: 25,
             paddingBottom: 6,
-            marginVertical: 14,
+            marginVertical: 2,
           },
   
           HomeContainer: {
@@ -634,6 +634,29 @@ const LightStyles = StyleSheet.create({
           HomeIndicator: {
           marginBottom: 20,
           },
+          HomeOptions5: {
+            backgroundColor: "ebe8e8",
+            width: Dimensions.get('window').width * 0.935,
+          },
+          HomeBox5: {
+            borderRadius: 15,
+            borderWidth: 1,
+            borderColor: '#dcdcdc',
+            marginVertical: 5,
+            overflow: 'hidden', // Needed to apply border radius to ListItem
+          },
+          HomeScreenIcon5:{
+            fontSize: 20,
+            color: "#005987"
+
+          },
+          HomeDescriptionText5: {
+            color: 'gray',
+          },
+          HomeParentView5:{
+            flexDirection: 'column',
+          },
+          
           HomeLetterContainer: {
             borderWidth: 2,
             borderColor: '#ebe8e8',
@@ -642,9 +665,9 @@ const LightStyles = StyleSheet.create({
             paddingTop: -20,
             overflow: 'hidden',
             backgroundColor: '#fff',
-            marginVertical: 15,
-            marginHorizontal: 15,
-            width: '80%',
+            marginVertical:9,
+            marginHorizontal: 5,
+            width: Dimensions.get('window').width * 0.467,
             justifyContent: 'center', 
             alignItems: 'center',
           },
@@ -943,8 +966,10 @@ paddingBottom: -5,
           PeriodTimerProgressBar: {
             width: '100%',
             height: 30,
-            overflow: 'hidden',
             borderRadius: 11,
+            borderWidth: 1,
+            borderColor: '#0066cc',
+
           },
           PortalContainer: {
             backgroundColor: "#ebe8e8",
