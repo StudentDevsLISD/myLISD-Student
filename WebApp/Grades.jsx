@@ -11,15 +11,14 @@ import { ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { CommonActions, NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
 import { IP_ADDRESS } from '@env';
 import alert from './alert.js'
-import Assignments from './AssignmentScreen';
-import { storeData, retrieveData } from './storage.js';
+import { storeData, retrieveData, removeItem } from './storage.js';
+
 
 
 const getGrade = (score) => {
@@ -42,18 +41,7 @@ const Grades = () => {
   const [newAssignments, setNewAssignments] = useState([]);
   const route = useRoute();
   const headerTitle = isLoggedIn ? "Grades" : "HAC";
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{ marginLeft: 16 }}
-        >
-          <Icon name="chevron-left" size={24} color="white" />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+
   const formatGradeValue = (gradeValue) => {
     if (gradeValue >= 90.0 && gradeValue <= 99.99) {
       return gradeValue.toFixed(2);
@@ -64,19 +52,14 @@ const Grades = () => {
     }
   };
 
-  const fetchGrades = async (username, password) => {
-    console.log("f", username, password)
+  const fetchGrades = async (cookieDict) => {
     try {
-      const encryptedPassword = encryptAES(password);
-      const encryptedUsername = encryptAES(username)
-      const response = await axios.post(`http://${IP_ADDRESS}:8082/grades`, {
-        username: encryptedUsername.ciphertext,
-        uiv: encryptedUsername.iv,
-        password: encryptedPassword.ciphertext,
-        piv: encryptedPassword.iv,
+      const response = await axios.get(`http://${IP_ADDRESS}:8082/grades`, {
+        withCredentials: true
       });
-      const currentClasses = response.data.currentClasses;
 
+      const currentClasses = response.data.currentClasses;
+      console.log("currentClasses", currentClasses)
       if (currentClasses.length === 0) {
         alert('Error', 'Error logging in. Please try again.');
         setIsLoggedIn(false);
@@ -89,9 +72,12 @@ const Grades = () => {
 
       const grades = {};
       for (let classObj of currentClasses) {
-        if (classObj.grade !== '') {
-          let gradeValue = parseFloat(classObj.grade.split(' ')[2]);
-          grades[classObj.name] = formatGradeValue(gradeValue);
+        if (classObj.grade != '') {
+          // console.log(classObj.grade)
+          // let gradeValue = parseFloat(classObj.grade.split(' ')[2]);
+          // console.log(gradeValue)
+          // grades[classObj.name] = formatGradeValue(gradeValue);
+          grades[classObj.name] = classObj.grade;
         } else {
           grades[classObj.name] = '0.00';
         }
@@ -143,12 +129,19 @@ const Grades = () => {
 
   const saveCredentials = async () => {
     try {
-      await storeData('hacusername', username);
-      await storeData('hacpassword', password);
-      setIsLoggedIn(true);
       setIsLoading(true);
-      fetchGrades(username, password);
+      const response = await axios.get('http://' + IP_ADDRESS + ':8082/login?username=' + username+ '&password=' + password, {
+        withCredentials: true
+      })
+      setIsLoggedIn(true);
+        
+      fetchGrades(response.data.cookies)
+      
+      
+      
     } catch (error) {
+      setIsLoading(false)
+      setIsLoggedIn(false);
       console.error('Error saving data', error);
     }
   };
@@ -157,12 +150,12 @@ const Grades = () => {
     try {
       const loadedUsername = await retrieveData('hacusername');
       const loadedPassword = await retrieveData('hacpassword');
-      console.log(loadedUsername, loadedPassword)
+
       if (loadedUsername !== null && loadedPassword !== null) {
         setUsername(loadedUsername);
         setPassword(loadedPassword);
         setIsLoggedIn(true);
-        await fetchGrades(loadedUsername, loadedPassword);
+        await fetchGrades({"cookies": "test"});
       }
       setIsLoading(false);
     } catch (error) {
@@ -179,8 +172,8 @@ const Grades = () => {
       setClasses([]);
       setGrades({});
       setNewAssignments([]);
-      retrieveData('hacusername');
-      retrieveData('hacpassword');
+      removeItem('hacusername');
+      removeItem('hacpassword');
       navigation.setParams({ justLoggedOut: undefined });
     }
   }, [route.params]);
@@ -349,7 +342,7 @@ const Grades = () => {
               </TouchableOpacity>
             )}
             {classes.map((classObj, index) => {
-              const { name, grade, assignments } = classObj;
+              const { name, grade, assignments, categories } = classObj;
               const gradeValue = parseFloat(grade.split(' ')[2]);
               const { color, letter } = getGrade(gradeValue);
               const badgeColor = assignments.length === 0 ? 'gray' : color;
@@ -361,18 +354,17 @@ const Grades = () => {
                   onPress={() => {
                     navigation.dispatch(
                       CommonActions.navigate({
-                        name: "AssignmentScreen",
+                        name: 'AssignmentScreen',
                         params: {
                           data: {
                             course: name,
                             grade: grades[name],
                             assignments: assignments,
+                            categories: categories
                           },
                         },
                       })
                     );
-                    
-                    
                   }}
                   disabled={assignments.length === 0}
                 >
