@@ -21,11 +21,12 @@ import { storeData, retrieveData, removeItem } from './storage.js';
 
 
 
-const getGrade = (score) => {
-  if (score >= 90.0) return { color: '#00DE64' };
-  if (score >= 80.0) return { color: '#3199FE' };
-  if (score >= 70.0) return { color: '#F99816' };
-  return { color: '#FB5B5B', letter: 'D' };
+const getGrade = (gradeValue) => {
+  if (gradeValue >= "100.00") return { color: '#00DE64' };
+  if (gradeValue >= "90.00") return { color: '#00DE64' }; 
+  if (gradeValue >= "80.00") return { color: '#3199FE' };
+  if (gradeValue >= "70.00") return { color: '#F99816' };
+  return { color: '#FB5B5B', letter: 'D' }; 
 };
 
 const Grades = () => {
@@ -281,7 +282,7 @@ const Grades = () => {
             <Text style={styles.GradesDateText}>{currentDate}</Text>
             <Text style={styles.GradesHeaderText}>{headerTitle}</Text>
           </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} scrollEnabled={true}>
             {!isLoggedIn && (
               <View style={styles.GradesInputContainer}>
                 <TextInput
@@ -343,8 +344,8 @@ const Grades = () => {
             )}
             {classes.map((classObj, index) => {
               const { name, grade, assignments, categories } = classObj;
-              const gradeValue = parseFloat(grade.split(' ')[2]);
-              const { color, letter } = getGrade(gradeValue);
+              let gradeValue = classObj.grade;
+              const { color, letter } = getGrade(classObj.grade);
               const badgeColor = assignments.length === 0 ? 'gray' : color;
   
               return (
@@ -374,7 +375,7 @@ const Grades = () => {
                       <Text numberOfLines={1} style={styles.GradesGradeTextCourse}>{name.substring(0, 9)}</Text>
                     </View>
                     <View style={[styles.GradesGradeBadgeColor, { backgroundColor: badgeColor }]}>
-                      <Text style={styles.GradesGradeBadgeText}>{grades[name]}</Text>
+                      <Text style={styles.GradesGradeBadgeText}>{grades[name].length>=6 ? grades[name].substring(0, 5) : grades[name]}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>

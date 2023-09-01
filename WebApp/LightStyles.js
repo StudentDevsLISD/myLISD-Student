@@ -24,7 +24,6 @@ const LightStyles = StyleSheet.create({
         padding: 5,
       },
       AssignmentScreenTop: {
-        flex: 0.4,
         flexDirection: 'row',
         padding: 10,
       },
@@ -83,7 +82,6 @@ const LightStyles = StyleSheet.create({
       },
 
       AssignmentScreenBottom: {
-        flex: 0.6,
         backgroundColor: '#fff',
         borderRadius: 10,
         margin: 10,

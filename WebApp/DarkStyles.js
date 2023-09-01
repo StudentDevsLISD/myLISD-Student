@@ -27,7 +27,6 @@ const DarkStyles = StyleSheet.create({
           color: "#ede1d1"
         },
         AssignmentScreenTop: {
-          flex: 0.4,
           flexDirection: 'row',
           padding: 10,
         },
@@ -95,7 +94,6 @@ const DarkStyles = StyleSheet.create({
           bottom: 5,
         },
         AssignmentScreenBottom: {
-          flex: 0.6,
           backgroundColor: '#222',
           borderRadius: 10,
           margin: 10,
