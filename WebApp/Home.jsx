@@ -28,11 +28,10 @@ const options = [
   { id: '3', title: 'Bus Tracking', description: 'Track your journey', iconName: 'bus', route: 'News'},
   { id: '4', title: 'Contact Teachers', description: 'Keep in touch', iconName: 'users', route: 'ContactTeachers' },
   { id: '5', title: 'LISD Homepage', description: 'Leander ISD Homepage', iconName: 'laptop', route: 'VirtualAssistant' },
-
-  { id: '6', title: 'LISD Support Page', description: 'Leander ISD Support', iconName: 'comments', route: 'SupportPage' },
-  //{ id: '5', title: 'Virtual Assistant', description: 'Talk to our Virtual Chatbot', iconName: 'comments', route: 'VirtualAssistant'},
-  { id: '7', title: 'Contact Us', description: 'We are here to help', iconName: 'phone', route: 'News'},
-  { id: '8', title: 'Feedback', description: 'We value your opinion', iconName: 'thumbs-up', route: 'GoogleFeedback'},
+  { id: '6', title: 'Mental Health', description: 'Mental Health Resources', iconName: 'heart', route: 'MentalHealth' },
+  { id: '7', title: 'LISD Support Page', description: 'Leander ISD Support', iconName: 'comments', route: 'SupportPage' },
+  { id: '8', title: 'Contact Us', description: 'We are here to help', iconName: 'phone', route: 'News'},
+  { id: '9', title: 'Feedback', description: 'We value your opinion', iconName: 'thumbs-up', route: 'GoogleFeedback'},
 ];
 
 
