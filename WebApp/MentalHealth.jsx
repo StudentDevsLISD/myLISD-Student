@@ -1,159 +1,117 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef, useEffect } from "react";
-import { StyleSheet, Text, View, Dimensions, Animated, ScrollView } from "react-native";
+import React, { useState, useCallback } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
-const { width, height } = Dimensions.get("window");
-const circleWidth = width / 2;
+import BreathingTimer from "./BreathingTimer"; // Import the BreathingTimer component
 
 const App = () => {
-  const move = useRef(new Animated.Value(0)).current;
-  const textOpacity = useRef(new Animated.Value(1)).current;
+  const [feeling, setFeeling] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.sequence([
-        Animated.parallel([
-          Animated.timing(textOpacity, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(move, {
-            toValue: 1,
-            duration: 4000,
-            useNativeDriver: true,
-          }),
-        ]),
-        Animated.parallel([
-          Animated.timing(textOpacity, {
-            delay: 100,
-            toValue: 0,
-            duration: 300,
-            useNativeDriver: true,
-          }),
-          Animated.timing(move, {
-            delay: 1000,
-            toValue: 0,
-            duration: 4000,
-            useNativeDriver: true,
-          }),
-        ]),
-      ])
-    );
-    animation.start();
+  const handleTextChange = (newText) => {
+    setText(newText);
+    // Calculate the height based on the content
+    setInputHeight(Math.max(40, newText.split('\n').length * 20)); // Adjust the multiplier as needed
+  };
 
-    return () => {
-      animation.stop();
-    };
-  }, []);
-
-  const translate = move.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, circleWidth / 6],
-  });
-  const exhale = textOpacity.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0],
-  });
+  const handleFormSubmit = useCallback(() => {
+    setSubmitted(true);
+    console.log(feeling);
+    setFeeling(""); // Clear the text input
+  }, [feeling]);
 
   return (
-    <ScrollView>
-         <Text
-          style={{
-            fontSize: 50,
-            fontWeight: "600",
-            color: "#000",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-            marginTop: 50,
-          }}
-        >
-          Breathing Timer
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text
+        style={{
+          fontSize: 35,
+          fontWeight: "600",
+          color: "#000",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Breathing Timer
+      </Text>
+      <BreathingTimer /> {/* Use the BreathingTimer component here */}
+      <Text style={styles.feelingText}>How are you feeling today?</Text>
+
+      <TextInput
+  multiline
+  value={feeling}
+  onChangeText={(text) => {
+    setFeeling(text);
+    handleTextChange(text); // Call your custom function here if needed
+  }}
+  placeholder="Enter your feelings here"
+  style={styles.input}
+/>
+
+
+      <TouchableOpacity
+        style={[
+          styles.submitButton,
+          submitted && styles.submittedButton,
+        ]}
+        onPress={handleFormSubmit}
+        disabled={submitted}
+      >
+        <Text style={styles.submitButtonText}>
+          {submitted ? "Submitted" : "Submit"}
         </Text>
-      <View style={styles.container}>
-        <Animated.View
-          style={{
-            width: circleWidth,
-            marginTop: -50,
-            height: circleWidth,
-            ...StyleSheet.absoluteFill,
-            alignItems: "center",
-            justifyContent: "center",
-            opacity: textOpacity,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "600",
-            }}
-          >
-            Inhale
-          </Text>
-        </Animated.View>
-        <Animated.View
-          style={{
-            width: circleWidth,
-            marginTop: -50,
-
-            height: circleWidth,
-            ...StyleSheet.absoluteFill,
-            alignItems: "center",
-            justifyContent: "center",
-            opacity: exhale,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "600",
-            }}
-          >
-            Exhale
-          </Text>
-        </Animated.View>
-        {[0, 1, 2, 3, 4, 5, 6, 7].map((item) => {
-          const rotation = move.interpolate({
-            inputRange: [0, 1],
-            outputRange: [`${item * 45}deg`, `${item * 45 + 180}deg`],
-          });
-          return (
-            <Animated.View
-              key={item}
-              style={{
-                opacity: 0.1,
-                backgroundColor: "blue",
-                width: circleWidth,
-                height: circleWidth,
-                borderRadius: circleWidth / 2,
-                ...StyleSheet.absoluteFill,
-                marginTop: -50,
-
-                transform: [
-                  {
-                    rotateZ: rotation,
-                  },
-                  { translateX: translate },
-                  { translateY: translate },
-                ],
-              }}
-            ></Animated.View>
-          );
-        })}
-      </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center",
-    left: width / 4,
-    top: height / 4,
+  },
+  feelingText: {
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
+    marginVertical: 20,
+    textAlign: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 18,
+    marginHorizontal: 20,
+  },
+  submitButton: {
+    width: '50%',
+    alignSelf: 'center',
+    marginTop: 20,
+    backgroundColor: '#007AFF',
+    borderRadius: 10,
+    padding: 12,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  submittedButton: {
+    backgroundColor: '#ccc',
+    marginBottom: 20,
+
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 

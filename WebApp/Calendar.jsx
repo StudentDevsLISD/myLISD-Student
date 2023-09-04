@@ -10,6 +10,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 

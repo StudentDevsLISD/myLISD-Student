@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -12,7 +11,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import {IP_ADDRESS} from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 const ClassSchedule = () => {
   const navigation = useNavigation();
 
