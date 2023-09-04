@@ -25,6 +25,7 @@ import { ThemeContext, ThemeProvider } from './ThemeContext';
 import NewsScreen from './NewsScreen.jsx';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import QuickLinks from './QuickLinks';
 import { storeData, retrieveData, removeItem } from './storage.js';
 
 // Creating bottom tab navigator
@@ -401,6 +402,7 @@ const AppRunner = () => {
       <Stack.Screen name ="AssignmentScreen" component={Assignments} options={{ headerShown: true}}/>
       <Stack.Screen name ="MentalHealthScreen" component={MentalHealthScreen} options={{ headerShown: true}}/>
       <Stack.Screen name ="NewsScreen" component={NewsScreen} options={{ headerShown: true}}/>
+      <Stack.Screen name ="QuickLinks" component={QuickLinks} options={{ headerShown: true}}/>
     </Stack.Navigator>
     </ThemeProvider>
   );
