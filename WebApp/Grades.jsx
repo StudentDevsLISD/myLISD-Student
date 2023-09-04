@@ -14,10 +14,11 @@ import { CommonActions, NavigationProp, useNavigation, useRoute } from '@react-n
 import { useFocusEffect } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
-import darkStyles from './DarkStyles';
+import darkStyles from './DarkStyles'; 
 import { IP_ADDRESS } from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
+
 
 
 
@@ -53,7 +54,7 @@ const Grades = () => {
     }
   };
 
-  const fetchGrades = async (cookieDict) => {
+  const fetchGrades = async () => {
     try {
       const response = await axios.get(`http://${IP_ADDRESS}:8082/grades`, {
         withCredentials: true
@@ -61,9 +62,10 @@ const Grades = () => {
 
       const currentClasses = response.data.currentClasses;
       console.log("currentClasses", currentClasses)
-      if (currentClasses.length === 0) {
+      if (currentClasses.length == 0) {
         alert('Error', 'Error logging in. Please try again.');
         setIsLoggedIn(false);
+        await storeData('isLoggedIn', 'false')
         setIsLoading(false);
         return;
       }
@@ -124,6 +126,7 @@ const Grades = () => {
       }
       alert('Error', 'An error occurred while fetching grades.');
       setIsLoggedIn(false);
+      await storeData('isLoggedIn', 'false')
     }
     setIsLoading(false);
   };
@@ -135,39 +138,67 @@ const Grades = () => {
         withCredentials: true
       })
       setIsLoggedIn(true);
-        
-      fetchGrades(response.data.cookies)
+      storeData('isLoggedIn', "true");
+      fetchGrades()
       
       
       
     } catch (error) {
       setIsLoading(false)
       setIsLoggedIn(false);
+      storeData('isLoggedIn', "false");
       console.error('Error saving data', error);
     }
   };
 
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await retrieveData('hacusername');
-      const loadedPassword = await retrieveData('hacpassword');
-
-      if (loadedUsername !== null && loadedPassword !== null) {
-        setUsername(loadedUsername);
-        setPassword(loadedPassword);
-        setIsLoggedIn(true);
-        await fetchGrades({"cookies": "test"});
-      }
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchGrades();
+      } else {
       setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
     } catch (error) {
       console.error('Error loading data', error);
       setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
     }
   };
+  useEffect(() => {
+    // Start the background timer immediately upon mounting
+    console.log("interval uE")
+    const interval = setInterval(async () => {
+      if(1==1){
+        console.log("interval true")
+        try {
+          // Your cookie reloading logic here
+          const response = await axios.get('http://' + IP_ADDRESS + ':8082/relogin', {
+          withCredentials: true
+        })
+
+      
+      } catch (error) {
+        console.error('Error reloading cookies:', error);
+      }
+    }
+    }, 1500000);  // running every 25 minutes
+    return () => {
+      // Stop the background timer when the component is unmounted
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (route.params && route.params.justLoggedOut) {
+      console.log("just ran")
       setIsLoggedIn(false);
+      storeData('isLoggedIn', 'false')
       setUsername('');
       setPassword('');
       setClasses([]);

@@ -7937,6 +7937,11 @@ react-native-argon2@^2.0.1:
   resolved "https://registry.npmjs.org/react-native-argon2/-/react-native-argon2-2.0.1.tgz"
   integrity sha512-/iOi0S+VVgS1gQGtQgL4ZxUVS4gz6Lav3bgIbtNmr9KbOunnBYzP6/yBe/XxkbpXvasHDwdQnuppOH/nuOBn7w==
 
+react-native-background-timer@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.npmjs.org/react-native-background-timer/-/react-native-background-timer-2.4.1.tgz"
+  integrity sha512-TE4Kiy7jUyv+hugxDxitzu38sW1NqjCk4uE5IgU2WevLv7sZacaBc6PZKOShNRPGirLl1NWkaG3LDEkdb9Um5g==
+
 react-native-barcode-builder@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/react-native-barcode-builder/-/react-native-barcode-builder-2.0.0.tgz"
@@ -8231,7 +8236,7 @@ react-native-webview@^13.2.2:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.1, "react-native@>= 0.30.0", "react-native@>= 0.50.0", react-native@>=0.40, react-native@>=0.42.0, react-native@>=0.50.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.65, react-native@>=0.67.0, react-native@>=0.71.0:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@^0.71.1, "react-native@>= 0.30.0", "react-native@>= 0.50.0", react-native@>=0.40, react-native@>=0.42.0, react-native@>=0.47.0, react-native@>=0.50.0, react-native@>=0.57, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.60.0, react-native@>=0.65, react-native@>=0.67.0, react-native@>=0.71.0:
   version "0.71.1"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.1.tgz"
   integrity sha512-bLP5+IBj2IX6tgF9WnC/UL2ZPYkVUPsU4xqZV1jntTC2TH4xyLrvfKACjGlz5nQ3Mx4BmOFqsnMxithm53+6Aw==

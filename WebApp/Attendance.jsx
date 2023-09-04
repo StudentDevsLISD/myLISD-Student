@@ -216,9 +216,23 @@ const Attendance = () => {
   }, []);
 
   const loadCredentials = async () => {
-      
-        setIsLoggedIn(true);
-        fetchDates("current");
+    try {
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchDates("current");
+      } else {
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
+    } catch (error) {
+      console.error('Error loading data', error);
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+    }
   };
 
     const fetchDates = async (month) => {

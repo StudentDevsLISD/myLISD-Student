@@ -55,23 +55,23 @@ const ContactTeachersScreen = ({ theme }) => {
   }, []);
   
   const loadCredentials = async () => {
-    // try {
-    //   const loadedUsername = await retrieveData('hacusername');
-    //   const loadedPassword = await retrieveData('hacpassword');
-
-    //   if (loadedUsername !== null && loadedPassword !== null) {
-    setIsLoggedIn(true);
-    //     console.log("x")
-    //     fetchTeachers(loadedUsername, loadedPassword)
-    //   } else {
-    //     setIsLoggedIn(false);
-    //     console.log("y")
-    //     navigation.navigate("Grades")
-    //   }
-    // } catch (error) {
-    //   console.log("bad")
-    // }
-    fetchTeachers()
+    try {
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchTeachers();
+      } else {
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
+    } catch (error) {
+      console.error('Error loading data', error);
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+    }
   };
   const fetchTeachers = async (username, password) => {
     let response = '';
@@ -86,6 +86,7 @@ const ContactTeachersScreen = ({ theme }) => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
+      await storeData('isLoggedIn', 'false')
       alert("Error logging in");
     }
   
