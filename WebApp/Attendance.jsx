@@ -11,7 +11,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 LocaleConfig.locales['en'] = {
   monthNames: [
@@ -36,7 +36,19 @@ LocaleConfig.locales['en'] = {
 LocaleConfig.defaultLocale = 'en';
 
 const Attendance = () => {
-
+  const navigation = useNavigation();
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
 
   // Mock data
   // const attendanceData: MarkedDates = {
@@ -201,7 +213,6 @@ const Attendance = () => {
   const [prevMonth, setPrevMonth] = useState('');
   const [minDate, setMinDate] = useState('');
   const [maxDate, setMaxDate] = useState('');
-  const navigation = useNavigation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFetchedDataUpdating, setIsFetchedDataUpdating] = useState(false);
 
@@ -216,9 +227,23 @@ const Attendance = () => {
   }, []);
 
   const loadCredentials = async () => {
-      
-        setIsLoggedIn(true);
-        fetchDates("current");
+    try {
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchDates("current");
+      } else {
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
+    } catch (error) {
+      console.error('Error loading data', error);
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+    }
   };
 
     const fetchDates = async (month) => {

@@ -19,10 +19,13 @@ import GPA from './GPA';
 import Attendance from './Attendance';
 import ClassSchedule from './ClassSchedule';
 import ContactTeachers from './ContactTeachers';
+import MentalHealthScreen from './MentalHealth.jsx';
 import Assignments from './AssignmentScreen';
 import { ThemeContext, ThemeProvider } from './ThemeContext';
+import NewsScreen from './NewsScreen.jsx';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles';
+import QuickLinks from './QuickLinks';
 import { storeData, retrieveData, removeItem } from './storage.js';
 
 // Creating bottom tab navigator
@@ -389,7 +392,7 @@ const AppRunner = () => {
   return (
     <ThemeProvider>
     <Stack.Navigator screenOptions={stackOptions}>
-      <Stack.Screen name ="HomeScreen" component={Tabs} options={{ headerShown: true}}/>
+      <Stack.Screen name ="HomeScreen" component={Tabs} options={{ headerShown: true}}/>  
       <Stack.Screen name ="HAC" component={HAC} options={{ headerShown: true}}/>
       <Stack.Screen name ="Grades" component={Grades} options={{ headerShown: true}}/>
       <Stack.Screen name ="GPA" component={GPA} options={{ headerShown: true}}/>
@@ -397,6 +400,10 @@ const AppRunner = () => {
       <Stack.Screen name ="ClassSchedule" component={ClassSchedule} options={{ headerShown: true}}/>
       <Stack.Screen name ="ContactTeachers" component={ContactTeachers} options={{ headerShown: true}}/>
       <Stack.Screen name ="AssignmentScreen" component={Assignments} options={{ headerShown: true}}/>
+      <Stack.Screen name ="MentalHealthScreen" component={MentalHealthScreen} options={{ headerShown: true}}/>
+      <Stack.Screen name ="NewsScreen" component={NewsScreen} options={{ headerShown: true}}/>
+      <Stack.Screen name ="QuickLinks" component={QuickLinks} options={{ headerShown: true}}/>
+
     </Stack.Navigator>
     </ThemeProvider>
   );

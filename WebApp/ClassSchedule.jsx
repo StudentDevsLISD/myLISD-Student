@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -12,7 +11,7 @@ import { ActivityIndicator } from 'react-native-paper';
 import {IP_ADDRESS} from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 const ClassSchedule = () => {
   const navigation = useNavigation();
 
@@ -27,8 +26,23 @@ const ClassSchedule = () => {
   }, []);
   
   const loadCredentials = async () => {
-    setIsLoggedIn(true);
-    fetchSchedule()
+    try {
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchSchedule();
+      } else {
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
+    } catch (error) {
+      console.error('Error loading data', error);
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+    }
   };
   const fetchSchedule = async (username, password) => {
     let response ='';
@@ -41,6 +55,7 @@ const ClassSchedule = () => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
+      await storeData('isLoggedIn', 'false')
       alert("Error logging in")
     }      
     if(response.data){
