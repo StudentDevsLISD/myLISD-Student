@@ -79,7 +79,7 @@ const QuickLinks = () => {
   const styles = theme === 'light' ? lightStyles : darkStyles;
 
   return (
-    <View style={styles.QuickLinksContainer}>
+    <ScrollView style={styles.QuickLinksContainer}>
       <SearchBar
         placeholder="Search Link"
         onChangeText={setSearch}
@@ -93,7 +93,7 @@ const QuickLinks = () => {
           <QuickLink key={index} title={item.title} link={item.link} description={item.description} navigation ={navigation}/>
         ))}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 }
 
