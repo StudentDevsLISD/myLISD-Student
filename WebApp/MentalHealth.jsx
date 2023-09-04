@@ -1,66 +1,118 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import React, { useState, useCallback } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 
-class MentalHealthScreen extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Mental Health</Text>
-        </View>
+import BreathingTimer from "./BreathingTimer"; // Import the BreathingTimer component
 
-        {/* Animated Breathing Timer */}
-        <View style={styles.breathingTimer}>
-          {/* Insert your animated breathing timer component here */}
-          {/* You may need a separate component/library for this */}
-        </View>
+const App = () => {
+  const [feeling, setFeeling] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-        {/* Mental Health Resources */}
-        <View style={styles.resources}>
-          {/* Add your mental health resources here */}
-          <TouchableOpacity style={styles.resourceItem}>
-            <Text>Resource 1</Text>
-          </TouchableOpacity>
+  const handleTextChange = (newText) => {
+    setText(newText);
+    // Calculate the height based on the content
+    setInputHeight(Math.max(40, newText.split('\n').length * 20)); // Adjust the multiplier as needed
+  };
 
-          <TouchableOpacity style={styles.resourceItem}>
-            <Text>Resource 2</Text>
-          </TouchableOpacity>
+  const handleFormSubmit = useCallback(() => {
+    setSubmitted(true);
+    console.log(feeling);
+    setFeeling(""); // Clear the text input
+  }, [feeling]);
 
-          {/* Add more resource items as needed */}
-        </View>
-      </View>
-    );
-  }
-}
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text
+        style={{
+          fontSize: 35,
+          fontWeight: "600",
+          color: "#000",
+          textAlign: "center",
+          marginTop: 20,
+        }}
+      >
+        Breathing Timer
+      </Text>
+      <BreathingTimer /> {/* Use the BreathingTimer component here */}
+      <Text style={styles.feelingText}>How are you feeling today?</Text>
+
+      <TextInput
+  multiline
+  value={feeling}
+  onChangeText={(text) => {
+    setFeeling(text);
+    handleTextChange(text); // Call your custom function here if needed
+  }}
+  placeholder="Enter your feelings here"
+  style={styles.input}
+/>
+
+
+      <TouchableOpacity
+        style={[
+          styles.submitButton,
+          submitted && styles.submittedButton,
+        ]}
+        onPress={handleFormSubmit}
+        disabled={submitted}
+      >
+        <Text style={styles.submitButtonText}>
+          {submitted ? "Submitted" : "Submit"}
+        </Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff', // Background color of the screen
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  header: {
-    padding: 20,
-    backgroundColor: '#007AFF', // Header background color
-    alignItems: 'center',
+  feelingText: {
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
+    marginVertical: 20,
+    textAlign: "center",
   },
-  headerText: {
-    fontSize: 24,
-    color: 'white', // Header text color
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    fontSize: 18,
+    marginHorizontal: 20,
   },
-  breathingTimer: {
-    alignItems: 'center',
+  submitButton: {
+    width: '50%',
+    alignSelf: 'center',
     marginTop: 20,
+    backgroundColor: '#007AFF',
+    borderRadius: 10,
+    padding: 12,
+    alignItems: 'center',
+    marginBottom: 20,
   },
-  resources: {
-    marginTop: 20,
-    paddingHorizontal: 20,
+  submittedButton: {
+    backgroundColor: '#ccc',
+    marginBottom: 20,
+
   },
-  resourceItem: {
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+  submitButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
 
-export default MentalHealthScreen;
+export default App;

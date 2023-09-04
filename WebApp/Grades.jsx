@@ -9,9 +9,8 @@ import {
 } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { CommonActions, NavigationProp, useNavigation, useRoute } from '@react-navigation/native';
-import { useFocusEffect } from '@react-navigation/native';
+import { CommonActions, NavigationProp, useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
 import darkStyles from './DarkStyles'; 
