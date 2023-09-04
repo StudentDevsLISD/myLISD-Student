@@ -1,42 +1,52 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef } from "react";
-import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { StyleSheet, Text, View, Dimensions, Animated, ScrollView } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 const circleWidth = width / 2;
-export default function App() {
+
+const App = () => {
   const move = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
-  Animated.loop(
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(textOpacity, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(move, {
-          toValue: 1,
-          duration: 4000,
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.parallel([
-        Animated.timing(textOpacity, {
-          delay: 100,
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(move, {
-          delay: 1000,
-          toValue: 0,
-          duration: 4000,
-          useNativeDriver: true,
-        }),
-      ]),
-    ])
-  ).start();
+
+  useEffect(() => {
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(textOpacity, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(move, {
+            toValue: 1,
+            duration: 4000,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(textOpacity, {
+            delay: 100,
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(move, {
+            delay: 1000,
+            toValue: 0,
+            duration: 4000,
+            useNativeDriver: true,
+          }),
+        ]),
+      ])
+    );
+    animation.start();
+
+    return () => {
+      animation.stop();
+    };
+  }, []);
+
   const translate = move.interpolate({
     inputRange: [0, 1],
     outputRange: [0, circleWidth / 6],
@@ -45,83 +55,106 @@ export default function App() {
     inputRange: [0, 1],
     outputRange: [1, 0],
   });
+
   return (
-    <View style={styles.container}>
-      <Animated.View
-        style={{
-          width: circleWidth,
-          height: circleWidth,
-          ...StyleSheet.absoluteFill,
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: textOpacity,
-        }}
-      >
-        <Text
+    <ScrollView>
+         <Text
           style={{
-            fontSize: 20,
+            fontSize: 50,
             fontWeight: "600",
+            color: "#000",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            marginTop: 50,
           }}
         >
-          Inhale
+          Breathing Timer
         </Text>
-      </Animated.View>
-      <Animated.View
-        style={{
-          width: circleWidth,
-          height: circleWidth,
-          ...StyleSheet.absoluteFill,
-          alignItems: "center",
-          justifyContent: "center",
-          opacity: exhale,
-        }}
-      >
-        <Text
+      <View style={styles.container}>
+        <Animated.View
           style={{
-            fontSize: 20,
-            fontWeight: "600",
+            width: circleWidth,
+            marginTop: -50,
+            height: circleWidth,
+            ...StyleSheet.absoluteFill,
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: textOpacity,
           }}
         >
-          Exhale
-        </Text>
-      </Animated.View>
-      {[0, 1, 2, 3, 4, 5, 6, 7].map((item) => {
-        const rotation = move.interpolate({
-          inputRange: [0, 1],
-          outputRange: [`${item * 45}deg`, `${item * 45 + 180}deg`],
-        });
-        return (
-          <Animated.View
-            key={item}
+          <Text
             style={{
-              opacity: 0.1,
-              backgroundColor: "purple",
-              width: circleWidth,
-              height: circleWidth,
-              borderRadius: circleWidth / 2,
-              ...StyleSheet.absoluteFill,
-              transform: [
-                {
-                  rotateZ: rotation,
-                },
-                { translateX: translate },
-                { translateY: translate },
-              ],
+              fontSize: 20,
+              fontWeight: "600",
             }}
-          ></Animated.View>
-        );
-      })}
-    </View>
+          >
+            Inhale
+          </Text>
+        </Animated.View>
+        <Animated.View
+          style={{
+            width: circleWidth,
+            marginTop: -50,
+
+            height: circleWidth,
+            ...StyleSheet.absoluteFill,
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: exhale,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "600",
+            }}
+          >
+            Exhale
+          </Text>
+        </Animated.View>
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((item) => {
+          const rotation = move.interpolate({
+            inputRange: [0, 1],
+            outputRange: [`${item * 45}deg`, `${item * 45 + 180}deg`],
+          });
+          return (
+            <Animated.View
+              key={item}
+              style={{
+                opacity: 0.1,
+                backgroundColor: "blue",
+                width: circleWidth,
+                height: circleWidth,
+                borderRadius: circleWidth / 2,
+                ...StyleSheet.absoluteFill,
+                marginTop: -50,
+
+                transform: [
+                  {
+                    rotateZ: rotation,
+                  },
+                  { translateX: translate },
+                  { translateY: translate },
+                ],
+              }}
+            ></Animated.View>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-      left: width / 4,
-      top: height / 4,
-    },
-  });
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    left: width / 4,
+    top: height / 4,
+  },
+});
+
+export default App;
