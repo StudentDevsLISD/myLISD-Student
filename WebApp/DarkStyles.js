@@ -631,7 +631,7 @@ const DarkStyles = StyleSheet.create({
             HomeLetterView:{
               flexDirection: 'column',
               paddingHorizontal: 25,
-              paddingBottom: 6,
+              //paddingBottom: 6,
               marginVertical: 2,
             },
     
@@ -674,8 +674,8 @@ const DarkStyles = StyleSheet.create({
               borderWidth: 2,
               borderColor: '#444',
               borderRadius: 15,
-              paddingBottom: 14,
-              paddingTop: -20,
+              //paddingBottom: 14,
+              //paddingTop: -20,
               overflow: 'hidden',
               backgroundColor: '#222',
               marginVertical:9,
@@ -697,8 +697,8 @@ const DarkStyles = StyleSheet.create({
 
             fontSize: 24,
             fontWeight: 'normal',
-  paddingTop: 10,
-  paddingBottom: -5,
+            //paddingTop: 10,
+            //paddingBottom: -5,
             
             },
             HomeDate: {
