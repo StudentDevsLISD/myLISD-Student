@@ -983,7 +983,50 @@ const DarkStyles = StyleSheet.create({
               },
               LoginGoogleButtonText: {
                 fontSize: 18,
-              },PeriodTimerContainer: {
+              },
+              NewsScreenContainer: {
+                flex: 1,
+                backgroundColor: "#222",
+
+                paddingTop: 20,
+                paddingHorizontal: 20,
+              },
+              NewsScreenSectionTitle: {
+                fontSize: 28,
+                fontWeight: '600',
+                marginBottom: 5,
+                color: "#ede1d1",
+              },
+              NewsScreenLoadingContainer:{
+                flex: 1,
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                backgroundColor: "#222",
+              },
+              NewsScreenArticleContainer: {
+                flexDirection: 'row',
+                padding: 10,
+                alignItems: 'center',
+              },
+              NewsScreenTextContainer: {
+                flex: 1,
+                paddingHorizontal: 15,
+            
+              },
+              NewsScreenImage: {
+                width: 70,
+                height: 70,
+              },
+              NewsScreenTitle: {
+                fontSize: 18,
+                fontWeight: '500',
+                color: "white"
+              },
+              NewsScreenSource: {
+                fontSize: 14,
+                color: 'grey',
+              },
+              PeriodTimerContainer: {
                 backgroundColor: '#222',
                 borderRadius: 15,
                 paddingHorizontal: 20,
@@ -1102,6 +1145,55 @@ const DarkStyles = StyleSheet.create({
                 PortalButtonLikeIcon: {
                 color: '#007aff',
                 },
+                QuickLinksContainer: {
+                  flex: 1,
+                  backgroundColor: '#111',
+                  },
+                  QuickLinksSearchContainer: {
+                  backgroundColor: '#111',
+                  borderBottomColor: 'transparent',
+                  borderTopColor: 'transparent',
+                  paddingHorizontal:17,
+                  paddingTop: 15,
+                  },
+                  QuickLinksSearchInputContainer: {
+                  backgroundColor: '#333',
+                  borderRadius: 10,
+                  },
+                  QuickLinksSearchInput: {
+                  color: '#000',
+                  },
+                  QuickLinksLinksContainer: {
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-around',
+                  padding: 10,
+                  },
+                  QuickLinksLinkSquare: {
+                  width: '45%',
+                  height: 130,
+                  padding: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 15,
+                  marginBottom: 20,
+                  backgroundColor: '#444',
+                  borderWidth: 2,
+                  borderColor: '#444',
+                  elevation: 3, // for Android
+                  },
+                  QuickLinksLinkText: {
+                  color: '#fff',
+                  fontSize: 16,
+                  marginBottom: 7, // Creates space between the title and the description
+                  textAlign: 'center',
+                  },
+                  QuickLinksLinkDescription: {
+                  color: '#ede1d1',
+                  fontSize: 11.5,
+                  justifyContent:'center',
+                  textAlign: 'center',
+                  },
                 SettingsContainer: {
                     flex: 1,
                     backgroundColor: '#111',

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, FlatList, Text, StyleSheet, TouchableOpacity, Image, Linking, ScrollView } from 'react-native';
+import { View, FlatList, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Linking, ScrollView, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
@@ -110,12 +110,12 @@ const ContactTeachersScreen = ({ theme }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TouchableOpacity
+        <Pressable
           onPress={() => navigation.goBack()}
           style={{ marginLeft: 16 }}
         >
           <Icon name="chevron-left" size={24} color="white" />
-        </TouchableOpacity>
+        </Pressable>
       ),
     });
   }, [navigation]);
@@ -133,7 +133,7 @@ const ContactTeachersScreen = ({ theme }) => {
     );
   }
   return (
-    <View style={styles.ContactTeacherContainer}>
+          <View style={styles.ContactTeacherContainer}>
       {!isLoggedIn ? (
         <TouchableOpacity 
           style={styles.GradesLoginButton} 
@@ -142,7 +142,7 @@ const ContactTeachersScreen = ({ theme }) => {
           <Text style={styles.GradesLoginButtonText}>Login with HAC</Text>
         </TouchableOpacity>
       ):(
-        <ScrollView>
+      <ScrollView style={{flex:1}}>
       <Text style={styles.ContactTeacherSectionTitle}>Contact Teachers</Text>
       <FlatList
         data={teachers}
@@ -153,6 +153,7 @@ const ContactTeachersScreen = ({ theme }) => {
       </ScrollView>
       )}
     </View>
+    
     
   );
 };

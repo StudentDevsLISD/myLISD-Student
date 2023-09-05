@@ -141,14 +141,16 @@ const ContactTeachersScreen = ({ theme }) => {
           <Text style={styles.GradesLoginButtonText}>Login with HAC</Text>
         </TouchableOpacity>
       ):(
-        <ScrollView>
-      <Text style={styles.ContactTeacherSectionTitle}>Contact Teachers</Text>
+        <ScrollView style={{flex:1}}>
+          <View>
+        <Text style={styles.ContactTeacherSectionTitle}>Contact Teachers</Text>
       <FlatList
         data={teachers}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => <ItemView item={item} theme={theme} />}
         ItemSeparatorComponent={() => <ItemSeparatorView theme={theme} />}
       />
+      </View>
       </ScrollView>
       )}
     </View>

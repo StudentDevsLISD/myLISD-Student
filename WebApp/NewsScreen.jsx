@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, FlatList, Text, Linking, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, FlatList, Text, Linking, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
 import Navigation from './Navigation';
@@ -84,6 +84,8 @@ const NewsScreen = () => {
   const styles = theme === 'light' ? lightStyles : darkStyles;
 
   return (
+    
+    <ScrollView style={{flex:1}}>
     <View style={styles.NewsScreenContainer}>
       <Text style={styles.NewsScreenSectionTitle}>Top Stories</Text>
       {loading ? (
@@ -103,6 +105,7 @@ const NewsScreen = () => {
         />
       )}
     </View>
+    </ScrollView>
   );
 };
 
