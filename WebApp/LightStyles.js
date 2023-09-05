@@ -616,8 +616,8 @@ const LightStyles = StyleSheet.create({
           HomeLetterView:{
             flexDirection: 'column',
             paddingHorizontal: 25,
-            paddingBottom: 6,
-            marginVertical: 2,
+            //paddingBottom: 6,
+            marginBottom: 2,
           },
   
           HomeContainer: {
@@ -659,8 +659,8 @@ const LightStyles = StyleSheet.create({
             borderWidth: 2,
             borderColor: '#ebe8e8',
             borderRadius: 15,
-            paddingBottom: 14,
-            paddingTop: -20,
+            //paddingBottom: 14,
+            //paddingTop: -25,
             overflow: 'hidden',
             backgroundColor: '#fff',
             marginVertical:9,
@@ -679,8 +679,8 @@ const LightStyles = StyleSheet.create({
           alignItems: 'center',
           fontSize: 24,
           fontWeight: 'normal',
-paddingTop: 10,
-paddingBottom: -5,
+//paddingTop: 10,
+//paddingBottom: -5,
           
           },
           HomeDate: {
