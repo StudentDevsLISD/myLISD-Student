@@ -4,14 +4,13 @@ import { Dimensions, StyleSheet, View, Image } from 'react-native';
 import { GoogleLogin, MyCustomButton } from '@react-oauth/google';
 import { storeData, retrieveData, removeItem } from './storage.js';
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import DarkStyles from './DarkStyles.js';
 import LightStyles from './LightStyles.js';
 import { ThemeContext, ThemeProvider } from './ThemeContext';
 
 
 const Login = () => {
   const { theme } = useContext(ThemeContext);
-  const styles = theme === 'light' ? LightStyles : DarkStyles;
+  const styles = theme === 'light' ? LightStyles : LightStyles;
   const navigation = useNavigation();
   return (
     <View style={styles.LoginContainer}>
