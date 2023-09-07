@@ -136,9 +136,13 @@ const Grades = () => {
   const saveCredentials = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://' + IP_ADDRESS + ':8082/login?username=' + username+ '&password=' + password, {
+      const response = await axios.post('http://' + IP_ADDRESS + ':8082/login', {
+        username: username,
+        password: password
+      }, {
         withCredentials: true
-      })
+      });
+
       setIsLoggedIn(true);
       storeData('isLoggedIn', "true");
       fetchGrades()
