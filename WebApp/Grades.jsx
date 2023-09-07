@@ -32,6 +32,9 @@ const getGrade = (gradeValue) => {
   return { color: '#FB5B5B', letter: 'D' }; 
 };
 
+let count = 0;
+
+
 const Grades = () => {
   const navigation = useNavigation();
   const [currentDate, setCurrentDate] = useState('');
@@ -90,18 +93,21 @@ const Grades = () => {
 
       const storedGradesJson = await retrieveData('grades');
       const storedGrades = JSON.parse(storedGradesJson);
-      const isGradesEqual = JSON.stringify(grades) === JSON.stringify(storedGrades);
-
-      if (isGradesEqual) {
-        console.log('No new grades found');
-        setShowNoNewGrades(true);
-      } else {
-        await storeData('grades', JSON.stringify(grades));
-        console.log('Changes found');
-        setShowNoNewGrades(false);
-      }
+      await storeData('grades', JSON.stringify(grades));
 
       setGrades(grades);
+      if(count == 1) {
+    
+        const isGradesEqual = JSON.stringify(grades) === JSON.stringify(storedGrades);
+        if (isGradesEqual) {
+          console.log('No new grades found');
+          setShowNoNewGrades(true);
+        } else {
+          console.log('Changes found');
+          setShowNoNewGrades(false);
+        }
+
+      
 
       const newAssignments = [];
       for (let classObj of currentClasses) {
@@ -120,7 +126,8 @@ const Grades = () => {
 
       // Update the state with new assignments
       setNewAssignments(newAssignments);
-
+      }
+    count++;
     } catch (error) {
       console.error('Error fetching grades:', error);
       if (error.response) {
@@ -178,9 +185,10 @@ const Grades = () => {
   };
   useEffect(() => {
     // Start the background timer immediately upon mounting
+    const isLogged = retrieveData("isLoggedIn")
     console.log("interval uE")
     const interval = setInterval(async () => {
-      if(1==1){
+      if(isLogged == "true"){
         console.log("interval true")
         try {
           // Your cookie reloading logic here
@@ -192,8 +200,9 @@ const Grades = () => {
       } catch (error) {
         console.error('Error reloading cookies:', error);
       }
-    }
-    }, 1500000);  // running every 25 minutes
+    fetchGrades()
+      }
+    }, 60000);  // running every 25 minutes
     return () => {
       // Stop the background timer when the component is unmounted
       clearInterval(interval);
