@@ -13,11 +13,15 @@ import { CommonActions, NavigationProp, useRoute } from '@react-navigation/nativ
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
-import darkStyles from './DarkStyles';
+import darkStyles from './DarkStyles'; 
 import { IP_ADDRESS } from '@env';
 import alert from './alert.js'
 import { storeData, retrieveData, removeItem } from './storage.js';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+
+
+
 
 
 const getGrade = (gradeValue) => {
@@ -27,6 +31,9 @@ const getGrade = (gradeValue) => {
   if (gradeValue >= "70.00") return { color: '#F99816' };
   return { color: '#FB5B5B', letter: 'D' }; 
 };
+
+let count = 0;
+
 
 const Grades = () => {
   const navigation = useNavigation();
@@ -52,7 +59,7 @@ const Grades = () => {
     }
   };
 
-  const fetchGrades = async (cookieDict) => {
+  const fetchGrades = async () => {
     try {
       const response = await axios.get(`http://${IP_ADDRESS}:8082/grades`, {
         withCredentials: true
@@ -60,9 +67,10 @@ const Grades = () => {
 
       const currentClasses = response.data.currentClasses;
       console.log("currentClasses", currentClasses)
-      if (currentClasses.length === 0) {
+      if (currentClasses.length == 0) {
         alert('Error', 'Error logging in. Please try again.');
         setIsLoggedIn(false);
+        await storeData('isLoggedIn', 'false')
         setIsLoading(false);
         return;
       }
@@ -85,18 +93,21 @@ const Grades = () => {
 
       const storedGradesJson = await retrieveData('grades');
       const storedGrades = JSON.parse(storedGradesJson);
-      const isGradesEqual = JSON.stringify(grades) === JSON.stringify(storedGrades);
-
-      if (isGradesEqual) {
-        console.log('No new grades found');
-        setShowNoNewGrades(true);
-      } else {
-        await storeData('grades', JSON.stringify(grades));
-        console.log('Changes found');
-        setShowNoNewGrades(false);
-      }
+      await storeData('grades', JSON.stringify(grades));
 
       setGrades(grades);
+      if(count == 1) {
+    
+        const isGradesEqual = JSON.stringify(grades) === JSON.stringify(storedGrades);
+        if (isGradesEqual) {
+          console.log('No new grades found');
+          setShowNoNewGrades(true);
+        } else {
+          console.log('Changes found');
+          setShowNoNewGrades(false);
+        }
+
+      
 
       const newAssignments = [];
       for (let classObj of currentClasses) {
@@ -115,7 +126,8 @@ const Grades = () => {
 
       // Update the state with new assignments
       setNewAssignments(newAssignments);
-
+      }
+    count++;
     } catch (error) {
       console.error('Error fetching grades:', error);
       if (error.response) {
@@ -123,6 +135,7 @@ const Grades = () => {
       }
       alert('Error', 'An error occurred while fetching grades.');
       setIsLoggedIn(false);
+      await storeData('isLoggedIn', 'false')
     }
     setIsLoading(false);
   };
@@ -130,43 +143,77 @@ const Grades = () => {
   const saveCredentials = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get('http://' + IP_ADDRESS + ':8082/login?username=' + username+ '&password=' + password, {
+      const response = await axios.post('http://' + IP_ADDRESS + ':8082/login', {
+        username: username,
+        password: password
+      }, {
         withCredentials: true
-      })
+      });
+
       setIsLoggedIn(true);
-        
-      fetchGrades(response.data.cookies)
+      storeData('isLoggedIn', "true");
+      fetchGrades()
       
       
       
     } catch (error) {
       setIsLoading(false)
       setIsLoggedIn(false);
+      storeData('isLoggedIn', "false");
       console.error('Error saving data', error);
     }
   };
 
   const loadCredentials = async () => {
     try {
-      const loadedUsername = await retrieveData('hacusername');
-      const loadedPassword = await retrieveData('hacpassword');
-
-      if (loadedUsername !== null && loadedPassword !== null) {
-        setUsername(loadedUsername);
-        setPassword(loadedPassword);
-        setIsLoggedIn(true);
-        await fetchGrades({"cookies": "test"});
-      }
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchGrades();
+      } else {
       setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
     } catch (error) {
       console.error('Error loading data', error);
       setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
     }
   };
+  useEffect(() => {
+    // Start the background timer immediately upon mounting
+    const isLogged = retrieveData("isLoggedIn")
+    console.log("interval uE")
+    const interval = setInterval(async () => {
+      if(isLogged == "true"){
+        console.log("interval true")
+        try {
+          // Your cookie reloading logic here
+          const response = await axios.get('http://' + IP_ADDRESS + ':8082/relogin', {
+          withCredentials: true
+        })
+
+      
+      } catch (error) {
+        console.error('Error reloading cookies:', error);
+      }
+    fetchGrades()
+      }
+    }, 60000);  // running every 25 minutes
+    return () => {
+      // Stop the background timer when the component is unmounted
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (route.params && route.params.justLoggedOut) {
+      console.log("just ran")
       setIsLoggedIn(false);
+      storeData('isLoggedIn', 'false')
       setUsername('');
       setPassword('');
       setClasses([]);

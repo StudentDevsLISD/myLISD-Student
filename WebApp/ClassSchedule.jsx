@@ -26,8 +26,23 @@ const ClassSchedule = () => {
   }, []);
   
   const loadCredentials = async () => {
-    setIsLoggedIn(true);
-    fetchSchedule()
+    try {
+      const isLogged = await retrieveData('isLoggedIn')
+      setIsLoggedIn(isLogged == "true" ? true : false)
+      if (isLogged == "true" ? true : false) {
+        setIsLoading(true);
+        await fetchSchedule();
+      } else {
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+      }
+    } catch (error) {
+      console.error('Error loading data', error);
+      setIsLoading(false);
+      await storeData('isLoggedIn', 'false')
+      setIsLoggedIn(false)
+    }
   };
   const fetchSchedule = async (username, password) => {
     let response ='';
@@ -40,6 +55,7 @@ const ClassSchedule = () => {
     } catch (error) {
       setIsLoading(false);
       setIsLoggedIn(false);
+      await storeData('isLoggedIn', 'false')
       alert("Error logging in")
     }      
     if(response.data){

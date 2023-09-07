@@ -623,8 +623,8 @@ const LightStyles = StyleSheet.create({
           HomeLetterView:{
             flexDirection: 'column',
             paddingHorizontal: 25,
-            paddingBottom: 6,
-            marginVertical: 2,
+            //paddingBottom: 6,
+            marginBottom: 2,
           },
   
           HomeContainer: {
@@ -666,8 +666,8 @@ const LightStyles = StyleSheet.create({
             borderWidth: 2,
             borderColor: '#ebe8e8',
             borderRadius: 15,
-            paddingBottom: 14,
-            paddingTop: -20,
+            //paddingBottom: 14,
+            //paddingTop: -25,
             overflow: 'hidden',
             backgroundColor: '#fff',
             marginVertical:9,
@@ -686,8 +686,8 @@ const LightStyles = StyleSheet.create({
           alignItems: 'center',
           fontSize: 24,
           fontWeight: 'normal',
-paddingTop: 10,
-paddingBottom: -5,
+//paddingTop: 10,
+//paddingBottom: -5,
           
           },
           HomeDate: {
@@ -943,6 +943,48 @@ paddingBottom: -5,
           LoginGoogleButtonText: {
             fontSize: 18,
           },
+          NewsScreenContainer: {
+            flex: 1,
+            backgroundColor: "#222",
+
+            paddingTop: 20,
+            paddingHorizontal: 20,
+          },
+          NewsScreenSectionTitle: {
+            fontSize: 28,
+            fontWeight: '600',
+            marginBottom: 5,
+            color: "#ede1d1",
+          },
+          NewsScreenLoadingContainer:{
+            flex: 1,
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            backgroundColor: "#222",
+          },
+          NewsScreenArticleContainer: {
+            flexDirection: 'row',
+            padding: 10,
+            alignItems: 'center',
+          },
+          NewsScreenTextContainer: {
+            flex: 1,
+            paddingHorizontal: 15,
+        
+          },
+          NewsScreenImage: {
+            width: 70,
+            height: 70,
+          },
+          NewsScreenTitle: {
+            fontSize: 18,
+            fontWeight: '500',
+            color: "white"
+          },
+          NewsScreenSource: {
+            fontSize: 14,
+            color: 'grey',
+          },
           PeriodTimerContainer: {
             backgroundColor: '#ffffff',
             borderRadius: 15,
@@ -1059,6 +1101,55 @@ paddingBottom: -5,
             PortalButtonLikeIcon: {
             color: '#007aff',
             },
+            QuickLinksContainer: {
+              flex: 1,
+              backgroundColor: '#fff',
+              },
+              QuickLinksSearchContainer: {
+              backgroundColor: '#fff',
+              borderBottomColor: 'transparent',
+              borderTopColor: 'transparent',
+              paddingHorizontal:17,
+              paddingTop: 15,
+              },
+              QuickLinksSearchInputContainer: {
+              backgroundColor: '#f0f0f0',
+              borderRadius: 10,
+              },
+              QuickLinksSearchInput: {
+              color: '#000',
+              },
+              QuickLinksLinksContainer: {
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              padding: 10,
+              },
+              QuickLinksLinkSquare: {
+              width: '45%',
+              height: 130,
+              padding: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 15,
+              marginBottom: 20,
+              backgroundColor: '#f0f0f0',
+              borderWidth: 2,
+              borderColor: '#ebe8e8',
+              elevation: 3, // for Android
+              },
+              QuickLinksLinkText: {
+              color: '#000',
+              fontSize: 16,
+              marginBottom: 7, // Creates space between the title and the description
+              textAlign: 'center',
+              },
+              QuickLinksLinkDescription: {
+              color: '#888',
+              fontSize: 11.5,
+              justifyContent:'center',
+              textAlign: 'center',
+              },
             SettingsContainer: {
                 flex: 1,
                 backgroundColor: '#fff',
