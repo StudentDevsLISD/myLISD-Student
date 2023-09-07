@@ -342,7 +342,7 @@ const Attendance = () => {
             textDisabledColor: '#cccccc',
             dotColor: 'transparent',
             selectedDotColor: 'rgba(0, 0, 0, 0)',
-            arrowColor: 'black',
+            arrowColor: '#000',
             monthTextColor: '#000000',
             indicatorColor: '#000000',
             textDayFontFamily: 'Avenir',

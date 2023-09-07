@@ -507,6 +507,10 @@ const LightStyles = StyleSheet.create({
       marginHorizontal: 10.7,
       marginBottom: 7,
       marginTop: 1,
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+
       width: '94%',
       borderWidth: 2,
       borderColor: '#ebe8e8',
@@ -514,6 +518,9 @@ const LightStyles = StyleSheet.create({
       },
       GradesAppButtonText2: {
       fontSize: 18,
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
       color: 'black',
       alignSelf: 'center',
       fontWeight: 'normal',

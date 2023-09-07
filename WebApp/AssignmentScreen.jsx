@@ -276,8 +276,7 @@ return (
         <TouchableOpacity key={category.weight} activeOpacity={1} style={styles.AssignmentScreenBreakdownBox}>
           <Text style={styles.AssignmentScreenBreakdownLabel}>{category.name}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
-          {/*<Text style={styles.AssignmentScreenBreakdownValue}>{(getFloatFromPercentage(category.categoryPercent)  * formatWeight(category.weight)).toFixed(2)}</Text>*/}
-          <Text style={styles.AssignmentScreenBreakdownValue}>56.76</Text> //if you want the real category percentages uncomment the line above and comment this line
+          <Text style={styles.AssignmentScreenBreakdownValue}>{(getFloatFromPercentage(category.categoryPercent)  * formatWeight(category.weight)).toFixed(2)}</Text>
           <Text style={styles.breakdownWeight}>Weight: {category.weight}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
           <View style={[styles.AssignmentScreenBreakdownColor, { backgroundColor: colors[breakdowns.findIndex(c => c === category) % colors.length]}]} />

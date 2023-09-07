@@ -34,19 +34,31 @@ const PeriodTimer = () => {
     if (period.name === 'No school right now') {
       return '_ _ _ _ _ _ _ _';
     }
+  
     const now = currentTime.getTime();
-    const [hours, minutes] = period.endTime.split(':').map((time) => parseInt(time));
-    const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), hours, minutes).getTime();
-    const remaining = end - now ;
-    if (remaining < 0) return '00 hrs 00 mins';
+    const [endHours, endMinutes] = period.endTime.split(':').map((time) => parseInt(time));
+    const end = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), endHours, endMinutes).getTime();
     const remainingMs = end - now;
   
-  const totalMinutes = Math.floor(remainingMs / 1000 / 60);
-  const remainingSeconds = Math.floor((remainingMs / 1000) % 60);
-  const minutesStr = totalMinutes.toString().padStart(2, '0');
-  const secondsStr = remainingSeconds.toString().padStart(2, '0');
-
-  return `${minutesStr}:${secondsStr}`;  };
+    if (remainingMs <= 0) return '00:00'; // Default value when no time is left
+  
+    const totalHours = Math.floor(remainingMs / 1000 / 3600);
+    const totalMinutes = Math.floor((remainingMs / 1000 / 60) % 60);
+    const totalSeconds = Math.floor((remainingMs / 1000) % 60);
+  
+    const hoursStr = totalHours > 0 ? totalHours.toString().padStart(2, '0') : '';
+    const minutesStr = totalMinutes.toString().padStart(2, '0');
+    const secondsStr = totalSeconds.toString().padStart(2, '0');
+  
+    // Construct the time format based on whether hours are greater than 0
+    if (totalHours > 0) {
+      return `${hoursStr}:${minutesStr}:${secondsStr}`;
+    } else {
+      return `${minutesStr}:${secondsStr}`;
+    }
+  };
+  
+  
 
   const getProgress = (period) => {
     if (!currentPeriod) {
