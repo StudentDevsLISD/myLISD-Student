@@ -885,12 +885,11 @@ const LightStyles = StyleSheet.create({
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 20,
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#005a87',
           },
           LoginLogo: {
-            width: 320, // Increase the width for a bigger logo
-            height: 105, // Increase the height for a bigger logo
+            width: Dimensions.get('window').width * 0.9, // Increase the width for a bigger logo
+            height: Dimensions.get('window').width * 0.9, // Increase the height for a bigger logo
             marginBottom: 30,
           },
           LoginInput: {

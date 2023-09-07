@@ -927,10 +927,10 @@ const DarkStyles = StyleSheet.create({
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: 20,
-                backgroundColor: '#f0f0f0',
+                backgroundColor: '#0080c2',
               },
               LoginLogo: {
-                width: 320, // Increase the width for a bigger logo
+                width: 1000, // Increase the width for a bigger logo
                 height: 105, // Increase the height for a bigger logo
                 marginBottom: 30,
               },
@@ -960,6 +960,11 @@ const DarkStyles = StyleSheet.create({
                 color: 'white',
                 fontSize: 18,
                 fontWeight: 'bold',
+              },
+              LoginContainer:{
+                flex: 1,
+                backgroundColor: "#005987",
+
               },
               LoginOrText: {
                 fontSize: 18,
