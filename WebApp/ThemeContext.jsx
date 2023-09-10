@@ -43,18 +43,22 @@ export const ThemeProvider = ({ children }) => {
         // Save the user's dark mode preference in AsyncStorage
         saveThemePreference(colorScheme === 'dark' ? 'dark' : 'light');
         // Mark that the app has been opened for the first time
-        storedData('@first_time_open', 'false').catch((error) => {
+        try {
+          storeData('@first_time_open', 'false')
+        } catch (error) {
           console.error('Error setting first time open:', error);
-        });
+        }
+        
       } else {
         // Retrieve the user's dark mode preference from AsyncStorage
-        retrieveData('@theme_preference').then((value) => {
-          if (value === 'dark' || value === 'light') {
-            setTheme(value);
+        themePref = retrieveData('@theme_preference')
+        try {
+          if (themePref === 'dark' || themePref === 'light') {
+            setTheme(themePref);
           }
-        }).catch((error) => {
+        } catch (error) {
           console.error('Error retrieving theme preference:', error);
-        });
+        };
       }
     });
   }, []);
