@@ -64,7 +64,11 @@ yarn-error.log
 
 # Hide .env file and anything related to it
 .env
-env.d.ts
+
+# Hide key.pem and cert.pem files for HTTPS
+key.pem
+cert.pem
+
 
 #for jay - encrypt.js encrypts😱
 /WebApp/encrypt.js
