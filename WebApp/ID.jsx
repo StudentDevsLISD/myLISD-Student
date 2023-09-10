@@ -4,7 +4,7 @@
   import Barcode from 'react-native-barcode-svg';
   import RNFS from 'react-native-fs';
   import RNFetchBlob from 'rn-fetch-blob';
-  import AsyncStorage from '@react-native-async-storage/async-storage';
+  import { storeData, retrieveData, removeItem } from './storage.js';
   import axios from 'axios';
   import base64js from 'base64-js';
   const mimeType = 'image/gif';
@@ -15,7 +15,7 @@
 
   const getImageUrlAPI = async () => {
     try {
-      const storedIDNum = await AsyncStorage.getItem('studentID');
+      const storedIDNum = await retrieveData('studentID');
       const data = { "student": storedIDNum };
       const response = await axios.post(
         'https://api.leanderisd.org/portal/getPicture',
@@ -79,7 +79,7 @@
 
   const storeImageUrl = async (imageUrl) => {
     try {
-      await AsyncStorage.setItem('imageUrl', imageUrl);
+      await storeData('imageUrl', imageUrl);
     } catch (error) {
       console.error('Error storing image URL:', error);
     }
@@ -87,7 +87,7 @@
 
   const getStoredImageUrl = async () => {
     try {
-      return await AsyncStorage.getItem('imageUrl');
+      return await retrieveData('imageUrl');
     } catch (error) {
       console.error('Error getting stored image URL:', error);
     }
@@ -123,10 +123,10 @@
 
     useEffect(() => {
       const fetchData = async () => {
-        const storedFirstName = await AsyncStorage.getItem('firstName');
-        const storedLastName = await AsyncStorage.getItem('lastName');
-        const storedGrade = await AsyncStorage.getItem('grade');
-        const storedIDNum = await AsyncStorage.getItem('studentID');
+        const storedFirstName = await retrieveData('firstName');
+        const storedLastName = await retrieveData('lastName');
+        const storedGrade = await retrieveData('grade');
+        const storedIDNum = await retrieveData('studentID');
         console.log(getImageUrlAPI());
         if (!storedFirstName || !storedLastName || !storedGrade || !storedIDNum) {
 
