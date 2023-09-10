@@ -68,3 +68,5 @@ env.d.ts
 
 #for jay - encrypt.js encrypts😱
 /WebApp/encrypt.js
+key.pem
+cert.pem
