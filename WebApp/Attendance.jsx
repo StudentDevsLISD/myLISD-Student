@@ -251,7 +251,7 @@ const Attendance = () => {
       try {
       setIsLoading(true);
       console.log("x")
-      response = await axios.get('http://' + IP_ADDRESS + ':8082/attendance?month=' + month, {
+      response = await axios.get('https://' + IP_ADDRESS + ':8082/attendance?month=' + month, {
           withCredentials: true
         })
       console.log(response)

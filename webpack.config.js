@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -114,4 +115,10 @@ module.exports = {
       __DEV__: JSON.stringify(true),
     }),
   ],
+  devServer: {
+    https: {
+      key: fs.readFileSync('/Users/sujithalluru/key.pem'), // Adjust the path as necessary
+      cert: fs.readFileSync('/Users/sujithalluru/cert.pem'), // Adjust the path as necessary
+    },
+  }
 };

@@ -61,7 +61,7 @@ const Grades = () => {
 
   const fetchGrades = async () => {
     try {
-      const response = await axios.get(`http://${IP_ADDRESS}:8082/grades`, {
+      const response = await axios.get(`https://${IP_ADDRESS}:8082/grades`, {
         withCredentials: true
       });
 
@@ -143,12 +143,14 @@ const Grades = () => {
   const saveCredentials = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.post('http://' + IP_ADDRESS + ':8082/login', {
+      const response = await axios.post('https://' + IP_ADDRESS + ':8082/login', {
         username: username,
         password: password
       }, {
         withCredentials: true
       });
+      
+
 
       setIsLoggedIn(true);
       storeData('isLoggedIn', "true");
@@ -192,7 +194,7 @@ const Grades = () => {
         console.log("interval true")
         try {
           // Your cookie reloading logic here
-          const response = await axios.get('http://' + IP_ADDRESS + ':8082/relogin', {
+          const response = await axios.get('https://' + IP_ADDRESS + ':8082/relogin', {
           withCredentials: true
         })
 

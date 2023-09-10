@@ -78,7 +78,7 @@ const ContactTeachersScreen = ({ theme }) => {
     try {
       setIsLoading(true);
 
-        response = await axios.get('http://' + IP_ADDRESS + ':8082/teachers', {
+        response = await axios.get('https://' + IP_ADDRESS + ':8082/teachers', {
           withCredentials: true
         })
       // You can now access the response data using response.data
