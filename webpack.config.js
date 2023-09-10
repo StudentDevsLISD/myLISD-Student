@@ -118,8 +118,8 @@ module.exports = {
   ],
   devServer: {
     https: {
-      key: fs.readFileSync('/Users/sujithalluru/key.pem'), // Adjust the path as necessary
-      cert: fs.readFileSync('/Users/sujithalluru/cert.pem'), // Adjust the path as necessary
+      key: fs.readFileSync('./key.pem'), // Adjust the path as necessary
+      cert: fs.readFileSync('./cert.pem'), // Adjust the path as necessary
     },
   }
 };
