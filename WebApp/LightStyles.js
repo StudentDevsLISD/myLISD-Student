@@ -507,6 +507,10 @@ const LightStyles = StyleSheet.create({
       marginHorizontal: 10.7,
       marginBottom: 7,
       marginTop: 1,
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+
       width: '94%',
       borderWidth: 2,
       borderColor: '#ebe8e8',
@@ -514,6 +518,9 @@ const LightStyles = StyleSheet.create({
       },
       GradesAppButtonText2: {
       fontSize: 18,
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
       color: 'black',
       alignSelf: 'center',
       fontWeight: 'normal',
@@ -878,12 +885,11 @@ const LightStyles = StyleSheet.create({
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 20,
-            backgroundColor: '#f0f0f0',
+            backgroundColor: '#005a87',
           },
           LoginLogo: {
-            width: 320, // Increase the width for a bigger logo
-            height: 105, // Increase the height for a bigger logo
+            width: Dimensions.get('window').width * 0.9, // Increase the width for a bigger logo
+            height: Dimensions.get('window').width * 0.9, // Increase the height for a bigger logo
             marginBottom: 30,
           },
           LoginInput: {

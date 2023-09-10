@@ -426,12 +426,20 @@ const Grades = () => {
                       <Text style={styles.GradesGradeBadgeText}>{grades[name].length>=6 ? grades[name].substring(0, 5) : grades[name]}</Text>
                     </View>
                   </View>
+                  
                 </TouchableOpacity>
+                
               );
             })}
+            <TouchableOpacity disabled={true} style={styles.GradesAppButtonContainer2}>
+            <Text style={styles.GradesAppButtonText2}>
+              DISCLAIMER: The Grades here are are not authoratative. Please check the official HAC website for your grades.
+            </Text>
+              </TouchableOpacity>
           </ScrollView>
         </>
       )}
+
     </View>
   );
   

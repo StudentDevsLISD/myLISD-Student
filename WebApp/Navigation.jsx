@@ -6,6 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
 import Home from './AppRunner';
 import { storeData, retrieveData, removeItem } from './storage.js';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GOOGLE_WEB_CLIENT_ID } from '@env';
 
 const Stack = createStackNavigator();
 
@@ -26,13 +28,14 @@ const Navigation = () => {
     checkAuthentication();
   }, []);
   return (
+    <GoogleOAuthProvider clientId={GOOGLE_WEB_CLIENT_ID}>
     <NavigationContainer>
       {isLoading ? (
         // You can show a loading indicator while checking AsyncStorage
         <Text>Loading...</Text>
       ) : (
         // Include the Login screen in both cases
-        <Stack.Navigator initialRouteName={isAuthenticated ? "Home" : "Home"}>
+        <Stack.Navigator initialRouteName={isAuthenticated ? "Login" : "Login"}>
           <Stack.Screen
             name="Login"
             component={Login}
@@ -50,6 +53,7 @@ const Navigation = () => {
         </Stack.Navigator>
       )}
     </NavigationContainer>
+    </GoogleOAuthProvider>
   );
 };
 

@@ -299,6 +299,14 @@ const stackOptions = {
   headerStyle: {
     backgroundColor: '#005a87',
     height: screenHeight*0.16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    itemalign: 'center',
+    alignItems : 'center',
+    alignSelf: 'center',
+    headerTitleAlign: 'center',
+    paddingLeft: 50,
+    marginLeft: 450,
   },
 };
 
@@ -315,6 +323,8 @@ const Tabs = () => {
     headerStyle: {
       backgroundColor: '#005a87',
       height: screenHeight * 0.16,
+      marginLeft: 450,
+
     },
     tabBarStyle: {
       backgroundColor: theme === 'light' ? 'white' : '#111', // Set the background color of the tab bar to black
