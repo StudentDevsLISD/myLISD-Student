@@ -84,6 +84,7 @@ const DarkStyles = StyleSheet.create({
         },
         AssignmentScreenBreakdownWeight: {
           fontSize: 14,
+          color: "white",
         },
         AssignmentScreenBreakdownColor: {
           width: 25,
@@ -446,7 +447,7 @@ const DarkStyles = StyleSheet.create({
           },
           GradesHeaderText: {
             fontSize: 40,
-            marginLeft: -103,
+            marginLeft: -127,
             marginBottom: 10,
             marginTop: 10,
             color: "#ede1d1",
@@ -476,7 +477,7 @@ const DarkStyles = StyleSheet.create({
             marginVertical: 10,
             marginHorizontal: 20,
             borderRadius: 10,
-            shadowColor: '#000',
+            shadowColor: '#555',
             shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.3,
             shadowRadius: 2,
@@ -490,7 +491,7 @@ const DarkStyles = StyleSheet.create({
             paddingHorizontal: 10,
             borderRadius: 5,
             backgroundColor: '#333',
-            color: "black",
+            color: "white",
           },
           GradesLoginButton: {
             backgroundColor: '#005987',
@@ -510,14 +511,16 @@ const DarkStyles = StyleSheet.create({
           borderRadius: 15,
           paddingVertical: 13,
           marginHorizontal: 1.05,
-          marginLeft: 10.07,
           marginBottom: 7,
           marginTop: 0,
           width: '94%',
           borderWidth: 2,
           borderColor: '#444',
           fontWeight: 'bold',
-      
+          alignSelf: 'center',
+          textAlign: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
           
           },
           GradesAppButtonText2: {
@@ -562,6 +565,7 @@ const DarkStyles = StyleSheet.create({
             flexGrow: 1,
             paddingHorizontal: 10,
             paddingTop: 20,
+            backgroundColor: "#111",
           },
           HACHeader: {
             flexDirection: 'row',
@@ -571,16 +575,16 @@ const DarkStyles = StyleSheet.create({
           },
           HACHeaderText: {
             fontSize: 40,
-            marginLeft: -90,
             marginBottom:10,
             marginTop: -13,
-            color: "#005987",
+            color: "#ede1d1",
             fontWeight: "600",
+            marginLeft: -125,
             
           },
           HACDateText: {
             fontSize: 14,
-            color: 'gray',
+            color: '#777',
             marginTop:40,
             marginLeft: 5,
           },
@@ -715,6 +719,20 @@ const DarkStyles = StyleSheet.create({
               paddingHorizontal: 28,
               overflow: 'hidden',
               fontWeight: 'normal',
+            },
+            HomeHeader: {
+              flexDirection: 'row',
+              alignItems: 'left',
+              marginBottom: 10,
+              paddingLeft: 5,
+            },
+          HomeHeaderText: {
+              fontSize: 40,
+              marginTop: 10,
+              marginBottom:2,
+              color: "#ede1d1",
+              fontWeight: "600",
+              alignContent: 'left',
             },
             HomeTitleText5: {
               color: "white",
@@ -1002,11 +1020,19 @@ const DarkStyles = StyleSheet.create({
                 marginBottom: 5,
                 color: "#ede1d1",
               },
+              MentalHealthContainer: {
+                flexGrow: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#222",
+            
+              },
               NewsScreenLoadingContainer:{
                 flex: 1,
                 justifyContent: 'center', 
                 alignItems: 'center', 
                 backgroundColor: "#222",
+                marginTop: 200,
               },
               NewsScreenArticleContainer: {
                 flexDirection: 'row',

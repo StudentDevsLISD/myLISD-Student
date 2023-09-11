@@ -85,13 +85,15 @@ const NewsScreen = () => {
 
   return (
     
-    <ScrollView style={{flex:1}}>
+    <ScrollView style={{flex:1, backgroundColor:"#222"}}>
     <View style={styles.NewsScreenContainer}>
       <Text style={styles.NewsScreenSectionTitle}>Top Stories</Text>
       {loading ? (
         <View style={styles.NewsScreenLoadingContainer}>
+    
           <ActivityIndicator
             animating={true}
+            marginTop={200}
             size={'large'}
             color={theme === 'light' ? '#005a87' : '#ede1d1'}
           />

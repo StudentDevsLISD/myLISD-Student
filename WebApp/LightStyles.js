@@ -881,6 +881,39 @@ const LightStyles = StyleSheet.create({
             width: '100%',
             alignSelf: 'center',
           },
+          HomeHeader: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 10,
+            paddingLeft: 5,
+          },
+          HomeScreenIcon:{
+            fontSize: 20,
+            color: "#005987"
+
+          },
+          HomeOptions: {
+            backgroundColor: "ebe8e8"
+          },
+          HomeTitleText: {
+
+          },
+        HomeHeaderText: {
+            fontSize: 40,
+            marginLeft: -85,
+            marginBottom:10,
+            marginTop: -13,
+            color: "#005987",
+            fontWeight: "600",
+            
+          },
+          MentalHealthContainer: {
+            flexGrow: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#e8e8e8",
+        
+          },
           LoginContainer: {
             flex: 1,
             justifyContent: 'center',

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Linking, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Linking, Text, ScrollView, border} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationProp, CommonActions, useNavigation } from '@react-navigation/native';
@@ -95,12 +95,12 @@ const HAC = () => {
       </View>
       {options.map((option) => (
         <TouchableOpacity key={option.id} onPress={() => handleOptionPress(option)}>
-          <View style={styles.HACBox}>
-            <ListItem>
-              <Icon name={option.iconName} size={20} color="#005987" />
+          <View style={styles.HomeBox5}>
+            <ListItem containerStyle={theme === 'light' ? {backgroundColor: "white"} : {backgroundColor: "#333", border}}>
+              <Icon name={option.iconName}  style={styles.HomeScreenIcon5}/>
               <ListItem.Content>
-                <ListItem.Title>{option.title}</ListItem.Title>
-                <ListItem.Subtitle style={styles.HACDescriptionText}>{option.description}</ListItem.Subtitle>
+                <ListItem.Title  style={styles.HomeTitleText5}>{option.title}</ListItem.Title>
+                <ListItem.Subtitle style={styles.HomeDescriptionText5}>{option.description}</ListItem.Subtitle>
               </ListItem.Content>
               <Icon name="chevron-right" size={20} color="gray" style={styles.HACChevronIcon} />
             </ListItem>

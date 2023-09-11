@@ -277,7 +277,7 @@ return (
           <Text style={styles.AssignmentScreenBreakdownLabel}>{category.name}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
           <Text style={styles.AssignmentScreenBreakdownValue}>{/* (getFloatFromPercentage(category.categoryPercent)).toFixed(2) */ (getFloatFromPercentage(category.categoryPercent) * 100.00).toFixed(2)}</Text>
-          <Text style={styles.breakdownWeight}>Weight: {(category.weight < 1.00 ? category.weight : category.weight/ 100.00)}</Text>
+          <Text style={styles.AssignmentScreenBreakdownWeight}>Weight: {(category.weight < 1.00 ? category.weight : category.weight/ 100.00)}</Text>
           {/* Pass the index of the category from the entire breakdowns array */}
           <View style={[styles.AssignmentScreenBreakdownColor, { backgroundColor: colors[breakdowns.findIndex(c => c === category) % colors.length]}]} />
         </TouchableOpacity>

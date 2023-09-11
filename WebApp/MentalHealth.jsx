@@ -1,5 +1,12 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Navigation from './Navigation';
+import LightStyles from "./LightStyles";
+import DarkStyles from "./DarkStyles";
+import { ThemeContext } from './ThemeContext';
+
+import { useNavigation, CommonActions, NavigationProp } from '@react-navigation/native';
 import {
   StyleSheet,
   Text,
@@ -10,10 +17,27 @@ import {
 } from "react-native";
 
 import BreathingTimer from "./BreathingTimer"; // Import the BreathingTimer component
-
 const App = () => {
+  const navigation = useNavigation();  
+  const { theme } = useContext(ThemeContext);
+  const styles = theme === 'light' ? LightStyles : DarkStyles;
+
   const [feeling, setFeeling] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginLeft: 16 }}
+        >
+          <Icon name="chevron-left" size={24} color="white" />
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation]);
+
 
   const handleTextChange = (newText) => {
     setText(newText);
@@ -28,12 +52,13 @@ const App = () => {
   }, [feeling]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle={styles.MentalHealthContainer
+    }>
       <Text
         style={{
           fontSize: 35,
           fontWeight: "600",
-          color: "#000",
+          color: theme === 'light' ? "#000" : "#fff",
           textAlign: "center",
           marginTop: 20,
         }}
@@ -41,7 +66,7 @@ const App = () => {
         Breathing Timer
       </Text>
       <BreathingTimer /> {/* Use the BreathingTimer component here */}
-      <Text style={styles.feelingText}>How are you feeling today?</Text>
+      {/* <Text style={styles.feelingText}>How are you feeling today?</Text>
 
       <TextInput
   multiline
@@ -66,53 +91,9 @@ const App = () => {
         <Text style={styles.submitButtonText}>
           {submitted ? "Submitted" : "Submit"}
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  feelingText: {
-    fontSize: 20,
-    fontWeight: "400",
-    color: "#000",
-    marginVertical: 20,
-    textAlign: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 18,
-    marginHorizontal: 20,
-  },
-  submitButton: {
-    width: '50%',
-    alignSelf: 'center',
-    marginTop: 20,
-    backgroundColor: '#007AFF',
-    borderRadius: 10,
-    padding: 12,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  submittedButton: {
-    backgroundColor: '#ccc',
-    marginBottom: 20,
-
-  },
-  submitButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-});
 
 export default App;

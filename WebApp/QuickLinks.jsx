@@ -81,7 +81,8 @@ const QuickLinks = () => {
   return (
     <ScrollView style={styles.QuickLinksContainer}>
       <SearchBar
-        placeholder="Search Link"
+      searchIcon={"false"}
+placeholder="Search Link"
         onChangeText={setSearch}
         value={search}
         containerStyle={styles.QuickLinksSearchContainer}

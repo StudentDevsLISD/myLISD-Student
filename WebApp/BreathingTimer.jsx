@@ -1,18 +1,38 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { StyleSheet, Text, View, Dimensions, Animated } from "react-native";
+import { ThemeContext } from './ThemeContext';
 
 const { width, height } = Dimensions.get("window");
 
-// Determine the device type (mobile or desktop)
-const isMobile = width < 768; // Adjust the width threshold as needed
-
-// Set the circleWidth based on the device type
-const circleWidth = isMobile ? width / 1.76 : width / 4; // Adjusted circle width for mobile and desktop
-
 export default function App() {
+  const { theme } = useContext(ThemeContext);
+
+  // Determine the device type (mobile or desktop)
+  const isMobile = width < 768; // Adjust the width threshold as needed
+
+  // Set the circleWidth based on the device type
+  const circleWidth = isMobile ? width / 1.76 : width / 4.4; // Adjusted circle width for mobile and desktop
+
+  const styles = {
+    container: {
+      flex: 1,
+      backgroundColor: theme === 'light' ? "#e8e8e8" : "#222",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    animationContainer: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginLeft: -circleWidth / 2,
+      marginTop: -circleWidth / 2 + (isMobile ? 10 : 0), // Adjusted marginTop for proper centering
+    },
+  };
+
   const move = useRef(new Animated.Value(0)).current;
   const textOpacity = useRef(new Animated.Value(1)).current;
+
   Animated.loop(
     Animated.sequence([
       Animated.parallel([
@@ -71,6 +91,7 @@ export default function App() {
             style={{
               fontSize: isMobile ? 16 : 20, // Adjusted font size for mobile and desktop
               fontWeight: "600",
+color: theme === 'light' ? "#000" : "#fff",
             }}
           >
             Inhale
@@ -90,6 +111,8 @@ export default function App() {
             style={{
               fontSize: isMobile ? 16 : 20, // Adjusted font size for mobile and desktop
               fontWeight: "600",
+              color: theme === 'light' ? "#000" : "#fff",
+
             }}
           >
             Exhale
@@ -122,22 +145,7 @@ export default function App() {
           );
         })}
       </View>
+      <StatusBar style="auto" />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  animationContainer: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    marginLeft: -circleWidth / 2,
-    marginTop: -circleWidth / 2 + (isMobile ? 10 : 0), // Adjusted marginTop for proper centering
-  },
-});

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, border} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ThemeContext } from './ThemeContext';
 import lightStyles from './LightStyles';
@@ -101,14 +101,14 @@ const ClassSchedule = () => {
 
     {schedule.map((i) => (
       <TouchableOpacity key={i.period} onPress={() => {}}>
-        <View style={styles.HACBox}>
-          <ListItem>
-            <Text>{i.period}</Text>
+        <View style={styles.HomeBox5}>
+          <ListItem containerStyle={theme === 'light' ? {backgroundColor: "white"} : {backgroundColor: "#333", border}}>
+            <Text  style={styles.HomeScreenIcon5}>{i.period}</Text>
             <ListItem.Content>
-              <ListItem.Title>{i.description}</ListItem.Title>
-              <ListItem.Subtitle style={styles.HACDescriptionText}>{i.teacher}</ListItem.Subtitle>
+              <ListItem.Title style={styles.HomeTitleText5}>{i.description}</ListItem.Title>
+              <ListItem.Subtitle style={styles.HomeDescriptionText5}>{i.teacher}</ListItem.Subtitle>
             </ListItem.Content>
-            <Text>{i.room}</Text>
+            <Text  style={styles.HomeScreenIcon5}>{i.room}</Text>
           </ListItem>
         </View>
       </TouchableOpacity>
