@@ -215,13 +215,13 @@ const Attendance = () => {
   const [maxDate, setMaxDate] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isFetchedDataUpdating, setIsFetchedDataUpdating] = useState(false);
-
+  
   
   const onDayPress = (day) => {
     setSelectedDate(day.dateString);
     alert(attendanceData[day.dateString]?.title || 'No information for this date');
   };
-
+  
   useEffect(() => {
     loadCredentials();
   }, []);
