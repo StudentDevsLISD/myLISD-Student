@@ -1266,7 +1266,7 @@ const DarkStyles = StyleSheet.create({
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: 'white',
+                    backgroundColor: '#111',
                   },
                   SplashScreenLogo: {
                     width: 400,

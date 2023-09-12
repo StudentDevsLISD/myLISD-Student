@@ -204,7 +204,7 @@ const Grades = () => {
       }
     fetchGrades()
       }
-    }, 120000);  // running every 25 minutes
+    }, 1200000);  // running every 25 minutes
     return () => {
       // Stop the background timer when the component is unmounted
       clearInterval(interval);
