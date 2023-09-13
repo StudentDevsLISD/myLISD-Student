@@ -827,6 +827,7 @@ const DarkStyles = StyleSheet.create({
             },
               IDsContainer: {
                 flex: 1,
+                backgroundColor: '#222',
               },
               IDsIDCard: {
                 height: 600,

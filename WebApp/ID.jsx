@@ -145,6 +145,8 @@ const ID = () => {
         onPress={(value) => setSelectedScreen(value)}
         style={styles.IDsSwitchSelector}
         buttonColor={'#3495eb'}
+        backgroundColor={theme === 'dark' ? '#111' : '#FFF'}
+        textColor={theme === 'dark' ? '#FFF' : '#111'}
         animationDuration={200}
       />
       {selectedScreen === 0 ? <FirstScreen /> : <SecondScreen />}
