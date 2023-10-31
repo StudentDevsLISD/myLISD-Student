@@ -827,6 +827,7 @@ const DarkStyles = StyleSheet.create({
             },
               IDsContainer: {
                 flex: 1,
+                backgroundColor: '#222',
               },
               IDsIDCard: {
                 height: 600,
@@ -1266,7 +1267,7 @@ const DarkStyles = StyleSheet.create({
                     flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: 'white',
+                    backgroundColor: '#111',
                   },
                   SplashScreenLogo: {
                     width: 400,

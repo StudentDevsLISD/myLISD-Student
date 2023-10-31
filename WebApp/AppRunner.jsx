@@ -9,6 +9,7 @@ import SettingsDropdown from './SettingsDropdown';
 import NetInfo from '@react-native-community/netinfo';
 import Home from './Home';
 import Portal from './Portal';
+import IDs from './ID';
 import { ActivityIndicator } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 import SplashScreen from './SplashScreen';
@@ -204,7 +205,7 @@ const Tab3Screen = () => {
     };
   }, [navigation]);
  
-  return <Home />;
+  return <IDs />;
 };
 
 // Fourth tab screen

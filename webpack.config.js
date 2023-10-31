@@ -117,10 +117,11 @@ module.exports = {
     }),
   ],
   devServer: {
-    https: {
-      key: fs.readFileSync('./key.pem'), // Adjust the path as necessary
-      cert: fs.readFileSync('./cert.pem'), // Adjust the path as necessary
-    },
+    // https: {
+    //   key: fs.readFileSync('./key.pem'), // Adjust the path as necessary
+    //   cert: fs.readFileSync('./cert.pem'), // Adjust the path as necessary
+    // },
+    https: false,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
       "Cross-Origin-Embedder-Policy": "require-corp",
