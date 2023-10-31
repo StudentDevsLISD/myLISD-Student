@@ -16,6 +16,7 @@ import { storeData, retrieveData, removeItem } from './storage.js';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationProp, CommonActions } from '@react-navigation/native';
+import CalendarStrip from 'react-native-calendar-strip';
 
 const mainurl = 'https://api.leanderisd.org/portal';
 const ABurl = mainurl + '/getAB';
@@ -345,6 +346,7 @@ const Home = () => {
 
   return (
     <ScrollView>
+    <CalendarStrip/>
     <View style={styles.HomeContainer}>
 
       <View style={{flexDirection: 'row',justifyContent: 'center',}}>
