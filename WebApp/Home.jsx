@@ -346,7 +346,6 @@ const Home = () => {
 
   return (
     <ScrollView>
-    <CalendarStrip/>
     <View style={styles.HomeContainer}>
 
       <View style={{flexDirection: 'row',justifyContent: 'center',}}>
